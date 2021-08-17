@@ -13,23 +13,29 @@ public class Article {
 	private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private int prixInitial;
 	private int prixVente;
-	private int etatVente;
-	private Categorie categorie;
+	private String etatVente;
+	private  int idCategorie;
+	private int idUtilsateur;
+	
 
-	public Article(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int prixInitial, int prixVente, int etatVente, Utilisateur utilisateur, Categorie categorie,
-			int utilisateurId, int categorieId, String utilisateurPseudo) {
+
+	public Article(int idArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie,
+			int idUtilsateur) {
 		super();
-		this.idArticle = id;
-		this.nomArticle = nom;
+		this.idArticle = idArticle;
+		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.prixInitial = prixInitial;
 		this.prixVente = prixVente;
-		this.categorie = categorie;
-
+		this.etatVente = etatVente;
+		this.idCategorie = idCategorie;
+		this.idUtilsateur = idUtilsateur;
 	}
+
+	
 
 	public Article(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			int prixInitial, int prixVente, int etatVente, int utilisateurId, int categorieId) {
@@ -56,8 +62,8 @@ public class Article {
 	}
 
 	public Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int prixInitial, int prixVente, int etatVente, Utilisateur utilisateur, Categorie categorie,
-			int utilisateurId, int categorieId) {
+			int prixInitial, int prixVente, String etatVente, int idUtilisateur , int idCategorie ,
+			 int categorieId) {
 		super();
 		this.nomArticle = nom;
 		this.description = description;
@@ -65,9 +71,25 @@ public class Article {
 		this.dateFinEncheres = dateFinEncheres;
 		this.prixInitial = prixInitial;
 		this.prixVente = prixVente;
-		this.categorie = categorie;
+		this.idCategorie = idCategorie;
+		this.etatVente = etatVente;
+		this.idUtilsateur = idUtilisateur;
+		
+		
 
 	}
+
+	public int getIdUtilsateur() {
+		return idUtilsateur;
+	}
+
+
+
+	public void setIdUtilsateur(int idUtilsateur) {
+		this.idUtilsateur = idUtilsateur;
+	}
+
+
 
 	public Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			int prixInitial) {
@@ -144,14 +166,7 @@ public class Article {
 		this.prixVente = prixVente;
 	}
 
-	public Categorie getCategorie() {
-		return categorie;
-	}
-
-	public void setCategorie(Categorie categorie) {
-		this.categorie = categorie;
-	}
-
+	
 	public int getUtilisateurId() {
 		return idArticle;
 	}
@@ -164,7 +179,7 @@ public class Article {
 	public String toString() {
 		return "Article [idArticle=" + idArticle + ", nomArticle=" + nomArticle + ", description=" + description
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
-				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ",categorie=" + categorie
+				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ",idCategorie=" + idCategorie
 				+ "]";
 
 	}

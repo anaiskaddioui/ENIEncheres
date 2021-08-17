@@ -1,2 +1,19 @@
-/build/
-/bin/
+# Eclipse #
+.project
+.metadata
+*.tmp
+.classpath
+.settings/
+.loadpath
+
+# Directories #
+build/
+bin/
+target/
+libs/
+tmp/
+node_modules/
+
+# Package Files #
+*.jar
+*.war

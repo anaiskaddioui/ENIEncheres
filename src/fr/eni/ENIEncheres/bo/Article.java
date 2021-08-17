@@ -1,4 +1,4 @@
-package fr.eni.ENIEncheres.BO;
+package fr.eni.ENIEncheres.bo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -65,7 +65,6 @@ public class Article {
 		this.dateFinEncheres = dateFinEncheres;
 		this.prixInitial = prixInitial;
 		this.prixVente = prixVente;
-
 		this.categorie = categorie;
 
 	}

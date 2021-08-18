@@ -59,6 +59,7 @@ public class Enchere implements Serializable {
 				+ encherisseur + ", getDateEnchere()=" + getDateEnchere() + ", getMontantEnchere()="
 				+ getMontantEnchere() + ", getEncherisseur()=" + getEncherisseur() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	
 	}
 
 }

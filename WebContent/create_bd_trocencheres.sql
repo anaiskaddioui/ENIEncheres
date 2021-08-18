@@ -90,4 +90,12 @@ ALTER TABLE ARTICLES_VENDUS
         REFERENCES utilisateurs ( no_utilisateur )
 ON DELETE NO ACTION 
     ON UPDATE no action 
+    
+    
+-----------------------------------------------------------------------------
+-- Modifications apportées 
+-------------------------------------------------------------------------------
 
+ALTER TABLE ARTICLES_VENDUS
+	ADD COLUMN etat_vente CHAR(2) NOT NULL CONSTRAINT CK_etat_vente CHECK (etat_vente IN('ND', 'EC', 'TE'))  
+ 

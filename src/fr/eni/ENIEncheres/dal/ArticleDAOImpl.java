@@ -6,14 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
+import fr.eni.ENIEncheres.bo.Categorie;
+import fr.eni.ENIEncheres.bo.Utilisateurs;
 
 public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 
 	private final static String INSERER = "INSERT INTO Article(nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie, etat_vente) values (?,?,?,?,?,?,?,?,?);";
 	private final static String LISTER = "SELECT no_article,nom_article,description,date_debut_encheres,prix_initial, prix_vente, FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur;";
-	private final static String SELECTBYID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_ategorie = ?;";
+	private final static String SELECTBYID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?;";
 	private final static String RECHERCHEPARIDCATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.idUtilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
 	private final static String RECHERCHEPARMOTCLE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nomArticle LIKE ?;";
 	private final static String RECHERCHEPARFILTRES = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nomArticle LIKE ?  AND no_categorie = ?;";
@@ -259,6 +262,36 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 		}
 
 			return listeArticle;
+	}
+
+	@Override
+	public List<ArticleVendu> filterByCategory(Categorie categorie) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ArticleVendu> filterByString(String filter) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Integer> filterByEtat(String etat) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateCurrentPrice(int noArticle, int newPrice) throws DALException {
+		// TODO Auto-generated method stub
+		
 	}
 		
 }

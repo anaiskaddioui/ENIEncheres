@@ -13,7 +13,7 @@ public class Utilisateurs {
 	private String coPostal;
 	private String ville;
 	private int credit;
-	private boolean administrateur;
+	private int administrateur;
 	
 	
 	public int getNoUtilisateur() {
@@ -82,11 +82,15 @@ public class Utilisateurs {
 	public void setCredit(int credit) {
 		this.credit = credit;
 	}
-	public boolean isAdministrateur() {
+	public int isAdministrateur() {
 		return administrateur;
 	}
 	public void setAdministrateur(boolean administrateur) {
-		this.administrateur = administrateur;
+		if(administrateur) {
+			this.administrateur = 1;
+		} else {
+			this.administrateur = 0;
+		}
 	}
 
 	
@@ -121,6 +125,10 @@ public class Utilisateurs {
 		this.setVille(ville);
 		this.setCredit(credit);
 		this.setAdministrateur(administrateur);
+	}
+	
+	public Utilisateurs() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

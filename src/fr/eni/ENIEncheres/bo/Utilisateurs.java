@@ -13,7 +13,7 @@ public class Utilisateurs {
 	private String coPostal;
 	private String ville;
 	private int credit;
-	private int administrateur;
+	private boolean administrateur;
 	
 	
 	public int getIdUtilisateur() {
@@ -82,20 +82,15 @@ public class Utilisateurs {
 	public void setCredit(int credit) {
 		this.credit = credit;
 	}
-	public int isAdministrateur() {
+	
+
+	public boolean isAdministrateur() {
 		return administrateur;
 	}
 	public void setAdministrateur(boolean administrateur) {
-		if(administrateur) {
-			this.administrateur = 1;
-		} else {
-			this.administrateur = 0;
-		}
+		this.administrateur = administrateur;
 	}
-
-	public Utilisateurs() {
-		
-	}
+	
 	
 	
 	public Utilisateurs(int idUtilisateur, String pseudo, String password, String nom, String prenom, String email, 

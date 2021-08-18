@@ -2,7 +2,7 @@ package fr.eni.ENIEncheres.bo;
 
 public class Utilisateurs {
 	
-	private int noUtilisateur;
+	private int idUtilisateur;
 	private String pseudo;
 	private String password;
 	private String nom;
@@ -16,11 +16,11 @@ public class Utilisateurs {
 	private boolean administrateur;
 	
 	
-	public int getNoUtilisateur() {
-		return noUtilisateur;
+	public int getIdUtilisateur() {
+		return idUtilisateur;
 	}
-	public void setNoUtilisateur(int noUtilisateur) {
-		this.noUtilisateur = noUtilisateur;
+	public void setIdUtilisateur(int noUtilisateur) {
+		this.idUtilisateur = noUtilisateur;
 	}
 	public String getPseudo() {
 		return pseudo;
@@ -89,11 +89,15 @@ public class Utilisateurs {
 		this.administrateur = administrateur;
 	}
 
+	public Utilisateurs() {
+		
+	}
 	
-	public Utilisateurs(int noUtilisateur, String pseudo, String password, String nom, String prenom, String email, 
+	
+	public Utilisateurs(int idUtilisateur, String pseudo, String password, String nom, String prenom, String email, 
 			String tel, String rue, String coPostal, String ville, int credit, boolean administrateur) {
 		
-		this.setNoUtilisateur(noUtilisateur);
+		this.setIdUtilisateur(idUtilisateur);
 		this.setPseudo(pseudo);
 		this.setPassword(password);
 		this.setNom(nom);
@@ -125,7 +129,7 @@ public class Utilisateurs {
 	
 	@Override
 	public String toString() {
-		return "Utilisateur [idUtilisateur = "+ noUtilisateur +", pseudo =" + pseudo + ", nom = " + nom + ", prénom =" + prenom
+		return "Utilisateur [idUtilisateur = "+ idUtilisateur +", pseudo =" + pseudo + ", nom = " + nom + ", prénom =" + prenom
 				+ ", email = " + email + ", tel = " + tel + " rue = ]";
 	}
 	

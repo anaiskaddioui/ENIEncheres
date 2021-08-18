@@ -42,5 +42,6 @@ public class Categorie {
 				+ categorieArticle + ", getIdCategorie()=" + getIdCategorie() + ", getLibelle()=" + getLibelle()
 				+ ", getCategorieArticle()=" + getCategorieArticle() + ", getClass()=" + getClass() + ", hashCode()="
 				+ hashCode() + ", toString()=" + super.toString() + "]";
+	
 	}
 }

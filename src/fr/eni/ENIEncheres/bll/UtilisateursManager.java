@@ -4,13 +4,13 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.DAO;
 import fr.eni.ENIEncheres.dal.DAOFactory;
+import fr.eni.ENIEncheres.dal.DAOUtilisateur;
 
 
 public class UtilisateursManager {
 
-	private DAO<Utilisateurs> utilisateurDAO;
+	private DAOUtilisateur utilisateurDAO;
 	private boolean isError = false;
 	
 	

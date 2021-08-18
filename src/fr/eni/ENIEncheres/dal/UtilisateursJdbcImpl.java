@@ -10,7 +10,7 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 
-public class UtilisateursJdbcImpl implements DAO<Utilisateurs> {
+public class UtilisateursJdbcImpl implements DAOUtilisateur {
 	
 
 	private static final String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " +

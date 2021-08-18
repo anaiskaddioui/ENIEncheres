@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* border: red 2px solid; */
+}
+
+header {
+  font-family: "Lato", sans-serif;
+  height: 10vh;
+  width: 100vw;
+  margin-bottom: 100px;
+  padding-top: 10px;
+  background-color: rgb(43, 48, 48);
+  color: #fff;
+}
+
+body {
+  color: white;
+  height: 100vh;
+  background: rgb(73, 73, 69);
+}
+
+.bloc-text-input {
+  margin-bottom: 20px;
+}
+
+.btn-compte {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* ------------------ */
+/* PAGE ACCUEIL */
+/* ------------------ */
+
+.barre-recherche {
+    width: 300px;
+}
+
+.bloc-objet-encheres {
+  margin-bottom: 20px;
+  background-color: rgb(155, 151, 151);
+}
+
+.photo-objet {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+}
+
+.titre-objet {
+  margin-top: 20px;
+}
+
+/* ------------------ */
+/* PAGE CONSULT PROFIL */
+/* ------------------ */
+
+.saisie {
+    color :rgb(141, 190, 219)
+}

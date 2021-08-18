@@ -181,4 +181,5 @@ public class EnchereDAOJdbcImpl implements DAOEnchere {
 		return null;
 	}
 
+	
 }

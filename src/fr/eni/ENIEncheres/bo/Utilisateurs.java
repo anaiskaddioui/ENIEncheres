@@ -19,8 +19,8 @@ public class Utilisateurs {
 	public int getIdUtilisateur() {
 		return idUtilisateur;
 	}
-	public void setIdUtilisateur(int noUtilisateur) {
-		this.idUtilisateur = noUtilisateur;
+	public void setIdUtilisateur(int idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 	public String getPseudo() {
 		return pseudo;

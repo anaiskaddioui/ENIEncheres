@@ -259,6 +259,7 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 		}
 
 			return listeArticle;
-		}
+	}
+		
 
 	}

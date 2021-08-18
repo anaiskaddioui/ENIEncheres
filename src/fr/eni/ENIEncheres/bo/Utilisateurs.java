@@ -128,4 +128,6 @@ public class Utilisateurs {
 		return "Utilisateur [idUtilisateur = "+ noUtilisateur +", pseudo =" + pseudo + ", nom = " + nom + ", prénom =" + prenom
 				+ ", email = " + email + ", tel = " + tel + " rue = ]";
 	}
+	
+	//Un commentaire pour pouvoir recommiter
 }

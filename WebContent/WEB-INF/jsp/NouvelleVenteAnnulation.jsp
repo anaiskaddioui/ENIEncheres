@@ -35,7 +35,7 @@
 			<!-- Colonne avec Formulaire -->
 
 			<div class="col">
-				<form action="post">
+				<form method="post" action="./ServletNouvelleVenteAnnulation">
 					<!-- Input Article -->
 					<div class="row">
 						<div class="col-sm-4 col-lg-3">
@@ -49,7 +49,7 @@
 					<!-- Input Description -->
 					<div class="row mt-2">
 						<div class="col-sm-4 col-lg-3">
-							<label for="descrition">Description : </label>
+							<label for="description">Description : </label>
 						</div>
 						<div class="col-sm-8 col-lg-6">
 							<textarea name="description" id="description"
@@ -59,10 +59,10 @@
 					<!-- Select Categorie -->
 					<div class="row mt-2">
 						<div class="col-sm-4 col-lg-3">
-							<label for="categories">Catégorie :</label>
+							<label for="categorie">Catégorie :</label>
 						</div>
 						<div class="col-sm-8 col-lg-6">
-							<select name="categories" class="form-select">
+							<select name="categorie" class="form-select">
 								<option value="">Toutes</option>
 								<option value="informatique">Informatique</option>
 								<option value="ameublement">Ameublement</option>

@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.ENIEncheres.bll.UtilisateursManager;
+import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
+
 /**
  * Servlet implementation class ServletConnexion
  */
@@ -31,6 +35,8 @@ public class ServletCreationCompte extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		request.setCharacterEncoding("UTF-8");
+		
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");		
@@ -40,8 +46,19 @@ public class ServletCreationCompte extends HttpServlet {
 		String codePostal = request.getParameter("code_postal");		
 		String ville = request.getParameter("ville");		
 		String password = request.getParameter("password");		
-		String passwordConfirmation = request.getParameter("password-confirmation");		
+		String passwordConfirmation = request.getParameter("password-confirmation");
+		int credit = 0;
+		boolean administrateur = false;
 		
+		
+		Utilisateurs u1 = new Utilisateurs(pseudo, password, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur);
+		UtilisateursManager managerU = new UtilisateursManager();
+		try {
+			managerU.ajouterUtilisateur(u1);
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 //		TEST RECUP VALEURS

@@ -12,7 +12,7 @@ import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 
-public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
+public class ArticleJdbcImpl implements DAOArticleVendu<ArticleVendu>{
 
 	private final static String INSERER = "INSERT INTO Article(nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie, etat_vente) values (?,?,?,?,?,?,?,?,?);";
 	private final static String LISTER = "SELECT no_article,nom_article,description,date_debut_encheres,prix_initial, prix_vente, FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur;";
@@ -21,7 +21,8 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 	private final static String RECHERCHEPARMOTCLE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nomArticle LIKE ?;";
 	private final static String RECHERCHEPARFILTRES = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nomArticle LIKE ?  AND no_categorie = ?;";
 
-	public  void insert(ArticleVendu articleVendu) throws DALException {
+	@Override
+	public void insert(ArticleVendu articleVendu) throws DALException {
 
 		Connection cnx = null;
 		PreparedStatement pstmt = null;
@@ -38,7 +39,9 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 			pstmt.setInt(5, articleVendu.getPrixInitial());
 			pstmt.setInt(6, articleVendu.getPrixVente());
 			pstmt.setInt(7, articleVendu.getIdUtilsateur());
-			pstmt.setString(8, articleVendu.getEtatVente());
+			pstmt.setInt(8, articleVendu.getIdCategorie());
+			pstmt.setString(9, articleVendu.getEtatVente());
+			
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -90,7 +93,7 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 					articleVendu.setPrixVente(0);
 				else
 					articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setPseudo(rs.getInt("pseudo"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
 				listeArticle.add(articleVendu);
 
 			}
@@ -163,7 +166,7 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 				articleVendu.setDateFinEncheres(o.dateSQLEnJavaUtil(rs.getDate("date_fin_encheres")));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setPseudo(rs.getInt("pseudo"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -203,7 +206,7 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 				articleVendu.setDateFinEncheres(o.dateSQLEnJavaUtil(rs.getDate("date_fin_encheres")));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setPseudo(rs.getInt("pseudo"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -244,7 +247,7 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 				articleVendu.setDateFinEncheres(o.dateSQLEnJavaUtil(rs.getDate("date_fin_encheres")));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				articleVendu.setPseudo(rs.getInt("pseudo"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -293,6 +296,7 @@ public class ArticleDAOImpl implements DAOArticleVendu<ArticleVendu>{
 		// TODO Auto-generated method stub
 		
 	}
-		
+
+	
 }
 	

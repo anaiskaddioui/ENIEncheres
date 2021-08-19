@@ -16,11 +16,9 @@ public class ArticleVendu {
 	private String etatVente;
 	private int idCategorie;
 	private int idUtilsateur;
-	private int pseudo;
 
 	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur,
-			int pseudo) {
+			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
 		super();
 		this.idArticle = idArticle;
 		this.nomArticle = nomArticle;
@@ -32,7 +30,22 @@ public class ArticleVendu {
 		this.etatVente = etatVente;
 		this.idCategorie = idCategorie;
 		this.idUtilsateur = idUtilsateur;
-		this.pseudo = pseudo;
+
+	}
+	
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+		super();
+	
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.prixInitial = prixInitial;
+		this.prixVente = prixVente;
+		this.etatVente = etatVente;
+		this.idCategorie = idCategorie;
+		this.idUtilsateur = idUtilsateur;
 
 	}
 
@@ -128,20 +141,14 @@ public class ArticleVendu {
 		this.idUtilsateur = idUtilsateur;
 	}
 
-	public int getPseudo() {
-		return pseudo;
-	}
-
-	public void setPseudo(int pseudo) {
-		this.pseudo = pseudo;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "Article [idArticle=" + idArticle + ", nomArticle=" + nomArticle + ", description=" + description
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
-				+ ", idUtilsateur=" + idUtilsateur + ", pseudo=" + pseudo + "]";
+				+ ", idUtilsateur=" + idUtilsateur + "]";
 	}
 
 }

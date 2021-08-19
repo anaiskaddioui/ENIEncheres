@@ -13,6 +13,8 @@ public interface DAOArticleVendu<ArticleVendu> {
 	    List<Integer> filterByEtat(String etat) throws DALException;
 	    List<Integer> getArticlesFromASellerAndState (Utilisateurs utilisateur, String state) throws DALException;
 	    void updateCurrentPrice(int noArticle, int newPrice) throws DALException;
+	    
+	    public void insert (ArticleVendu articleVendu) throws DALException;
 	}
 
 

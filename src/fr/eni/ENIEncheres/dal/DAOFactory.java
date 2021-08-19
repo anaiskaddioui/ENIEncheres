@@ -6,13 +6,12 @@ public class DAOFactory {
 	//Génération Utilisateur : 
 	public static DAOUtilisateur getUtilisateursDAO() {
 			
-			return new UtilisateursJdbcImpl();
+		return new UtilisateursJdbcImpl();
 	}
 	
 	
-	/*Génération article : 
-	public static DAO<Article> getArticlesDAO() {
+	public static DAOArticleVendu getArticlesDAO() {
 		
-		//return new ArticleJdbcImpl();
-	}*/
+		return new ArticleJdbcImpl();
+	}
 }

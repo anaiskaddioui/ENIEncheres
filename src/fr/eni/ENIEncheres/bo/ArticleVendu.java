@@ -1,6 +1,7 @@
 package fr.eni.ENIEncheres.bo;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class ArticleVendu {
@@ -9,7 +10,7 @@ public class ArticleVendu {
 	private String nomArticle;
 	private String description;
 	private Date dateDebutEncheres;
-	private Date dateFinEncheres;
+	private LocalDate dateFinEncheres;
 	private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private int prixInitial;
 	private int prixVente;
@@ -18,7 +19,7 @@ public class ArticleVendu {
 	private int idUtilsateur;
 
 	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+			LocalDate dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
 		super();
 		this.idArticle = idArticle;
 		this.nomArticle = nomArticle;
@@ -34,7 +35,7 @@ public class ArticleVendu {
 	}
 	
 	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+			LocalDate dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
 		super();
 	
 		this.nomArticle = nomArticle;
@@ -85,11 +86,11 @@ public class ArticleVendu {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
-	public Date getDateFinEncheres() {
+	public LocalDate getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
-	public void setDateFinEncheres(Date dateFinEncheres) {
+	public void setDateFinEncheres(LocalDate dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 
@@ -150,5 +151,6 @@ public class ArticleVendu {
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
 				+ ", idUtilsateur=" + idUtilsateur + "]";
 	}
+
 
 }

@@ -14,15 +14,13 @@ public class ArticlesManager {
 	
 	//Constructeur : 
 	public ArticlesManager() {
-		this.articleDAO=DAOFactory.getArticlesDAO();
+		this.articleDAO=DAOFactory.getDAOArticleVendu();
 	}
 	
+
 	
-	//Méthodes selectArtByCategories : 
-	public List<ArticleVendu> selectionnerTousLesArticlesById(int id) throws DALException {
-		
-		return this.articleDAO.rechercheParIdCategories(id);
-	}
+	
+	
 
 	//Méthodes selectArtByEtatVente : 
 	public List<ArticleVendu> selectionnerTousLesArticlesByEtat(String etat) throws DALException {
@@ -41,5 +39,17 @@ public class ArticlesManager {
 		
 		return this.articleDAO.selectParIdCategorie(idCategorie);
 	}
+	
+	//Méthodes selectArticle par nom qui contient : 
+	public List<ArticleVendu> selectionnerArticlesParMotCle(String nomArticle) throws DALException {
+		
+		return this.articleDAO.selectParMotCle(nomArticle);
+	}
+	
+	//Méthodes selectArticle par categorie et nom qui contient : 
+	public List<ArticleVendu> selectionnerArticlesParCategEtMotCle(String nomArticle, int idCategorie) throws DALException {
+		
+		return this.articleDAO.selectParCategEtMotCle(nomArticle, idCategorie);
+	}	
 	
 }

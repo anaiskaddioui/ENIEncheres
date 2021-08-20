@@ -60,6 +60,13 @@
 									placeholder="Le nom de l'article contient"
 									class="form-control barre-recherche" id="recherche" />
 							</div>
+							<c:if test="${!libelleCategorie.isEmpty() }">
+								<p class="text-decoration-underline">Vous visualisez les ventes de la catégorie : </p>
+								<p class="ms-2"> - ${libelleCategorie.toUpperCase() }</p>
+							</c:if>
+							<c:if test="${!articleContient.isEmpty() }">
+								<p class="ms-2"> - Le nom contient : "${articleContient }"</p>								
+							</c:if>
 						</div>
 
 						<!-- Bloc Bouttons  -->
@@ -74,24 +81,36 @@
 				<div class="container-fluid rounded mt-5">
 					<!-- Ligne d'objets -->
 					<div class="row">
-						<c:forEach var="el" items="${listeArticlesEnCours }" >
-							<!-- Bloc pour 1 objet enchère -->
-							<div class="col-lg-6 col-sm-12">
-								<div class="container bloc-objet-encheres rounded mt-4">
-									<div class="row">
-										<div class="col-lg-6 col-sm-6">
-											<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpg")%>" alt="un objet" class="photo-objet" />
-										</div>
-										<div class="col-lg-6 col-sm-6">
-											<h2 class="titre-objet">${el.getNomArticle() }</h2>
-											<p>Prix : ${el.getPrixInitial() } points</p>
-											<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
-											<p>Vendeur : ${el.getNomArticle() }</p>
+					
+<!-- 				Affiche les articles selon le filtre categories ou message si pas d'articles en cours -->
+					<c:choose>
+						<c:when test="${listeArticlesEnCours.size()<1 }">
+							<p class="text-center display-6">Aucune vente en cours avec vos critères</p> 
+						
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="el" items="${listeArticlesEnCours }" >
+								<!-- Bloc pour 1 objet enchère -->
+								<div class="col-lg-6 col-sm-12">
+									<div class="container bloc-objet-encheres rounded mt-4">
+										<div class="row">
+											<div class="col-lg-6 col-sm-6">
+												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpg")%>" alt="un objet" class="photo-objet" />
+											</div>
+											<div class="col-lg-6 col-sm-6">
+												<h2 class="titre-objet">${el.getNomArticle() }</h2>
+												<p>Prix : ${el.getPrixInitial() } points</p>
+												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
+												<p>Vendeur : ${el.getNomArticle() }</p>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</c:forEach>
+							</c:forEach>						
+						</c:otherwise>
+					
+					</c:choose>
+
 					</div>
 				</div>
 			</div>

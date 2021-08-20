@@ -12,6 +12,9 @@ public class Categorie {
 		super();
 	}
 
+	public Categorie(int int1, String string) {
+	}
+
 	public int getIdCategorie() {
 		return idCategorie;
 	}

@@ -4,8 +4,8 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.DAOFactory;
-import fr.eni.ENIEncheres.dal.DAOUtilisateur;
+import fr.eni.ENIEncheres.dal.dao.DAOFactory;
+import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 
 
 public class UtilisateursManager {
@@ -14,40 +14,40 @@ public class UtilisateursManager {
 	private boolean isError = false;
 	
 	
-	//Constructeur : 
-	public UtilisateursManager() {
+	
+	public void userManager() {
 		this.utilisateurDAO=DAOFactory.getUtilisateursDAO();
 	}
 	
 	
-	//Méthodes select : 
-	public List<Utilisateurs> selectionnerTousLesUtilisateurs() throws DALException {
+	
+	public List<Utilisateurs> selectAllUsers() throws DALException {
 		
 		return this.utilisateurDAO.selectAll();
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParId(int id) throws DALException {
+	public Utilisateurs selectUserById(int id) throws DALException {
 		
 		return this.utilisateurDAO.selectById(id);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParNom(String name) throws DALException {
+	public Utilisateurs selectUserByName(String name) throws DALException {
 		
 		return this.utilisateurDAO.selectByName(name);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParPseudo(String pseudo) throws DALException {
+	public Utilisateurs selectUserByPseudo(String pseudo) throws DALException {
 		
 		return (Utilisateurs) this.utilisateurDAO.selectByPseudo(pseudo);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParMotCle(String motCle) throws DALException {
+	public Utilisateurs selectUserByKey(String motCle) throws DALException {
 		
 		return (Utilisateurs) this.utilisateurDAO.selectByMotCle(motCle);
 	}
 	
 	
-	public void ajouterUtilisateur(Utilisateurs u) throws DALException {
+	public void addUser(Utilisateurs u) throws DALException {
 		
 		this.validerPseudo(u.getPseudo());
 		
@@ -72,4 +72,8 @@ public class UtilisateursManager {
 		
 		return this.isError;
 	}
+
+
+
+	
 }

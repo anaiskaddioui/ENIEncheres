@@ -143,7 +143,6 @@ public class Utilisateurs {
 	}
 	
 	public Utilisateurs() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -152,6 +151,5 @@ public class Utilisateurs {
 				+ ", email = " + email + ", tel = " + tel + " rue = ]";
 	}
 	
-	//Un commentaire pour pouvoir recommiter
 }
 

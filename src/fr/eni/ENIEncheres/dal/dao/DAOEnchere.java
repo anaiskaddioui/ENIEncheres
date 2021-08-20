@@ -10,19 +10,27 @@ import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 
 public interface DAOEnchere {
-	
-	  List<Integer> getidArticlesByUtilisateurAndEtat(Utilisateurs utilisateur, String state) throws DALException;
-	    List<Integer> getidArticlesWonByUtilisateur(Utilisateurs utilisateur) throws DALException;
-	    HashMap<Integer, Integer> getAmountAndPseudoOfBestOffer(ArticleVendu articleVendu) throws DALException, SQLException;
-		void insert(Enchere enchere) throws DALException;
-		Enchere selectById(int id) throws DALException;
-		List<Enchere> selectAll() throws DALException;
-		void update(Enchere enchere) throws DALException;
-		void delete(Enchere enchere) throws DALException;
-		List<Integer> getNoArticlesByUtilisateurAndEtat(Utilisateurs utilisateur, String state) throws DALException;
-		List<Integer> getNoArticlesWonByUtilisateur(Utilisateurs utilisateur) throws DALException;
-	    
-	    
-	}
 
 
+	List<Integer> getidArticlesByUtilisateurAndEtat(Utilisateurs utilisateur, String state) throws DALException;
+
+	List<Integer> getidArticlesWonByUtilisateur(Utilisateurs utilisateur) throws DALException;
+
+	HashMap<Integer, Integer> getAmountAndPseudoOfBestOffer(ArticleVendu articleVendu)
+			throws DALException, SQLException;
+
+	void insert(Enchere enchere) throws DALException;
+
+	Enchere selectById(int id) throws DALException;
+
+	List<Enchere> selectAll() throws DALException;
+
+	void update(Enchere enchere) throws DALException;
+
+	void delete(Enchere enchere) throws DALException;
+
+	List<Integer> getIdArticlesByUtilisateurAndEtat(Utilisateurs utilisateur, String state) throws DALException;
+
+	List<Integer> getIdArticlesWonByUtilisateur(Utilisateurs utilisateur) throws DALException;
+
+}

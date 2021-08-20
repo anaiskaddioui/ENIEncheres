@@ -2,6 +2,7 @@ package fr.eni.ENIEncheres.bo;
 
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ArticleVendu {
 
@@ -32,11 +33,11 @@ public class ArticleVendu {
 		this.idUtilsateur = idUtilsateur;
 
 	}
-	
-	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
+			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
 		super();
-	
+
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
@@ -121,8 +122,9 @@ public class ArticleVendu {
 		return etatVente;
 	}
 
-	public void setEtatVente(String etatVente) {
+	public List<ArticleVendu> setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
+		return null;
 	}
 
 	public int getIdCategorie() {
@@ -141,7 +143,42 @@ public class ArticleVendu {
 		this.idUtilsateur = idUtilsateur;
 	}
 
-	
+	public void insert(ArticleVendu articleVendu) {
+
+	}
+
+	public List<ArticleVendu> selectAll() {
+		return null;
+	}
+
+	public void updateCurrentPrice(int noArticle, int newPrice) {
+
+	}
+
+	public List<ArticleVendu> SelectAllArticlesAvecUtilisateurEtCategorie(int utilisateurId, int categorieId) {
+		return null;
+	}
+
+	public void insertArticle(ArticleVendu article, int utilisateurId, int categorieId) {
+
+	}
+
+	public List<Categorie> SelectAllCategories() {
+		return null;
+	}
+
+	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente2, int idUtilisateur) {
+		return null;
+	}
+
+	public List<ArticleVendu> SelectAllEncheresByEtat(int idUtilisateur, int etatVente2) {
+		return null;
+	}
+
+	public ArticleVendu SelectEnchereById(int idArticle2) {
+		return null;
+
+	}
 
 	@Override
 	public String toString() {
@@ -149,6 +186,34 @@ public class ArticleVendu {
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
 				+ ", idUtilsateur=" + idUtilsateur + "]";
+	}
+
+	public ArticleVendu select(int id) {
+		return null;
+	}
+
+	public void update(ArticleVendu articleToUpdate) {
+		
+	}
+
+	public void delete(ArticleVendu articleVendu) {
+		
+	}
+
+	public List<ArticleVendu> filterByCategory(Categorie categorie) {
+		return null;
+	}
+
+	public List<ArticleVendu> filterByString(String filter) {
+		return null;
+	}
+
+	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) {
+		return null;
+	}
+
+	public List<Integer> filterByEtat(String etat) {
+		return null;
 	}
 
 }

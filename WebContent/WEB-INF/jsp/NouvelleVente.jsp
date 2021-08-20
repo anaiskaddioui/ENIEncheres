@@ -43,7 +43,7 @@
 						</div>
 						<div class="col-sm-8 col-lg-6">
 							<input type="text" name="article" class="form-control"
-								id="article" />
+								id="article" required="required"/>
 						</div>
 					</div>
 					<!-- Input Description -->
@@ -53,7 +53,7 @@
 						</div>
 						<div class="col-sm-8 col-lg-6">
 							<textarea name="description" id="description"
-								class="form-control" rows="5"></textarea>
+								class="form-control" rows="5" required="required"></textarea>
 						</div>
 					</div>
 					<!-- Select Categorie -->
@@ -97,7 +97,7 @@
 							<div>
 								<label for="date-debut">Début de l'enchère :</label> <input
 									type="date" id="date-debut" name="date-debut"
-									class="form-control-sm" /> <i
+									class="form-control-sm" required="required"/> <i
 									class="fa fa-calendar"></i>
 							</div>
 						</div>
@@ -105,7 +105,7 @@
 							<div>
 								<label for="date-fin">Fin de l'enchère :</label> <input
 									type="date" id="date-fin" name="date-fin"
-									class="form-control-sm" /> <i
+									class="form-control-sm" required="required"/> <i
 									class="fa fa-calendar"></i>
 							</div>
 						</div>
@@ -119,7 +119,7 @@
 								<label for="rue">Rue : </label>
 							</div>
 							<div class="col-sm-8 col-md-9 col-lg-8">
-								<input type="text" name="rue" class="form-control" id="rue" />
+								<input type="text" name="rue" class="form-control" id="rue" required="required"/>
 							</div>
 						</div>
 						<!-- Input CP -->
@@ -129,7 +129,7 @@
 							</div>
 							<div class="col-sm-8 col-md-9 col-lg-8">
 								<input type="text" name="code-postal" class="form-control"
-									id="code-postal" />
+									id="code-postal" required="required"/>
 							</div>
 						</div>
 						<!-- Input  ville -->
@@ -138,7 +138,7 @@
 								<label for="ville">Ville : </label>
 							</div>
 							<div class="col-sm-8 col-md-9 col-lg-8">
-								<input type="text" name="ville" class="form-control" id="ville" />
+								<input type="text" name="ville" class="form-control" id="ville" required="required"/>
 							</div>
 						</div>
 					</div>

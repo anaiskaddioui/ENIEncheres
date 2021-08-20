@@ -31,14 +31,16 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 
 	
 	//Méthode d'ajout d'utilisateur héritée de l'interface DAO<T> : 
-	@Override
+
 	public void insert(Utilisateurs utilisateur) throws DALException {
 		
 		if(utilisateur==null) //Business exception + messages à créer ultérieurement, en cas de mauvaise manip' : 
 		{
+
 			/*BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
 			throw businessException;*/
+
 		}
 			
 		
@@ -76,8 +78,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			//cnx.rollback();
-			//throw e;
+
 		}
 		
 	}
@@ -298,8 +299,10 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		} 
 	}
 
+
 	@Override
 	public void delete(String pseudo) throws DALException {
+
 		
 		PreparedStatement rqt = null;
 		
@@ -307,16 +310,20 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		{		
 			cnx.setAutoCommit(false);
 			rqt = cnx.prepareStatement(DELETE);
+
 			rqt.setString(1, pseudo);
+
 			rqt.executeUpdate();
 			
 			cnx.commit();
 			rqt.close();
 			
 		} catch (SQLException e) {
+
 			throw new DALException("Delete utilisateur failed - pseudo=" + pseudo, e);
 		} 
 	}
+
 	
 	
 

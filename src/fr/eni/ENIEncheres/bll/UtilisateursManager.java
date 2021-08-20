@@ -13,46 +13,49 @@ public class UtilisateursManager {
 	private DAOUtilisateur utilisateurDAO;
 	
 	
-	//Constructeur : 
-	public UtilisateursManager() {
+	
+	public void userManager() {
 		this.utilisateurDAO=DAOFactory.getUtilisateursDAO();
 	}
 	
 	
-	//Méthodes select : 
-	public List<Utilisateurs> selectionnerTousLesUtilisateurs() throws DALException {
+	
+	public List<Utilisateurs> selectAllUsers() throws DALException {
 		
 		return this.utilisateurDAO.selectAll();
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParId(int id) throws DALException {
+	public Utilisateurs selectUserById(int id) throws DALException {
 		
 		return this.utilisateurDAO.selectById(id);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParNom(String name) throws DALException {
+	public Utilisateurs selectUserByName(String name) throws DALException {
 		
 		return this.utilisateurDAO.selectByName(name);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParPseudo(String pseudo) throws DALException {
+	public Utilisateurs selectUserByPseudo(String pseudo) throws DALException {
 		
 		return (Utilisateurs) this.utilisateurDAO.selectByPseudo(pseudo);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParMotCle(String motCle) throws DALException {
+	public Utilisateurs selectUserByKey(String motCle) throws DALException {
 		
 		return (Utilisateurs) this.utilisateurDAO.selectByMotCle(motCle);
 	}
 	
 	
+
 	public void ajouterUtilisateur(Utilisateurs u) throws DALException {
 
 		this.utilisateurDAO.insert(u);
+
 	}
 	
 	public void supprimerUtilisateur(String pseudo) throws DALException {
 		this.utilisateurDAO.delete(pseudo);
 	}
+
 	
 }

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class ServletConnexion
  */
 @WebServlet("/ServletEncherir")
-public class ServletEncherir extends HttpServlet {
+public class ServletDetailArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
@@ -22,7 +22,7 @@ public class ServletEncherir extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("/WEB-INF/jsp/Encherir.jsp");
+		rd = request.getRequestDispatcher("/WEB-INF/jsp/DetailArticle.jsp");
 		rd.forward(request, response);
 	}
 

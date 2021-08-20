@@ -14,8 +14,9 @@ import fr.eni.ENIEncheres.dal.DALException;
 		public Utilisateurs selectById(int id) throws DALException;
 		public Utilisateurs selectByName(String name) throws DALException;
 		public Utilisateurs selectByPseudo(String pseudo) throws DALException;
+		public Utilisateurs selectByEmail(String email) throws DALException;
 		public List<Utilisateurs> selectByMotCle(String motCle) throws DALException;
 		public void update(Utilisateurs maj) throws DALException;
-    public void delete(String pseudo) throws DALException;
+		public void delete(String pseudo) throws DALException;
 
 }

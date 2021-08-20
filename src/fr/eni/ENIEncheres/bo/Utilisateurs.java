@@ -141,6 +141,7 @@ public class Utilisateurs {
 		this.setCredit(credit);
 		this.setAdministrateur(administrateur);
 	}
+
 	
 	public Utilisateurs() {
 	}

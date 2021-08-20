@@ -1,9 +1,12 @@
 package fr.eni.ENIEncheres.bo;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ArticleVendu {
+
 	private int idArticle;
 	private String nomArticle;
 	private String description;
@@ -12,16 +15,9 @@ public class ArticleVendu {
 	private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private int prixInitial;
 	private int prixVente;
-	private int etatVente;
-	private Utilisateurs utilisateur;
-	private Categorie categorie;
-	private int utilisateurId;
+	private String etatVente;
 	private int idCategorie;
-	private Retrait retrait;
-	private String utilisateurPseudo;
-	
-	
-
+	private int idUtilsateur;
 
 	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
 			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
@@ -31,88 +27,50 @@ public class ArticleVendu {
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
+		this.prixInitial = prixInitial;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
-		this.utilisateur = utilisateur;
-		this.categorie = categorie;
-		this.utilisateurId = utilisateurId;
-		this.idCategorie = categorieId;
-		this.utilisateurPseudo = utilisateurPseudo;
+		this.idCategorie = idCategorie;
+		this.idUtilsateur = idUtilsateur;
+
 	}
 
 
-	public void Article(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-	int miseAPrix, int prixVente, int etatVente, int utilisateurId, int idCategorie) {
-	this.idArticle = id;
-	this.nomArticle = nom;
-	this.description = description;
-	this.dateDebutEncheres = dateDebutEncheres;
-	this.dateFinEncheres = dateFinEncheres;
-	this.miseAPrix = miseAPrix;
-	this.prixVente = prixVente;
-	this.etatVente = etatVente;
-	this.utilisateurId = utilisateurId;
-	this.idCategorie = idCategorie;
-	}
-		
-	
-	public void Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, int etatVente, int utilisateurId, int categorieId) {
-		
-		this.nomArticle = nom;
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
+			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+
+		super();
+
+		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
+		this.prixInitial = prixInitial;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
-		this.utilisateurId = utilisateurId;
-		this.idCategorie = categorieId;
-		
+		this.idCategorie = idCategorie;
+		this.idUtilsateur = idUtilsateur;
+
 	}
 
-	public void Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int miseAPrix,
-		int prixVente, int etatVente, Utilisateurs utilisateur, Categorie categorie, int utilisateurId,
-		int categorieId) {
-	
-	this.nomArticle = nom;
-	this.description = description;
-	this.dateDebutEncheres = dateDebutEncheres;
-	this.dateFinEncheres = dateFinEncheres;
-	this.miseAPrix = miseAPrix;
-	this.prixVente = prixVente;
-	this.etatVente = etatVente;
-	this.utilisateur = utilisateur;
-	this.categorie = categorie;
-	this.utilisateurId = utilisateurId;
-	this.idCategorie = categorieId;
-}
-	
-	public void Article(String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int miseAPrix) {
+	public ArticleVendu() {
 
-		this.nomArticle = nom;
-		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
-	
 	}
-	
-	public int getId() {
+
+	public int getIdArticle() {
 		return idArticle;
 	}
 
-	public void setId(int id) {
-		this.idArticle = id;
+	public void setIdArticle(int idArticle) {
+		this.idArticle = idArticle;
 	}
 
-	public String getNom() {
+	public String getNomArticle() {
 		return nomArticle;
 	}
 
-	public void setNom(String nom) {
-		this.nomArticle = nom;
+	public void setNomArticle(String nomArticle) {
+		this.nomArticle = nomArticle;
 	}
 
 	public String getDescription() {
@@ -123,11 +81,11 @@ public class ArticleVendu {
 		this.description = description;
 	}
 
-	public LocalDate getDateDebutEncheres() {
+	public Date getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
 
-	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
+	public void setDateDebutEncheres(Date dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
@@ -138,16 +96,21 @@ public class ArticleVendu {
 	public void setDateFinEncheres(Date dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
-	
-	public String getStrDateFin() {
-		return getDateFinEncheres()==null? "" : dateFormat.format(getDateFinEncheres());
-	}
-	public int getMiseAPrix() {
-		return miseAPrix;
+
+	public static DateTimeFormatter getDateFormat() {
+		return dateFormat;
 	}
 
-	public void setMiseAPrix(int miseAPrix) {
-		this.miseAPrix = miseAPrix;
+	public static void setDateFormat(DateTimeFormatter dateFormat) {
+		ArticleVendu.dateFormat = dateFormat;
+	}
+
+	public int getPrixInitial() {
+		return prixInitial;
+	}
+
+	public void setPrixInitial(int prixInitial) {
+		this.prixInitial = prixInitial;
 	}
 
 	public int getPrixVente() {
@@ -158,85 +121,38 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 	}
 
-	public int getEtatVente() {
+	public String getEtatVente() {
 		return etatVente;
 	}
 
-	public void setEtatVente(int etatVente) {
+	public List<ArticleVendu> setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
-	}
-	
-
-	public Categorie getCategorie() {
-		return categorie;
+		return null;
 	}
 
-	public void setCategorie(Categorie categorie) {
-		this.categorie = categorie;
-	}
-
-	public Utilisateurs getUtilisateur() {
-		return utilisateur;
-	}
-
-	public void setUtilisateur(Utilisateurs utilisateur) {
-		this.utilisateur = utilisateur;
-	}
-
-	public int getUtilisateurId() {
-		return utilisateurId;
-	}
-
-
-	public void setUtilisateurId(int utilisateurId) {
-		this.utilisateurId = utilisateurId;
-	}
-
-
-	public int getCategorieId() {
+	public int getIdCategorie() {
 		return idCategorie;
 	}
 
-
-	public void setCategorieId(int categorieId) {
-		this.idCategorie = categorieId;
+	public void setIdCategorie(int idCategorie) {
+		this.idCategorie = idCategorie;
 	}
 
-
-	public Retrait getRetrait() {
-		return retrait;
+	public int getIdUtilsateur() {
+		return idUtilsateur;
 	}
 
-
-	public void setRetrait(Retrait retrait) {
-		this.retrait = retrait;
+	public void setIdUtilsateur(int idUtilsateur) {
+		this.idUtilsateur = idUtilsateur;
 	}
-	
-
-	public String getUtilisateurPseudo() {
-		return utilisateurPseudo;
-	}
-
-	public void setUtilisateurPseudo(String utilisateurPseudo) {
-		this.utilisateurPseudo = utilisateurPseudo;
-	}
-	
-
-	public ArticleVendu(int int1, String string, String string2, LocalDate localDate, LocalDate localDate2, int int2,
-			int int3, int int4, int idUtilisateur, int idCategorie2) {
-	}
-
-	
 
 
 	@Override
 	public String toString() {
-		return "Article [id=" + idArticle + ", nom=" + nomArticle + ", description=" + description + ", dateDebutEncheres="
-				+ dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix=" + miseAPrix
-				+ ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", utilisateur=" + utilisateur
-				+ ", categorie=" + categorie + ", utilisateurId=" + utilisateurId + ", categorieId=" + idCategorie
-				+ ", retrait=" + retrait + "]";
+		return "Article [idArticle=" + idArticle + ", nomArticle=" + nomArticle + ", description=" + description
+				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
+				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
+				+ ", idUtilsateur=" + idUtilsateur + "]";
 	}
-
 
 }

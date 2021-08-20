@@ -8,6 +8,7 @@ import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
+import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 
 
@@ -53,46 +54,46 @@ public class ArticlesManager {
 	/**
 	 * Selectionne toutes les catégories
 	 */
-	public List<Categorie> SelectAllCategories() throws BLLException {
-		
-		List<Categorie> listeCategorie = null;
-		
-		try {
-			listeCategorie = articleDAO.SelectAllCategories();
-		} catch (DALException e) {
-			System.out.println("Erreur manager SelectAllCategorie");
-			throw new BLLException();
-		}
-		return listeCategorie;	
-		
-	}
+//	public List<Categorie> SelectAllCategories() throws BLLException {
+//		
+//		List<Categorie> listeCategorie = null;
+//		
+//		try {
+//			listeCategorie = articleDAO.SelectAllCategories();
+//		} catch (DALException e) {
+//			System.out.println("Erreur manager SelectAllCategorie");
+//			throw new BLLException();
+//		}
+//		return listeCategorie;	
+//		
+//	}
 	
 
 	/**
 	 * Selectionne tout les articles avec Utilisateur et catégorie
 	 */
-	public List<ArticleVendu> SelectAllArticles() throws BLLException {
-		List<ArticleVendu> listeArticle = null;
-		try {
-			listeArticle = articleDAO.selectAllArticles();
-		} catch (DALException e) {
-			System.out.println("erreur manager SelectAllArticles");
-			throw new BLLException();
-		}
-		return listeArticle;
-
-	}
-	
-	public List<ArticleVendu> selectAllByEtatVente(int etatVente) throws BLLException{
-		List<ArticleVendu> listeArticle = null;
-		try {
-			listeArticle = articleDAO.selectAllByEtatVente(etatVente);
-		} catch (DALException e) {
-			System.out.println("erreur manager selectAllByEtatVente");
-			throw new BLLException();
-		}
-		return listeArticle;
-	}
+//	public List<ArticleVendu> SelectAllArticles() throws BLLException {
+//		List<ArticleVendu> listeArticle = null;
+//		try {
+//			listeArticle = articleDAO.selectAllArticles();
+//		} catch (DALException e) {
+//			System.out.println("erreur manager SelectAllArticles");
+//			throw new BLLException();
+//		}
+//		return listeArticle;
+//
+//	}
+//	
+//	public List<ArticleVendu> selectAllByEtatVente(int etatVente) throws BLLException{
+//		List<ArticleVendu> listeArticle = null;
+//		try {
+//			listeArticle = articleDAO.selectAllByEtatVente(etatVente);
+//		} catch (DALException e) {
+//			System.out.println("erreur manager selectAllByEtatVente");
+//			throw new BLLException();
+//		}
+//		return listeArticle;
+//	}
 	
 
 	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente, int idUtilisateur) throws BLLException{

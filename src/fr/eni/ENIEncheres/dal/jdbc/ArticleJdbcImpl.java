@@ -14,6 +14,7 @@ import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
+import fr.eni.ENIEncheres.dal.Outils;
 import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
 
 public class ArticleJdbcImpl implements DAOArticleVendu {
@@ -48,70 +49,40 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
 
  /** REQUETES POUR CHARLES*/
-  private final static String SELECTBYID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?;";
+	private final static String SELECTBYID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?;";
+	private final static String LISTER = "SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres, prix_initial, prix_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur;";
 	private final static String SELECTIDCATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, no_categorie, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
 	private final static String SELECTBYKEYWORD = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?;";
 	private final static String SELECTBYIDANDKEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?  AND no_categorie = ?;";
 	private final static String SELECTBYETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
 
-	/**
-	 * Sélectionne les articles avec les paramètres idUtilistateur && idCategorie
-	 */
-	public List<ArticleVendu> SelectAllArticlesAvecUtilisateurEtCategorie(int idUtilisateur, int idCategorie)
-			throws DALException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
-
-
 
 	@Override
-	public void insert(ArticleVendu articleVendu) throws DALException {
+//	public List<ArticleVendu> insert(ArticleVendu articleVendu) throws DALException {
+//		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+//		try (Connection conn = ConnectionProvider.getConnection()) {
+//			Statement stmt = conn.createStatement();
+//
+//			
+//			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_ARTICLES);
+//			ArticleVendu article = null;
+//			while (rs.next()) {
+//
+//				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
+//						rs.getDate("date_debut_encheres").toLocalDate(), rs.getDate("date_fin_encheres").toLocalDate(),
+//						rs.getInt("prix_initial"), rs.getInt("prix_vente"), rs.getInt("etatVente"), idUtilisateur,
+//						idCategorie);
+//
+//				listeArticles.add(article);
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new DALException("Echec de SelectAllArticle", e);
+//		}
+//		return listeArticles;
+//	}
 
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			Statement stmt = conn.createStatement();
-
-
-			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_ARTICLES);
-			ArticleVendu article = null;
-			while (rs.next()) {
-
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						rs.getDate("date_debut_encheres").toLocalDate(), rs.getDate("date_fin_encheres").toLocalDate(),
-						rs.getInt("prix_initial"), rs.getInt("prix_vente"), rs.getInt("etatVente"), idUtilisateur,
-						idCategorie);
-
-				listeArticles.add(article);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DALException("Echec de SelectAllArticle", e);
-		}
-		return listeArticles;
-	}
-
-	public List<ArticleVendu> selectAllArticles() throws DALException {
-		List<ArticleVendu> listArticles = new ArrayList<ArticleVendu>();
-		ArticleVendu article = null;
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			Statement stmt = conn.createStatement();
-
-			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_ARTICLES);
-
-			while (rs.next()) {
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						rs.getDate("date_debut_encheres").toLocalDate(), rs.getDate("date_fin_encheres").toLocalDate(),
-						rs.getInt("prix_initial"), rs.getInt("prix_vente"), rs.getInt("etatVente"),
-						rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				listArticles.add(article);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DALException("Echec de SelectAllArticle", e);
-		}
-
-		return listArticles;
-	}
 
 	/**
 	 * Méthode d'insertion d'un objet en BDD
@@ -123,13 +94,13 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			System.out.println("art daoImpl : " + article);
 
-			pstmt.setString(1, article.getNom());
+			pstmt.setString(1, article.getNomArticle());
 			pstmt.setString(2, article.getDescription());
 			pstmt.setDate(3, java.sql.Date.valueOf(article.getDateDebutEncheres()));
 			pstmt.setDate(4, java.sql.Date.valueOf(article.getDateFinEncheres()));
-			pstmt.setInt(5, article.getMiseAPrix());
+			pstmt.setInt(5, article.getPrixInitial());
 			pstmt.setInt(6, article.getPrixVente());
-			pstmt.setInt(7, article.getEtatVente());
+			pstmt.setString(7, article.getEtatVente());
 			pstmt.setInt(8, idUtilisateur);
 			pstmt.setInt(9, idCategorie);
 			pstmt.executeUpdate();
@@ -147,7 +118,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			throws DALException {
 		Connection cnx = null;
 		PreparedStatement pstmt = null;
-		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECTBYETAT);
@@ -166,7 +137,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				listeArticle.add(articleVendu);
+				listeArticles.add(articleVendu);
 			}
 
 		} catch (SQLException e) {
@@ -337,23 +308,4 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 	}
 
-	@Override
-	public void insert(ArticleVendu articleVendu) throws DALException {
-
-	}
-
-	@Override
-	public ArrayList<ArticleVendu> rechercheParIdCategories(int idCategorie) throws DALException {
-		return null;
-	}
-
-	@Override
-	public List<ArticleVendu> selectParEtat(String etat) throws DALException {
-		return null;
-	}
-
-	@Override
-	public List<ArticleVendu> selectParIdCategorie(int idCategorie) throws DALException {
-		return null;
-	}
 }

@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.Outils;
 import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
 
+
 public class ArticleJdbcImpl implements DAOArticleVendu{
 
 	private final static String INSERER = "INSERT INTO Article(nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie, etat_vente) values (?,?,?,?,?,?,?,?,?);";
@@ -26,8 +25,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 	private final static String RECHERCHEPARMOTCLE = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nomArticle LIKE ?;";
 	private final static String RECHERCHEPARFILTRES = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nomArticle LIKE ?  AND no_categorie = ?;";
 	private final static String SELECTBYETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
-	
-	
+
 	@Override
 	public void insert(ArticleVendu articleVendu) throws DALException {
 
@@ -48,7 +46,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 			pstmt.setInt(7, articleVendu.getIdUtilsateur());
 			pstmt.setInt(8, articleVendu.getIdCategorie());
 			pstmt.setString(9, articleVendu.getEtatVente());
-			
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -152,6 +150,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 		return articleVendu;
 	}
 
+
 	public ArrayList<ArticleVendu> rechercheParIdCategories(int idCategorie)
 			throws DALException {
 		Connection cnx = null;
@@ -161,13 +160,15 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECTIDCATEGORIE);
-			//On donne l'id catégorie au 1er argument de la requete
+
 			pstmt.setInt(1, idCategorie);
 			rs = pstmt.executeQuery();
 			Outils o = new Outils();
 
 			while (rs.next()) {
+
 				ArticleVendu articleVendu = new ArticleVendu();
+
 				articleVendu.setIdArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
 				articleVendu.setDescription(rs.getString("description"));
@@ -274,6 +275,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 
 			return listeArticle;
 	}
+
 	
 	
 	
@@ -419,30 +421,33 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 	@Override
 	public List<ArticleVendu> filterByCategory(Categorie categorie) throws DALException {
 		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public List<ArticleVendu> filterByString(String filter) throws DALException {
-		// TODO Auto-generated method stub
+
+
 		return null;
 	}
 
 	@Override
 	public List<Integer> filterByEtat(String etat) throws DALException {
-		// TODO Auto-generated method stub
+
+
 		return null;
 	}
 
 	@Override
 	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) throws DALException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void updateCurrentPrice(int noArticle, int newPrice) throws DALException {
-		// TODO Auto-generated method stub
+
 		
 	}
 

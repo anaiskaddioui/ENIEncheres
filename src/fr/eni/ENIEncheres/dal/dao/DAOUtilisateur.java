@@ -16,5 +16,6 @@ import fr.eni.ENIEncheres.dal.DALException;
 		public Utilisateurs selectByPseudo(String pseudo) throws DALException;
 		public List<Utilisateurs> selectByMotCle(String motCle) throws DALException;
 		public void update(Utilisateurs maj) throws DALException;
-		public void delete(int id) throws DALException;
+    public void delete(String pseudo) throws DALException;
+
 }

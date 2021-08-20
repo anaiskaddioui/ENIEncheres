@@ -11,65 +11,51 @@ import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 public class UtilisateursManager {
 
 	private DAOUtilisateur utilisateurDAO;
-	private boolean isError = false;
 	
 	
-	//Constructeur : 
-	public UtilisateursManager() {
+	
+	public void userManager() {
 		this.utilisateurDAO=DAOFactory.getUtilisateursDAO();
 	}
 	
 	
-	//Méthodes select : 
-	public List<Utilisateurs> selectionnerTousLesUtilisateurs() throws DALException {
+	
+	public List<Utilisateurs> selectAllUsers() throws DALException {
 		
 		return this.utilisateurDAO.selectAll();
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParId(int id) throws DALException {
+	public Utilisateurs selectUserById(int id) throws DALException {
 		
 		return this.utilisateurDAO.selectById(id);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParNom(String name) throws DALException {
+	public Utilisateurs selectUserByName(String name) throws DALException {
 		
 		return this.utilisateurDAO.selectByName(name);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParPseudo(String pseudo) throws DALException {
+	public Utilisateurs selectUserByPseudo(String pseudo) throws DALException {
 		
 		return (Utilisateurs) this.utilisateurDAO.selectByPseudo(pseudo);
 	}
 	
-	public Utilisateurs selectionnerUtilisateursParMotCle(String motCle) throws DALException {
+	public Utilisateurs selectUserByKey(String motCle) throws DALException {
 		
 		return (Utilisateurs) this.utilisateurDAO.selectByMotCle(motCle);
 	}
 	
 	
+
 	public void ajouterUtilisateur(Utilisateurs u) throws DALException {
-		
-		this.validerPseudo(u.getPseudo());
-		
-		if (!this.isError) {
-			this.utilisateurDAO.insert(u);
-		} 
+
+		this.utilisateurDAO.insert(u);
+
 	}
 	
-	//Vérifications avant méthodes UPDATE ou DELETE : 
-	private boolean validerPseudo(String pseudo) throws DALException {
-		
-		List<Utilisateurs> utilisateurs = this.utilisateurDAO.selectAll();
-		
-		for (Utilisateurs u : utilisateurs) {
-			if(pseudo == u.getPseudo());
-			this.isError = true;
-		}
-		
-		if (pseudo.length() > 30) {
-			this.isError = true;
-		}
-		
-		return this.isError;
+	public void supprimerUtilisateur(String pseudo) throws DALException {
+		this.utilisateurDAO.delete(pseudo);
 	}
+
+	
 }

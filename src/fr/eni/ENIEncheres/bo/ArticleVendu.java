@@ -3,6 +3,7 @@ package fr.eni.ENIEncheres.bo;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ArticleVendu {
 
@@ -33,11 +34,13 @@ public class ArticleVendu {
 		this.idUtilsateur = idUtilsateur;
 
 	}
-	
-	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres,
-			LocalDate dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+
+
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
+			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+
 		super();
-	
+
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
@@ -122,8 +125,9 @@ public class ArticleVendu {
 		return etatVente;
 	}
 
-	public void setEtatVente(String etatVente) {
+	public List<ArticleVendu> setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
+		return null;
 	}
 
 	public int getIdCategorie() {
@@ -142,7 +146,6 @@ public class ArticleVendu {
 		this.idUtilsateur = idUtilsateur;
 	}
 
-	
 
 	@Override
 	public String toString() {
@@ -151,6 +154,5 @@ public class ArticleVendu {
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
 				+ ", idUtilsateur=" + idUtilsateur + "]";
 	}
-
 
 }

@@ -1,8 +1,6 @@
 package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
+import fr.eni.ENIEncheres.bll.CategorieManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
+import fr.eni.ENIEncheres.bo.Categorie;
+import fr.eni.ENIEncheres.dal.DALException;
 
 /**
  * Servlet implementation class ServletAccueil
@@ -22,16 +23,26 @@ import fr.eni.ENIEncheres.bo.ArticleVendu;
 public class ServletAccueil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		//Procede a la requete de selection des articles en cours d'encheres
+		//Puis les affiche dans la JSP
+		ArticlesManager articlesManager2 = new ArticlesManager();
+		List<ArticleVendu> listeArticlesEnCours;
 		
 		RequestDispatcher rdis;	
-		rdis = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
-		rdis.forward(request, response);
+		
+		
+		try {
+			listeArticlesEnCours = articlesManager2.selectionnerTousLesArticlesByEtat("EC");
+			request.setAttribute("listeArticlesEnCours", listeArticlesEnCours );	
+			rdis = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+			rdis.forward(request, response);
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -42,49 +53,79 @@ public class ServletAccueil extends HttpServlet {
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		Recupere champs formulaire
-
 		
 		ArticlesManager articlesManager = new ArticlesManager();
-		List<ArticleVendu> listeArticlesEnCours;
+
+		List<ArticleVendu> listeArticlesFiltre= null;
+
+
 		
-//		Recupere champs Catégorie et filtre la selection SINON affiche les ventes en cours
-		String libelleCategorie = request.getParameter("categorie");
-		System.out.println(libelleCategorie);
-		
+//		Recupere champs du formulaire de la JSP
+		String libelleCategorie = request.getParameter("categorie");	
 		String recherche = request.getParameter("recherche");		
 
-//		TEST RECUP VALEURS
-//		System.out.println(recherche);
 	
-//		Filtre la selection selon la catégorie selectionnée
+//-----------------------------------------------------------------
+// SECTION DES FILTRES DE RECHERCHE
+//-------------------------------------------------------------------
+		
 		try {
-			if(libelleCategorie=="informatique") {
-
-				listeArticlesEnCours = articlesManager.selectionnerParIdCategorie(1);
-				System.out.println("requete 1");				
+			
+//	1 -- Si saisie dans la barre de recherche + filtre categorie
+			if((!recherche.contentEquals("")) && (!libelleCategorie.contentEquals(""))) {
+				
+		//	1.1 -- On recherche selon le filtre categories et la valeur du mot		
+				if(libelleCategorie.contentEquals("informatique")) {
+					listeArticlesFiltre = articlesManager.selectionnerArticlesParCategEtMotCle(recherche, 1);
+				}
+				else if(libelleCategorie.contentEquals("ameublement")) {
+					listeArticlesFiltre = articlesManager.selectionnerArticlesParCategEtMotCle(recherche, 2);
+				}
+				else if(libelleCategorie.contentEquals("vetement")) {
+					listeArticlesFiltre = articlesManager.selectionnerArticlesParCategEtMotCle(recherche, 3);
+				}
+				else if(libelleCategorie.contentEquals("sport")) {
+					listeArticlesFiltre = articlesManager.selectionnerArticlesParCategEtMotCle(recherche, 4);	
+				}
+				
 			}
-			else if(libelleCategorie=="ameublement") {
-					listeArticlesEnCours = articlesManager.selectionnerParIdCategorie(2);
-					System.out.println("requete 2");				
+			
+//	2- Sinon si uniquement filtre catégorie		
+			else if(recherche.contentEquals("")) {
+	//	2.1 -- On recherche selon le filtre categories		
+				if(libelleCategorie.contentEquals("informatique")) {
+	
+					listeArticlesFiltre = articlesManager.selectionnerParIdCategorie(1);
+				}
+				else if(libelleCategorie.contentEquals("ameublement")) {
+					listeArticlesFiltre = articlesManager.selectionnerParIdCategorie(2);
+				}
+				else if(libelleCategorie.contentEquals("vetement")) {
+					listeArticlesFiltre = articlesManager.selectionnerParIdCategorie(3);
+						
+				}
+				else if(libelleCategorie.contentEquals("sport")) {
+					listeArticlesFiltre = articlesManager.selectionnerParIdCategorie(4);
+				}
+				else {
+					listeArticlesFiltre = articlesManager.selectionnerTousLesArticlesByEtat("EC");	
+				}
 			}
-			else if(libelleCategorie=="vetement") {
-					listeArticlesEnCours = articlesManager.selectionnerParIdCategorie(3);
-					System.out.println("requete 3");				
-					
-			}
-			else if(libelleCategorie=="sport") {
-					listeArticlesEnCours = articlesManager.selectionnerParIdCategorie(4);
-					System.out.println("requete 4");				
-			}
+			
+// 2 - Sinon si uniquement saisie
 			else {
-					listeArticlesEnCours = articlesManager.selectionnerTousLesArticlesByEtat("EC");	
-					System.out.println("requete else");
+				listeArticlesFiltre = articlesManager.selectionnerArticlesParMotCle(recherche);
+
 			}
-			request.setAttribute("listeArticlesEnCours", listeArticlesEnCours );		
-			RequestDispatcher rdis;
-			rdis = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
-			rdis.forward(request, response);
+			
+// 3 - On pousse les infos des champs formulaire à la JSP pour les afficher comme criteres
+			request.setAttribute("listeArticlesEnCours", listeArticlesFiltre );	
+			request.setAttribute("libelleCategorie", libelleCategorie );	
+			request.setAttribute("articleContient", recherche );
+			System.out.println(recherche);
+			RequestDispatcher rd;
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+			rd.forward(request, response);
 		
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -92,7 +133,4 @@ public class ServletAccueil extends HttpServlet {
 			}
 		}
 		
-		// TODO Auto-generated method stub
-//		doGet(request, response);
-
 }

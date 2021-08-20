@@ -47,6 +47,13 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, "
 			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
 
+ /** REQUETES POUR CHARLES*/
+  private final static String SELECTBYID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?;";
+	private final static String SELECTIDCATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, no_categorie, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
+	private final static String SELECTBYKEYWORD = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?;";
+	private final static String SELECTBYIDANDKEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?  AND no_categorie = ?;";
+	private final static String SELECTBYETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
+
 	/**
 	 * Sélectionne les articles avec les paramètres idUtilistateur && idCategorie
 	 */
@@ -54,8 +61,14 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			throws DALException {
 		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 
+
+
+	@Override
+	public void insert(ArticleVendu articleVendu) throws DALException {
+
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			Statement stmt = conn.createStatement();
+
 
 			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_ARTICLES);
 			ArticleVendu article = null;
@@ -128,56 +141,32 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 	}
 
-	/**
-	 *
-	 * @throws BLLException Sélectionne toutes les catégories
-	 */
-	public List<Categorie> SelectAllCategories() throws DALException {
-		List<Categorie> listeCategorie = new ArrayList<Categorie>();
 
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			Statement stmt = conn.createStatement();
-
-			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_CATEGORIES);
-			Categorie categorie = null;
-
+	
+	public List<ArticleVendu> selectParEtat(String etat)
+			throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECTBYETAT);
+			//On donne l'id catégorie au 1er argument de la requete
+			pstmt.setString(1, etat);
+			ResultSet rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu = null;
+			
 			while (rs.next()) {
-				categorie = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
-				listeCategorie.add(categorie);
-			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DALException("Echec de SelectAllCategories", e);
-		}
-		return listeCategorie;
-	}
-
-	/**
-	 * Sélectionne tous les articles
-	 * 
-	 * @throws DALException
-	 */
-	public List<ArticleVendu> SelectAllArticles() throws DALException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
-
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			Statement stmt = conn.createStatement();
-
-			ResultSet rs = stmt.executeQuery(SQL_SELECT_ALL_ARTICLES);
-
-			ArticleVendu article = null;
-
-			LocalDate dateDebutEnchere = null;
-			LocalDate dateFinEnchere = null;
-
-			while (rs.next()) {
-				dateDebutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
-				dateFinEnchere = rs.getDate("date_fin_encheres").toLocalDate();
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						dateDebutEnchere, dateFinEnchere, rs.getInt("prix_initial"), rs.getInt("prix_vente"),
-						rs.getInt("etatVente"), rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				listeArticles.add(article);
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				listeArticle.add(articleVendu);
 			}
 
 		} catch (SQLException e) {
@@ -187,57 +176,71 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		return listeArticles;
 	}
 
-	public List<ArticleVendu> selectAllByEtatVente(int etatVente) throws DALException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+	
+	public List <ArticleVendu> selectAllArticles() {
 
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT_ARTICLES_BY_ETAT);
+		Statement stmtConsultation = null;
+		List <ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 
-			pstmt.setInt(1, etatVente);
-			ResultSet rs = pstmt.executeQuery();
-
+		try {
+			Connection cnx = ConnectionProvider.getConnection();
+			stmtConsultation = cnx.createStatement();
+			ResultSet rsConsultation = stmtConsultation.executeQuery(LISTER);
+			
 			ArticleVendu article = null;
-			LocalDate dateDebutEnchere = null;
-			LocalDate dateFinEnchere = null;
+			
+	
+			
+			while(rsConsultation.next()) {
+			
+					article=new ArticleVendu();
+					
+					article.setNomArticle(rsConsultation.getString("nom_article"));
+					article.setIdArticle(rsConsultation.getInt("no_article"));
+					article.setNomArticle(rsConsultation.getString("nom_article"));
+					article.setDescription(rsConsultation.getString("description"));
+					article.setDateFinEncheres(rsConsultation.getDate("date_fin_encheres"));
+					article.setPrixInitial(rsConsultation.getInt("prix_initial"));
+					article.setPrixVente(rsConsultation.getInt("prix_vente"));
 
-			while (rs.next()) {
-				dateDebutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
-				dateFinEnchere = rs.getDate("date_fin_encheres").toLocalDate();
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						dateDebutEnchere, dateFinEnchere, rs.getInt("prix_initial"), rs.getInt("prix_vente"),
-						rs.getInt("etatVente"), rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				listeArticles.add(article);
+					listeArticles.add(article);
+
 			}
-
 		} catch (SQLException e) {
+			System.out.println("Erreur connexion SQL");
 			e.printStackTrace();
-			throw new DALException("Echec de SelectAllArticles", e);
 		}
-
+		
 		return listeArticles;
+		
 	}
-
-	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente, int idUtilisateur) throws DALException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
-
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT_ARTICLES_BY_ETAT_AND_UTILISATEUR);
-
-			pstmt.setInt(1, etatVente);
-			pstmt.setInt(2, idUtilisateur);
+	
+	
+	
+	public List<ArticleVendu> selectParIdCategorie(int idCategorie)
+			throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECTIDCATEGORIE);
+			//On donne l'id catégorie au 1er argument de la requete
+			pstmt.setInt(1, idCategorie);
 			ResultSet rs = pstmt.executeQuery();
+			Outils o = new Outils();
 
-			ArticleVendu article = null;
-			LocalDate dateDebutEnchere = null;
-			LocalDate dateFinEnchere = null;
-
+			ArticleVendu articleVendu = null;
+			
 			while (rs.next()) {
-				dateDebutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
-				dateFinEnchere = rs.getDate("date_fin_encheres").toLocalDate();
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						dateDebutEnchere, dateFinEnchere, rs.getInt("prix_initial"), rs.getInt("prix_vente"),
-						rs.getInt("etatVente"), rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				listeArticles.add(article);
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				listeArticle.add(articleVendu);
 			}
 
 		} catch (SQLException e) {
@@ -245,31 +248,33 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			throw new DALException("Echec de SelectAllArticles", e);
 		}
 
-		return listeArticles;
+		return listeArticle;
 	}
 
-	public List<ArticleVendu> selectAllByEtatVenteGagne(int etatVente, int idUtilisateur) throws DALException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+	
 
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT_ARTICLES_BY_ETAT_AND_GAGNE);
-
-			pstmt.setInt(1, etatVente);
-			pstmt.setInt(2, idUtilisateur);
-			ResultSet rs = pstmt.executeQuery();
-
-			ArticleVendu article = null;
-			LocalDate dateDebutEnchere = null;
-			LocalDate dateFinEnchere = null;
-
+	public  ArrayList<ArticleVendu> selectParMotCle(String nomArticle) throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECTBYKEYWORD);
+			pstmt.setString(1, "%" + nomArticle + "%");
+			rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu = null;
 			while (rs.next()) {
-				dateDebutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
-				dateFinEnchere = rs.getDate("date_fin_encheres").toLocalDate();
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						dateDebutEnchere, dateFinEnchere, rs.getInt("prix_initial"), rs.getInt("prix_vente"),
-						rs.getInt("etatVente"), rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				listeArticles.add(article);
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				listeArticle.add(articleVendu);
 			}
 
 		} catch (SQLException e) {
@@ -277,83 +282,50 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			throw new DALException("Echec de SelectAllArticles", e);
 		}
 
-		return listeArticles;
+		return listeArticle;
 	}
+	
 
-	public List<ArticleVendu> SelectAllEncheresByEtat(int idUtilisateur, int etatVente) throws DALException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT_ENCHERES_BY_ETAT);
-
-			pstmt.setInt(1, etatVente);
-			pstmt.setInt(2, idUtilisateur);
-			ResultSet rs = pstmt.executeQuery();
-
-			ArticleVendu article = null;
-
-			LocalDate dateDebutEnchere = null;
-			LocalDate dateFinEnchere = null;
-
+	public ArrayList<ArticleVendu> selectParCategEtMotCle(String nomArticle, int idCategorie)throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECTBYIDANDKEYWORD);
+			pstmt.setString(1, "%" + nomArticle + "%");
+			pstmt.setInt(2, idCategorie);
+			rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu;
 			while (rs.next()) {
-				dateDebutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
-				dateFinEnchere = rs.getDate("date_fin_encheres").toLocalDate();
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						dateDebutEnchere, dateFinEnchere, rs.getInt("prix_initial"), rs.getInt("prix_vente"),
-						rs.getInt("etatVente"), rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				listeArticles.add(article);
+				articleVendu = new ArticleVendu();
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				listeArticle.add(articleVendu);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DALException("Echec de SelectAllArticles", e);
 		}
-		return listeArticles;
+
+			return listeArticle;
 	}
-
-	public ArticleVendu SelectEnchereById(int idArticle) throws DALException {
-		ArticleVendu article = null;
-
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT_ARTICLE_BY_ID);
-
-			pstmt.setInt(1, idArticle);
-
-			ResultSet rs = pstmt.executeQuery();
-
-			LocalDate dateDebutEnchere = null;
-			LocalDate dateFinEnchere = null;
-
-			if (rs.next()) {
-				dateDebutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
-				dateFinEnchere = rs.getDate("date_fin_encheres").toLocalDate();
-				article = new ArticleVendu(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-						dateDebutEnchere, dateFinEnchere, rs.getInt("prix_initial"), rs.getInt("prix_vente"),
-						rs.getInt("etatVente"), rs.getInt("no_utilisateur"), rs.getInt("no_categorie"));
-				;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DALException("Echec de SelectAllArticles", e);
-		}
-		return article;
-	}
-
-	@Override
-	public List<ArticleVendu> filterByCategory(Categorie categorie) throws DALException {
-		return null;
-	}
+	
+	
 
 	@Override
 	public List<ArticleVendu> filterByString(String filter) throws DALException {
 		return null;
 	}
 
-	@Override
-	public List<Integer> filterByEtat(String etat) throws DALException {
-		return null;
-	}
 
 	@Override
 	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) throws DALException {

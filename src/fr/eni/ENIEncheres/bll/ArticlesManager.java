@@ -16,12 +16,12 @@ public class ArticlesManager {
 	private DAOArticleVendu articleDAO;
 
 	
-	public ArticlesManager(DAOArticleVendu articleDAO) {
-		super();
-		this.articleDAO = articleDAO;
+	//Constructeur : 
+	public ArticlesManager() {
+		this.articleDAO=DAOFactory.getDAOArticleVendu();
 	}
 	
-
+	
 	/**
 	 * Selectionne tout les articles avec Utilisateur et catégorie
 	 */
@@ -43,6 +43,7 @@ public class ArticlesManager {
 		try {
 			System.out.println("là ! bll" + article);
 			 articleDAO.insertArticle ( article, utilisateurId, categorieId );
+
 
 		} catch (DALException e) {
 			System.out.println("erreur lors de l'insertion de l'article");
@@ -93,6 +94,7 @@ public class ArticlesManager {
 		return listeArticle;
 	}
 	
+
 	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente, int idUtilisateur) throws BLLException{
 		List<ArticleVendu> listeArticle = null;
 		try {
@@ -137,4 +139,39 @@ public class ArticlesManager {
 		return article;
 
 	}
+  
+  //______________________________________________________________________________________________
+  //Méthodes de Charles pour Filtre encheres
+  
+  	//Méthodes selectArticle par nom qui contient : 
+	public List<ArticleVendu> selectionnerArticlesParMotCle(String nomArticle) throws DALException {
+		
+		return this.articleDAO.selectParMotCle(nomArticle);
+	}
+	
+	//Méthodes selectArticle par categorie et nom qui contient : 
+	public List<ArticleVendu> selectionnerArticlesParCategEtMotCle(String nomArticle, int idCategorie) throws DALException {
+		
+		return this.articleDAO.selectParCategEtMotCle(nomArticle, idCategorie);
+	}	
+	
+  
+	//Méthodes selectArtByEtatVente : 
+	public List<ArticleVendu> selectionnerTousLesArticlesByEtat(String etat) throws DALException {
+		
+		return this.articleDAO.selectParEtat(etat);
+	}
+	
+	//Méthodes selectAllArticles : 
+	public List<ArticleVendu> selectionnerTousLesArticles() {
+		
+		return this.articleDAO.selectAllArticles();
+	}
+	
+	//Méthodes selectAllArticles : 
+	public List<ArticleVendu> selectionnerParIdCategorie(int idCategorie) throws DALException {
+		
+		return this.articleDAO.selectParIdCategorie(idCategorie);
+	}
+  //______________________________________________________________________________________________
 }

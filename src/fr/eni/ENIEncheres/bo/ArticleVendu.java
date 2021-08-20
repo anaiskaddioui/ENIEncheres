@@ -7,10 +7,10 @@ public class ArticleVendu {
 	private int idArticle;
 	private String nomArticle;
 	private String description;
-	private LocalDate dateDebutEncheres;
-	private LocalDate dateFinEncheres;
-	private static DateTimeFormatter dateFormat= DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	private int miseAPrix;
+	private Date dateDebutEncheres;
+	private Date dateFinEncheres;
+	private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	private int prixInitial;
 	private int prixVente;
 	private int etatVente;
 	private Utilisateurs utilisateur;
@@ -23,14 +23,11 @@ public class ArticleVendu {
 	
 
 
-
-
-	public void Article(int id, String nom, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int prixVente, int etatVente, Utilisateurs utilisateur, Categorie categorie,
-			int utilisateurId, int categorieId, String utilisateurPseudo) {
-		
-		this.idArticle = id;
-		this.nomArticle = nom;
+	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+		super();
+		this.idArticle = idArticle;
+		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
@@ -134,15 +131,11 @@ public class ArticleVendu {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
-	public String getStrDateDebut() {
-		return getDateDebutEncheres()==null? "" : dateFormat.format(getDateDebutEncheres());
-	}
-	
-	public LocalDate getDateFinEncheres() {
+	public Date getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
-	public void setDateFinEncheres(LocalDate dateFinEncheres) {
+	public void setDateFinEncheres(Date dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 	

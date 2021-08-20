@@ -41,10 +41,7 @@ public class Categorie {
 
 	@Override
 	public String toString() {
-		return "Categorie [idCategorie=" + idCategorie + ", libelle=" + libelle + ", categorieArticle="
-				+ categorieArticle + ", getIdCategorie()=" + getIdCategorie() + ", getLibelle()=" + getLibelle()
-				+ ", getCategorieArticle()=" + getCategorieArticle() + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", toString()=" + super.toString() + "]";
+		return "Categorie [idCategorie=" + getIdCategorie() + ", Libelle=" + getLibelle() + "]";
 	
 	}
 }

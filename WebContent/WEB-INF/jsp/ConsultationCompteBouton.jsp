@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,6 @@
 
 	<!-- Corps  -->
 	<section class="container main-container">
-		<form action="post">
 			<div class="container">
 				<h1 class="mb-5 text-center">Mon Profil</h1>
 				<div class="row justify-content-start bloc-text-input">
@@ -34,7 +34,7 @@
 								<label for="pseudo" class="label">Pseudo : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Mon pseudo</p>
+								<p class="saisie">${pseudo}</p>
 							</div>
 						</div>
 						<!-- Bloc Nom  -->
@@ -43,7 +43,7 @@
 								<label for="nom" class="label">Nom : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Mon nom</p>
+								<p class="saisie">${nom}</p>
 							</div>
 						</div>
 						<!-- Bloc Prénom  -->
@@ -52,7 +52,7 @@
 								<label for="prenom" class="label">Prénom : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Mon prénom</p>
+								<p class="saisie">${prenom}</p>
 							</div>
 						</div>
 						<!-- Bloc Email  -->
@@ -61,7 +61,7 @@
 								<label for="email" class="label">Email : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Mon email</p>
+								<p class="saisie">${email}</p>
 							</div>
 						</div>
 					</div>
@@ -72,7 +72,7 @@
 								<label for="telephone" class="label">Telephone : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Mon téléphone</p>
+								<p class="saisie">${telephone}</p>
 							</div>
 						</div>
 
@@ -82,7 +82,7 @@
 								<label for="rue" class="label">Rue : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Ma rue</p>
+								<p class="saisie">${rue}</p>
 							</div>
 						</div>
 						<!-- Bloc Code Postal  -->
@@ -91,7 +91,7 @@
 								<label for="code_postal" class="label">Code Postal : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Mon code postal</p>
+								<p class="saisie">${codePostal}</p>
 							</div>
 						</div>
 						<!-- Bloc Ville  -->
@@ -100,7 +100,16 @@
 								<label for="ville" class="label">Ville : </label>
 							</div>
 							<div class="col-sm-3 col-xs-12">
-								<p class="saisie">Ma Ville</p>
+								<p class="saisie">${ville}</p>
+							</div>
+						</div>
+						<!-- Bloc Crédit  -->
+						<div class="row justify-content-center bloc-text-input">
+							<div class="col-sm-4 col-xs-12">
+								<label for="ville" class="label">Crédit : </label>
+							</div>
+							<div class="col-sm-3 col-xs-12">
+								<p class="saisie">${credit}</p>
 							</div>
 						</div>
 					</div>
@@ -109,15 +118,21 @@
 				<!-- Bloc Bouttons  -->
 				<div class="container text-center">
 					<div class="row">
-						<!-- Bouton Supprimer  -->
+						<!-- Bouton Modifier  -->
 						<div class="col">
-							<button href="#" class="btn btn-primary btn-compte">
-								Supprimer</button>
+							<a href="<c:url value="/ServletModificationCompte"/>" class="btn btn-primary btn-compte">
+								Modifier le profil</a>
+						</div>
+						<!-- Bouton Supprimer -->
+						<div class="col">
+							<form method="post" action="${pageContext.request.contextPath }/ServletConsultationCompteBouton">
+							<input type="submit" name="supprimer" value="Supprimer le profil"
+								class="btn btn-primary btn-compte" id="submit"/>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
 	</section>
 </body>
 </html>

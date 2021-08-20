@@ -14,8 +14,8 @@ public class UtilisateursManager {
 	
 	
 	
-	public void userManager() {
-		this.utilisateurDAO=DAOFactory.getUtilisateursDAO();
+	public UtilisateursManager() {
+		this.utilisateurDAO=DAOFactory.getDAOUtilisateur();
 	}
 	
 	
@@ -37,7 +37,12 @@ public class UtilisateursManager {
 	
 	public Utilisateurs selectUserByPseudo(String pseudo) throws DALException {
 		
-		return (Utilisateurs) this.utilisateurDAO.selectByPseudo(pseudo);
+		return this.utilisateurDAO.selectByPseudo(pseudo);
+	}
+
+	public Utilisateurs selectUserByEmail(String email) throws DALException {
+		
+		return (Utilisateurs) this.utilisateurDAO.selectByEmail(email);
 	}
 	
 	public Utilisateurs selectUserByKey(String motCle) throws DALException {
@@ -55,6 +60,10 @@ public class UtilisateursManager {
 	
 	public void supprimerUtilisateur(String pseudo) throws DALException {
 		this.utilisateurDAO.delete(pseudo);
+	}
+	
+	public void modifierUtilisateur(Utilisateurs u) throws DALException {
+		this.utilisateurDAO.update(u);
 	}
 
 	

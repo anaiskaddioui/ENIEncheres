@@ -27,6 +27,8 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 													" FROM UTILISATEURS WHERE nom = ?";
 	private static final String SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " + 
 			" FROM UTILISATEURS WHERE pseudo = ?";
+	private static final String SELECT_BY_EMAIL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " + 
+			" FROM UTILISATEURS WHERE email = ?";
 
 	private static final String SELECT_BY_MOT_CLE = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom LIKE ? OR prenom LIKE ? OR pseudo LIKE ? OR ville LIKE ?";
@@ -197,13 +199,47 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 	
 	public Utilisateurs selectByPseudo(String pseudo) throws DALException {
 	
-		
 		Utilisateurs utilisateur = null;
 
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement rqt = cnx.prepareStatement(SELECT_BY_PSEUDO);
 			rqt.setString(1, pseudo);
+			ResultSet rs = rqt.executeQuery();
+			
+			
+			while (rs.next()) {
+							
+				utilisateur = new Utilisateurs(rs.getInt("no_utilisateur"),
+						rs.getString("pseudo"),
+						rs.getString("mot_de_passe"),
+						rs.getString("nom"),
+						rs.getString("prenom"),
+						rs.getString("email"),
+						rs.getString("telephone"),	
+						rs.getString("rue"),
+						rs.getString("code_postal"),
+						rs.getString("ville"),
+						rs.getInt("credit"),
+						rs.getBoolean("administrateur"));
+	
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return utilisateur;
+		
+	}
+	
+	public Utilisateurs selectByEmail(String email) throws DALException {
+	
+		Utilisateurs utilisateur = null;
+
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(SELECT_BY_EMAIL);
+			rqt.setString(1, email);
 			ResultSet rs = rqt.executeQuery();
 			
 			

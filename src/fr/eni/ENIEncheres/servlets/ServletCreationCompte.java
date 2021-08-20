@@ -71,8 +71,11 @@ public class ServletCreationCompte extends HttpServlet {
 		System.out.println(ville);
 		System.out.println(password);
 		
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//On renvoie vers la page d'accueil (ou de connexion ?)
+		RequestDispatcher rd;
+		rd = request.getRequestDispatcher("/ServletAccueil");
+		rd.forward(request, response);
+		
 	}
 
 }

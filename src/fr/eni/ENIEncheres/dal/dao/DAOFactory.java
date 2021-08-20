@@ -33,8 +33,4 @@ public class DAOFactory {
 		return new RetraitJdbcImpl();
 	}
 
-	public static DAOUtilisateur getUtilisateursDAO() {
-		return null;
-	}
-
 }

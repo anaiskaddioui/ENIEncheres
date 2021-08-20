@@ -33,6 +33,8 @@ public class ServletConsultationCompteBouton extends HttpServlet {
 		
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	
 	}
 
+	
 }

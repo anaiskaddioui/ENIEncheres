@@ -5,17 +5,18 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Categorie;
+import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
 import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 
 
 public class ArticleVenduManager {
 
-	private ArticleVendu articleDAO;
+	private DAOArticleVendu articleDAO;
 	
 	
 	public ArticleVenduManager() {
-		articleDAO = DAOFactory.getArticleVendu();
+		articleDAO = DAOFactory.getDAOArticleVendu();
 	}
 
 	

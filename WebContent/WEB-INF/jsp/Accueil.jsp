@@ -1,5 +1,7 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,39 +74,24 @@
 				<div class="container-fluid rounded mt-5">
 					<!-- Ligne d'objets -->
 					<div class="row">
-						<!-- Bloc pour 1 objet enchère -->
-						<div class="col-lg-6 col-sm-12">
-							<div class="container bloc-objet-encheres rounded mt-4">
-								<div class="row">
-									<div class="col-lg-6 col-sm-6">
-										<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
-									</div>
-									<div class="col-lg-6 col-sm-6">
-										<h2 class="titre-objet">Nom de l'objet</h2>
-										<p>Prix : XXX points</p>
-										<p>Fin de l'enchère : 11/11/11</p>
-										<p>Vendeur : nomDuVendeur</p>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Bloc pour 1 objet enchère -->
-						<div class="col-lg-6 col-sm-12">
-							<div class="container bloc-objet-encheres rounded mt-4">
-								<div class="row">
-									<div class="col-lg-6 col-sm-6">
-										<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
-									</div>
-									<div class="col-lg-6 col-sm-6">
-										<h2 class="titre-objet">Nom de l'objet</h2>
-										<p>Prix : XXX points</p>
-										<p>Fin de l'enchère : 11/11/11</p>
-										<p>Vendeur : nomDuVendeur</p>
+						<c:forEach var="el" items="${listeArticlesEnCours }" >
+							<!-- Bloc pour 1 objet enchère -->
+							<div class="col-lg-6 col-sm-12">
+								<div class="container bloc-objet-encheres rounded mt-4">
+									<div class="row">
+										<div class="col-lg-6 col-sm-6">
+											<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpg")%>" alt="un objet" class="photo-objet" />
+										</div>
+										<div class="col-lg-6 col-sm-6">
+											<h2 class="titre-objet">${el.getNomArticle() }</h2>
+											<p>Prix : ${el.getPrixInitial() } points</p>
+											<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
+											<p>Vendeur : ${el.getNomArticle() }</p>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>

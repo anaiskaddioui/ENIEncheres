@@ -21,11 +21,13 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 			" FROM UTILISATEURS";
 	private static final String UPDATE = "UPDATE UTILISATEURS set pseudo=?,nom=?,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?";
 	private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+
 	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE pseudo=?";
 	private static final String SELECT_BY_NAME = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom = ?";
 	private static final String SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " + 
 			" FROM UTILISATEURS WHERE pseudo = ?";
+
 	private static final String SELECT_BY_MOT_CLE = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom LIKE ? OR prenom LIKE ? OR pseudo LIKE ? OR ville LIKE ?";
 
@@ -311,6 +313,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 			cnx.setAutoCommit(false);
 			rqt = cnx.prepareStatement(DELETE);
 
+
 			rqt.setString(1, pseudo);
 
 			rqt.executeUpdate();
@@ -319,6 +322,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 			rqt.close();
 			
 		} catch (SQLException e) {
+
 
 			throw new DALException("Delete utilisateur failed - pseudo=" + pseudo, e);
 		} 

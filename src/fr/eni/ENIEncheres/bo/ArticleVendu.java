@@ -1,6 +1,7 @@
 package fr.eni.ENIEncheres.bo;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class ArticleVendu {
 	private String nomArticle;
 	private String description;
 	private Date dateDebutEncheres;
-	private Date dateFinEncheres;
+	private LocalDate dateFinEncheres;
 	private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private int prixInitial;
 	private int prixVente;
@@ -19,7 +20,7 @@ public class ArticleVendu {
 	private int idUtilsateur;
 
 	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+			LocalDate dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
 		super();
 		this.idArticle = idArticle;
 		this.nomArticle = nomArticle;
@@ -34,8 +35,10 @@ public class ArticleVendu {
 
 	}
 
+
 	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
 			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+
 		super();
 
 		this.nomArticle = nomArticle;
@@ -86,11 +89,11 @@ public class ArticleVendu {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
-	public Date getDateFinEncheres() {
+	public LocalDate getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
-	public void setDateFinEncheres(Date dateFinEncheres) {
+	public void setDateFinEncheres(LocalDate dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 
@@ -143,42 +146,6 @@ public class ArticleVendu {
 		this.idUtilsateur = idUtilsateur;
 	}
 
-	public void insert(ArticleVendu articleVendu) {
-
-	}
-
-	public List<ArticleVendu> selectAll() {
-		return null;
-	}
-
-	public void updateCurrentPrice(int noArticle, int newPrice) {
-
-	}
-
-	public List<ArticleVendu> SelectAllArticlesAvecUtilisateurEtCategorie(int utilisateurId, int categorieId) {
-		return null;
-	}
-
-	public void insertArticle(ArticleVendu article, int utilisateurId, int categorieId) {
-
-	}
-
-	public List<Categorie> SelectAllCategories() {
-		return null;
-	}
-
-	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente2, int idUtilisateur) {
-		return null;
-	}
-
-	public List<ArticleVendu> SelectAllEncheresByEtat(int idUtilisateur, int etatVente2) {
-		return null;
-	}
-
-	public ArticleVendu SelectEnchereById(int idArticle2) {
-		return null;
-
-	}
 
 	@Override
 	public String toString() {
@@ -186,34 +153,6 @@ public class ArticleVendu {
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
 				+ ", idUtilsateur=" + idUtilsateur + "]";
-	}
-
-	public ArticleVendu select(int id) {
-		return null;
-	}
-
-	public void update(ArticleVendu articleToUpdate) {
-		
-	}
-
-	public void delete(ArticleVendu articleVendu) {
-		
-	}
-
-	public List<ArticleVendu> filterByCategory(Categorie categorie) {
-		return null;
-	}
-
-	public List<ArticleVendu> filterByString(String filter) {
-		return null;
-	}
-
-	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) {
-		return null;
-	}
-
-	public List<Integer> filterByEtat(String etat) {
-		return null;
 	}
 
 }

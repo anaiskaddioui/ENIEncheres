@@ -1,4 +1,4 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
+import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 
 public class UtilisateursJdbcImpl implements DAOUtilisateur {
 	
@@ -29,14 +31,11 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 
 	
 	//Méthode d'ajout d'utilisateur héritée de l'interface DAO<T> : 
-	@Override
+	
 	public void insert(Utilisateurs utilisateur) throws DALException {
 		
 		if(utilisateur==null) //Business exception + messages à créer ultérieurement, en cas de mauvaise manip' : 
 		{
-			/*BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
-			throw businessException;*/
 		}
 			
 		
@@ -74,8 +73,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			//cnx.rollback();
-			//throw e;
+			
 		}
 		
 	}
@@ -297,7 +295,6 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		} 
 	}
 
-	@Override
 	public void delete(int id) throws DALException {
 		
 		PreparedStatement rqt = null;
@@ -315,6 +312,16 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		} catch (SQLException e) {
 			throw new DALException("Delete article failed - id=" + id, e);
 		} 
+	}
+
+	@Override
+	public void delete(Utilisateurs utilisateur) throws DALException {
+		
+	}
+
+	@Override
+	public boolean checkForUniquePseudoAndMail(String pseudo, String email) {
+		return false;
 	}
 	
 	

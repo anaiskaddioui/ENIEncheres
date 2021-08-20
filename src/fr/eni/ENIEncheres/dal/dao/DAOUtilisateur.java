@@ -1,8 +1,9 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.dao;
 
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
 
 
 	public interface DAOUtilisateur { 
@@ -15,5 +16,6 @@ import fr.eni.ENIEncheres.bo.Utilisateurs;
 		public Utilisateurs selectByPseudo(String pseudo) throws DALException;
 		public List<Utilisateurs> selectByMotCle(String motCle) throws DALException;
 		public void update(Utilisateurs maj) throws DALException;
-		public void delete(int id) throws DALException;
+		public void delete(Utilisateurs utilisateur) throws DALException;
+		public boolean checkForUniquePseudoAndMail(String pseudo, String email);
 }

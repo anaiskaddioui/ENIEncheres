@@ -1,4 +1,4 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,9 @@ import java.util.List;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
+import fr.eni.ENIEncheres.dal.Outils;
+import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
 
 public class ArticleJdbcImpl implements DAOArticleVendu<ArticleVendu>{
 
@@ -41,7 +44,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu<ArticleVendu>{
 			pstmt.setInt(7, articleVendu.getIdUtilsateur());
 			pstmt.setInt(8, articleVendu.getIdCategorie());
 			pstmt.setString(9, articleVendu.getEtatVente());
-			
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -269,31 +271,26 @@ public class ArticleJdbcImpl implements DAOArticleVendu<ArticleVendu>{
 
 	@Override
 	public List<ArticleVendu> filterByCategory(Categorie categorie) throws DALException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<ArticleVendu> filterByString(String filter) throws DALException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Integer> filterByEtat(String etat) throws DALException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) throws DALException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateCurrentPrice(int noArticle, int newPrice) throws DALException {
-		// TODO Auto-generated method stub
 		
 	}
 

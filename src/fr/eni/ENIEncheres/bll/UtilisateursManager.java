@@ -4,14 +4,13 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.DAOFactory;
-import fr.eni.ENIEncheres.dal.DAOUtilisateur;
+import fr.eni.ENIEncheres.dal.dao.DAOFactory;
+import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 
 
 public class UtilisateursManager {
 
 	private DAOUtilisateur utilisateurDAO;
-	private boolean isError = false;
 	
 	
 	//Constructeur : 
@@ -48,28 +47,12 @@ public class UtilisateursManager {
 	
 	
 	public void ajouterUtilisateur(Utilisateurs u) throws DALException {
-		
-		this.validerPseudo(u.getPseudo());
-		
-		if (!this.isError) {
-			this.utilisateurDAO.insert(u);
-		} 
+
+		this.utilisateurDAO.insert(u);
 	}
 	
-	//Vérifications avant méthodes UPDATE ou DELETE : 
-	private boolean validerPseudo(String pseudo) throws DALException {
-		
-		List<Utilisateurs> utilisateurs = this.utilisateurDAO.selectAll();
-		
-		for (Utilisateurs u : utilisateurs) {
-			if(pseudo == u.getPseudo());
-			this.isError = true;
-		}
-		
-		if (pseudo.length() > 30) {
-			this.isError = true;
-		}
-		
-		return this.isError;
+	public void supprimerUtilisateur(String pseudo) throws DALException {
+		this.utilisateurDAO.delete(pseudo);
 	}
+	
 }

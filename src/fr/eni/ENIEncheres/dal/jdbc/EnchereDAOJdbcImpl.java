@@ -1,4 +1,4 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,9 @@ import java.util.List;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Enchere;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
+import fr.eni.ENIEncheres.dal.ErrorCodesDAL;
+import fr.eni.ENIEncheres.dal.dao.DAOEnchere;
 
 public class EnchereDAOJdbcImpl implements DAOEnchere {
     @Override

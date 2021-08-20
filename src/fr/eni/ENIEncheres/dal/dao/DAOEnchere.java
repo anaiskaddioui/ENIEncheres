@@ -1,4 +1,4 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.dao;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.List;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Enchere;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
 
 public interface DAOEnchere {
 	

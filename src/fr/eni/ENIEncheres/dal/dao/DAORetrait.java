@@ -1,9 +1,12 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import fr.eni.ENIEncheres.dal.DALException;
+import fr.eni.ENIEncheres.dal.jdbc.ConnectionProvider;
 
 public class DAORetrait {
 	

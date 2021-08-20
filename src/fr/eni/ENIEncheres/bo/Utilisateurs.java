@@ -126,6 +126,22 @@ public class Utilisateurs {
 		this.setAdministrateur(administrateur);
 	}
 	
+	public Utilisateurs(int idUtilisateur, String pseudo, String nom, String prenom, String email, 
+			String tel, String rue, String coPostal, String ville, int credit, boolean administrateur) {
+		
+		this.setIdUtilisateur(idUtilisateur);
+		this.setPseudo(pseudo);
+		this.setNom(nom);
+		this.setPrenom(prenom);
+		this.setEmail(email);
+		this.setTel(tel);
+		this.setRue(rue);
+		this.setCoPostal(coPostal);
+		this.setVille(ville);
+		this.setCredit(credit);
+		this.setAdministrateur(administrateur);
+	}
+	
 	public Utilisateurs() {
 		// TODO Auto-generated constructor stub
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +38,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="pseudo" class="form-control-sm"
-									id="pseudo" required="required" />
+									id="pseudo" required="required" maxlength="30" value="${pseudo }"/>
 							</div>
 						</div>
 						<!-- Bloc Nom  -->
@@ -47,7 +48,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="nom" class="form-control-sm" id="nom"
-									required="required" />
+									required="required" maxlength="30" value="${nom}"/>
 							</div>
 						</div>
 						<!-- Bloc Prénom  -->
@@ -57,7 +58,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="prenom" class="form-control-sm"
-									id="prenom" required="required" />
+									id="prenom" required="required" maxlength="30" value="${prenom }"/>
 							</div>
 						</div>
 						<!-- Bloc Email  -->
@@ -67,7 +68,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="email" name="email" class="form-control-sm"
-									id="email" required="required" />
+									id="email" required="required" maxlength="50" value="${email}"/>
 							</div>
 						</div>
 						<!-- Bloc Telephone  -->
@@ -76,8 +77,8 @@
 								<label for="telephone" class="label">Téléphone : </label>
 							</div>
 							<div class="col-6 col-sm-3">
-								<input type="telephone" name="telephone" class="form-control-sm"
-									id="telephone" />
+								<input type="tel" name="telephone" class="form-control-sm"
+									id="telephone" pattern="[0]{1}[0-9]{9}" value="${telephone }"/>
 							</div>
 						</div>
 						<!-- Bloc Crédit  -->
@@ -86,7 +87,7 @@
 								<label for="credit" class="label">Crédit : </label>
 							</div>
 							<div class="col-6 col-sm-3">
-								<p>XXX</p>
+								<p>${credit }</p>
 							</div>
 						</div>
 					</div>
@@ -98,7 +99,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="rue" class="form-control-sm" id="rue"
-									required="required" />
+									required="required" maxlength="30" value="${rue}"/>
 							</div>
 						</div>
 						<!-- Bloc Code Postal  -->
@@ -108,7 +109,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="code_postal" class="form-control-sm"
-									id="code_postal" required="required" />
+									id="code_postal" required="required" maxlength="30" value="${codePostal}"/>
 							</div>
 						</div>
 						<!-- Bloc Ville  -->
@@ -118,43 +119,43 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="ville" class="form-control-sm"
-									id="ville" required="required" />
+									id="ville" required="required" maxlength="30" value="${ville}"/>
 							</div>
 						</div>
-						<!-- Bloc Mot de Passe Actuel -->
-						<div class="row justify-content-start bloc-text-input">
-							<div class="col-4 col-sm-4">
-								<label for="password-actuel" class="label">Mot de passe
-									actuel: </label>
-							</div>
-							<div class="col-6 col-sm-3">
-								<input type="password" name="password-actuel"
-									class="form-control-sm" id="password-actuel"
-									required="required" />
-							</div>
-						</div>
+<!-- 						Bloc Mot de Passe Actuel -->
+<!-- 						<div class="row justify-content-start bloc-text-input"> -->
+<!-- 							<div class="col-4 col-sm-4"> -->
+<!-- 								<label for="password-actuel" class="label">Mot de passe -->
+<!-- 									actuel: </label> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-6 col-sm-3"> -->
+<!-- 								<input type="password" name="password-actuel" -->
+<!-- 									class="form-control-sm" id="password-actuel" -->
+<!-- 									required="required" /> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						<!-- Bloc Nouveau Mot de Passe  -->
 						<div class="row justify-content-start bloc-text-input">
 							<div class="col-4 col-sm-4">
-								<label for="password-nouveau" class="label">Nouveau mot
+								<label for="password-nouveau" class="label">Changer le mot
 									de passe : </label>
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="password" name="password-nouveau"
 									class="form-control-sm" id="password-nouveau"
-									required="required" />
+									 />
 							</div>
 						</div>
 						<!-- Bloc Confirmation Mot de Passe  -->
 						<div class="row justify-content-start bloc-text-input">
 							<div class="col-4 col-sm-4">
-								<label for="password-confirm" class="label">Confirmation
+								<label for="password-confirm" class="label">Confirmation du nouveau mot de passe
 									:</label>
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="password" name="password-confirm"
 									class="form-control-sm" id="password-confirm"
-									required="required" />
+									/>
 							</div>
 						</div>
 					</div>
@@ -166,14 +167,28 @@
 						<div class="col">
 							<!-- Bouton creer un compte  -->
 							<input type="submit" name="creer" value="Enregistrer"
-								class="btn btn-primary btn-compte" />
-							<!-- Bouton Supprimer  -->
-							<input type="submit" name="supprimer"
-								value="Supprimer mon compte" class="btn btn-primary btn-compte" />
+								class="btn btn-primary btn-compte" onclick="return Validate()"/>
+							</div>
+							<!-- Bouton Annuler  -->
+							<div class="col">
+							<a href="<c:url value="/ServletConsultationCompteBouton"/>" class="btn btn-primary btn-compte">
+								Annuler</a>
 						</div>
 					</div>
 				</div>
 		</form>
 	</section>
+	
+<script type="text/javascript">
+function Validate(){
+	var password = document.getElementById("password-nouveau").value;
+	var confirmPassword = document.getElementById("password-confirm").value;
+	if (password != confirmPassword){
+		alert("Les mots de passe ne correspondent pas");
+		return false;
+	}
+	return true;
+}
+</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 //------------------------------------------------------------------------------
 
 
-abstract class ConnectionProvider {
+public abstract class ConnectionProvider {
 	static DataSource dataSource;
 	
 	/**

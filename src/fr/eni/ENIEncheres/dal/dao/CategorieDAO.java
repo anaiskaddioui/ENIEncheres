@@ -1,5 +1,5 @@
 
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import fr.eni.ENIEncheres.bo.Categorie;
+import fr.eni.ENIEncheres.dal.DALException;
+import fr.eni.ENIEncheres.dal.jdbc.ConnectionProvider;
 
 public class CategorieDAO {
 

@@ -1,9 +1,10 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.dao;
 
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
+import fr.eni.ENIEncheres.dal.DALException;
 
 public interface DAOArticleVendu<ArticleVendu> {
 	

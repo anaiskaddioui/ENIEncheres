@@ -159,6 +159,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 		ArrayList<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
 		try {
 			cnx = ConnectionProvider.getConnection();
+
 			pstmt = cnx.prepareStatement(SELECTIDCATEGORIE);
 
 			pstmt.setInt(1, idCategorie);
@@ -166,6 +167,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 			Outils o = new Outils();
 
 			while (rs.next()) {
+
 
 				ArticleVendu articleVendu = new ArticleVendu();
 
@@ -275,13 +277,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 
 			return listeArticle;
 	}
-
-	
-	
-	
-	
-	
-	
+  
 	
 	public List<ArticleVendu> selectParEtat(String etat)
 			throws DALException {
@@ -428,13 +424,11 @@ public class ArticleJdbcImpl implements DAOArticleVendu{
 	@Override
 	public List<ArticleVendu> filterByString(String filter) throws DALException {
 
-
 		return null;
 	}
 
 	@Override
 	public List<Integer> filterByEtat(String etat) throws DALException {
-
 
 		return null;
 	}

@@ -17,6 +17,7 @@ import fr.eni.ENIEncheres.dal.ErrorCodesDAL;
 import fr.eni.ENIEncheres.dal.dao.DAOEnchere;
 
 public class EnchereJdbcImpl implements DAOEnchere {
+
 	@Override
 	public void insert(Enchere enchere) throws DALException {
 		Connection cnx = null;
@@ -25,6 +26,7 @@ public class EnchereJdbcImpl implements DAOEnchere {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+
 		try {
 			String INSERT = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?, ?, ?, ?)";
 			PreparedStatement stmt = cnx.prepareStatement(INSERT);

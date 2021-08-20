@@ -8,7 +8,7 @@ import fr.eni.ENIEncheres.dal.dao.DAOCategorie;
 import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 public class CategorieManager {
-    private static DAOCategorie dao;
+    private static CategorieDAO dao;
 
     static {
         dao = DAOFactory.getDAOCategorie();

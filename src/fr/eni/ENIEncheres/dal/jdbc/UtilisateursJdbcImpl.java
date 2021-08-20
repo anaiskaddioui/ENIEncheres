@@ -32,12 +32,12 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 													" FROM UTILISATEURS WHERE nom LIKE ? OR prenom LIKE ? OR pseudo LIKE ? OR ville LIKE ?";
 
 	
-	//Méthode d'ajout d'utilisateur héritée de l'interface DAO<T> : 
 
 	public void insert(Utilisateurs utilisateur) throws DALException {
 		
 		if(utilisateur==null) //Business exception + messages à créer ultérieurement, en cas de mauvaise manip' : 
 		{
+
 
 			/*BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
@@ -301,10 +301,8 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		} 
 	}
 
-
 	@Override
 	public void delete(String pseudo) throws DALException {
-
 		
 		PreparedStatement rqt = null;
 		
@@ -312,19 +310,14 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		{		
 			cnx.setAutoCommit(false);
 			rqt = cnx.prepareStatement(DELETE);
-
-
 			rqt.setString(1, pseudo);
-
-			rqt.executeUpdate();
-			
+			rqt.executeUpdate();			
 			cnx.commit();
 			rqt.close();
 			
 		} catch (SQLException e) {
 
-
-			throw new DALException("Delete utilisateur failed - pseudo=" + pseudo, e);
+			  throw new DALException("Delete utilisateur failed - pseudo=" + pseudo, e);
 		} 
 	}
 

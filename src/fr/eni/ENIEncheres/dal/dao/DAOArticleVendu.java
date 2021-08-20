@@ -9,6 +9,7 @@ import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 
+
 public interface DAOArticleVendu {
 	    List<ArticleVendu> filterByCategory(Categorie categorie) throws DALException;
 	    List<ArticleVendu> filterByString(String filter) throws DALException;
@@ -17,6 +18,7 @@ public interface DAOArticleVendu {
 	    void updateCurrentPrice(int noArticle, int newPrice) throws DALException;
 	    
 	    public void insert (ArticleVendu articleVendu) throws DALException;
+
 	    public ArrayList<ArticleVendu> rechercheParIdCategories(int idCategorie) throws DALException;
 	  	public List<ArticleVendu> selectParEtat(String etat) throws DALException;
 		  public List <ArticleVendu> selectAllArticles();

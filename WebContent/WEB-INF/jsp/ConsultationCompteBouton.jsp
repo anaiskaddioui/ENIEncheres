@@ -13,7 +13,7 @@
 <style><%@ include file="/style.css"%></style>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Lato" />
-<title>Consulter un compte MODIFICATION</title>
+<title>Consulter un compte MODIFICATIONS</title>
 </head>
 <body>
 	<!-- Entete  -->

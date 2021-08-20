@@ -11,6 +11,7 @@ import fr.eni.ENIEncheres.dal.DALException;
 
 public interface DAOEnchere {
 
+
 	List<Integer> getidArticlesByUtilisateurAndEtat(Utilisateurs utilisateur, String state) throws DALException;
 
 	List<Integer> getidArticlesWonByUtilisateur(Utilisateurs utilisateur) throws DALException;

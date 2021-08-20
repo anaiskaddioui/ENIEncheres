@@ -11,7 +11,6 @@ import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 public class UtilisateursManager {
 
 	private DAOUtilisateur utilisateurDAO;
-	private boolean isError = false;
 	
 	
 	
@@ -47,33 +46,16 @@ public class UtilisateursManager {
 	}
 	
 	
-	public void addUser(Utilisateurs u) throws DALException {
-		
-		this.validerPseudo(u.getPseudo());
-		
-		if (!this.isError) {
-			this.utilisateurDAO.insert(u);
-		} 
+
+	public void ajouterUtilisateur(Utilisateurs u) throws DALException {
+
+		this.utilisateurDAO.insert(u);
+
 	}
 	
-	//Vérifications avant méthodes UPDATE ou DELETE : 
-	private boolean validerPseudo(String pseudo) throws DALException {
-		
-		List<Utilisateurs> utilisateurs = this.utilisateurDAO.selectAll();
-		
-		for (Utilisateurs u : utilisateurs) {
-			if(pseudo == u.getPseudo());
-			this.isError = true;
-		}
-		
-		if (pseudo.length() > 30) {
-			this.isError = true;
-		}
-		
-		return this.isError;
+	public void supprimerUtilisateur(String pseudo) throws DALException {
+		this.utilisateurDAO.delete(pseudo);
 	}
-
-
 
 	
 }

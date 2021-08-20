@@ -13,7 +13,9 @@ import javax.sql.DataSource;
 //------------------------------------------------------------------------------
 
 
-abstract class ConnectionProvider {
+
+public abstract class ConnectionProvider {
+
 	static DataSource dataSource;
 	
 	/**

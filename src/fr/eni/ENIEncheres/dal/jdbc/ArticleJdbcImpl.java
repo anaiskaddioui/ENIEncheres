@@ -44,6 +44,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu<ArticleVendu>{
 			pstmt.setInt(7, articleVendu.getIdUtilsateur());
 			pstmt.setInt(8, articleVendu.getIdCategorie());
 			pstmt.setString(9, articleVendu.getEtatVente());
+
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -271,26 +272,31 @@ public class ArticleJdbcImpl implements DAOArticleVendu<ArticleVendu>{
 
 	@Override
 	public List<ArticleVendu> filterByCategory(Categorie categorie) throws DALException {
+
 		return null;
 	}
 
 	@Override
 	public List<ArticleVendu> filterByString(String filter) throws DALException {
+
 		return null;
 	}
 
 	@Override
 	public List<Integer> filterByEtat(String etat) throws DALException {
+
 		return null;
 	}
 
 	@Override
 	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) throws DALException {
+
 		return null;
 	}
 
 	@Override
 	public void updateCurrentPrice(int noArticle, int newPrice) throws DALException {
+
 		
 	}
 

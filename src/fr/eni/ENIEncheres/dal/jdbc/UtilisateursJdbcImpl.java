@@ -21,21 +21,26 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 			" FROM UTILISATEURS";
 	private static final String UPDATE = "UPDATE UTILISATEURS set pseudo=?,nom=?,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?";
 	private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
+	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE pseudo=?";
 	private static final String SELECT_BY_NAME = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom = ?";
-	private static final String SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
-			" FROM articles WHERE pseudo = ?";
+	private static final String SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " + 
+			" FROM UTILISATEURS WHERE pseudo = ?";
 	private static final String SELECT_BY_MOT_CLE = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom LIKE ? OR prenom LIKE ? OR pseudo LIKE ? OR ville LIKE ?";
 
 	
 	//Méthode d'ajout d'utilisateur héritée de l'interface DAO<T> : 
-	
+
 	public void insert(Utilisateurs utilisateur) throws DALException {
 		
 		if(utilisateur==null) //Business exception + messages à créer ultérieurement, en cas de mauvaise manip' : 
 		{
+
+			/*BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;*/
+
 		}
 			
 		
@@ -73,7 +78,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			
+
 		}
 		
 	}
@@ -102,7 +107,6 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 						rs.getString("rue"),
 						rs.getString("code_postal"),
 						rs.getString("ville"),
-						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
 						rs.getBoolean("administrateur"));
 	
@@ -205,6 +209,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 							
 				utilisateur = new Utilisateurs(rs.getInt("no_utilisateur"),
 						rs.getString("pseudo"),
+						rs.getString("mot_de_passe"),
 						rs.getString("nom"),
 						rs.getString("prenom"),
 						rs.getString("email"),
@@ -212,7 +217,6 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 						rs.getString("rue"),
 						rs.getString("code_postal"),
 						rs.getString("ville"),
-						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
 						rs.getBoolean("administrateur"));
 	
@@ -295,7 +299,10 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		} 
 	}
 
-	public void delete(int id) throws DALException {
+
+	@Override
+	public void delete(String pseudo) throws DALException {
+
 		
 		PreparedStatement rqt = null;
 		
@@ -303,26 +310,20 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		{		
 			cnx.setAutoCommit(false);
 			rqt = cnx.prepareStatement(DELETE);
-			rqt.setInt(1, id);
+
+			rqt.setString(1, pseudo);
+
 			rqt.executeUpdate();
 			
 			cnx.commit();
 			rqt.close();
 			
 		} catch (SQLException e) {
-			throw new DALException("Delete article failed - id=" + id, e);
+
+			throw new DALException("Delete utilisateur failed - pseudo=" + pseudo, e);
 		} 
 	}
 
-	@Override
-	public void delete(Utilisateurs utilisateur) throws DALException {
-		
-	}
-
-	@Override
-	public boolean checkForUniquePseudoAndMail(String pseudo, String email) {
-		return false;
-	}
 	
 	
 

@@ -1,5 +1,6 @@
 package fr.eni.ENIEncheres.dal.dao;
 
+
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.dal.jdbc.ArticleJdbcImpl;
 import fr.eni.ENIEncheres.dal.jdbc.CategorieJdbcImpl;
@@ -36,4 +37,5 @@ public class DAOFactory {
 	public static DAOUtilisateur getUtilisateursDAO() {
 		return null;
 	}
+
 }

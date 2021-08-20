@@ -4,8 +4,8 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.DAOFactory;
-import fr.eni.ENIEncheres.dal.DAOUtilisateur;
+import fr.eni.ENIEncheres.dal.dao.DAOFactory;
+import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 
 
 public class UtilisateursManager {

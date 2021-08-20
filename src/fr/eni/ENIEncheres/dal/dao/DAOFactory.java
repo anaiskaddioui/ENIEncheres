@@ -1,5 +1,7 @@
-package fr.eni.ENIEncheres.dal;
+package fr.eni.ENIEncheres.dal.dao;
 
+import fr.eni.ENIEncheres.dal.jdbc.ArticleJdbcImpl;
+import fr.eni.ENIEncheres.dal.jdbc.UtilisateursJdbcImpl;
 
 public class DAOFactory {
 	

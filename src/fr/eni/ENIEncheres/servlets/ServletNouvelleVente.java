@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.DAOFactory;
+import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 /**
  * Servlet implementation class ServletConnexion

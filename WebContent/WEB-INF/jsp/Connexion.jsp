@@ -54,7 +54,7 @@
 					<div class="col-sm- col-xs-4">
 						<!-- Bouton connexion  -->
 						<input type="submit" name="connexion" value="Connexion"
-							class="btn btn-primary" />
+							class="btn btn-primary" href="<%=response.encodeURL(request.getContextPath()+"/jsp/Connexion/ServletManipulationSession")%>"/>
 					</div>
 					<div class="col-sm-6 col-xs-4">
 						<!-- Checkbox se souvenir / lien mdp oublié  -->

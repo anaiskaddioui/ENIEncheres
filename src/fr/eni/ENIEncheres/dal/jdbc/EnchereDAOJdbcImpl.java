@@ -184,5 +184,19 @@ public class EnchereDAOJdbcImpl implements DAOEnchere {
 		return null;
 	}
 
+
+	@Override
+	public List<Integer> getIdArticlesByUtilisateurAndEtat(Utilisateurs utilisateur, String state) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Integer> getIdArticlesWonByUtilisateur(Utilisateurs utilisateur) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

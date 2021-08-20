@@ -33,7 +33,7 @@ public class ServletConsultationCompteBouton extends HttpServlet {
 		//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 		Utilisateurs user = null;
 		try {
-			user = new UtilisateursManager().selectionnerUtilisateursParPseudo(pseudoUtilisateur);
+			user = new UtilisateursManager().selectUserByPseudo(pseudoUtilisateur);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

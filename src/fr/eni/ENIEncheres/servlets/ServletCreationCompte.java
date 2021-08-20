@@ -53,7 +53,7 @@ public class ServletCreationCompte extends HttpServlet {
 		Utilisateurs u1 = new Utilisateurs(pseudo, password, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur);
 		UtilisateursManager managerU = new UtilisateursManager();
 		try {
-			managerU.addUser(u1);
+			managerU.ajouterUtilisateur(u1);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

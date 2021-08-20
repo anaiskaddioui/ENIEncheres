@@ -34,7 +34,7 @@ public class ServletModificationCompte extends HttpServlet {
 				//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 				Utilisateurs user = null;
 				try {
-					user = new UtilisateursManager().selectionnerUtilisateursParPseudo(pseudoUtilisateur);
+					user = new UtilisateursManager().selectUserByPseudo(pseudoUtilisateur);
 				} catch (DALException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -64,6 +64,8 @@ public class ServletModificationCompte extends HttpServlet {
 	 * Ici, on va modifier les données d'un utilisateur
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		
 		//On récupère les changements dans le formulaire
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
@@ -72,23 +74,48 @@ public class ServletModificationCompte extends HttpServlet {
 		String telephone = request.getParameter("telephone");		
 		String rue = request.getParameter("rue");		
 		String codePostal = request.getParameter("code_postal");		
-		String ville = request.getParameter("ville");	
-		String passwordNouveau = request.getParameter("password-nouveau");
+		String ville = request.getParameter("ville");
+		String passwordNouveau = null;
+		if(request.getParameter("password-nouveau") != null) {
+			passwordNouveau = request.getParameter("password-nouveau");
+		}
 		
-		//On récupère l'utilisateur associé à la session pour récupérer son ID
+		
+		//On récupère l'utilisateur associé à la session 
 		HttpSession session = request.getSession();
 		String pseudoUtilisateur = (String) session.getAttribute("pseudoUtilisateur");
-		int idUtilisateur;
+		Utilisateurs oldUser = null;
 		UtilisateursManager managerU = new UtilisateursManager();
 		try {
-			idUtilisateur = managerU.selectionnerUtilisateursParPseudo(pseudoUtilisateur).getIdUtilisateur();
+			oldUser = managerU.selectUserByPseudo(pseudoUtilisateur);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		//On récupère l'ID de l'utilisateur, son crédit ainsi que savoir si c'est un administrateur ou pas
+		int idUtilisateur = oldUser.getIdUtilisateur();
+		int credit = oldUser.getCredit();
+		boolean admin = oldUser.isAdministrateur();
 		
+		//On crée un nouvel utilisateur avec les nouvelles valeurs
+		Utilisateurs newUser = null;
+		if(passwordNouveau == null) {
+			newUser = new Utilisateurs(idUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, admin);
+		} else {
+			newUser = new Utilisateurs(idUtilisateur, pseudo, passwordNouveau, nom, prenom, email, telephone, rue, codePostal, ville, credit, admin);
+		}
 		
+		//On modifie l'ancien utilisateur avec les nouvelles valeurs
+		try {
+			managerU.modifierUtilisateur(newUser);
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//On change le pseudo de l'utisateur en attribut de session
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A FAIRE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
 		
 //		TEST RECUP VALEURS
@@ -100,10 +127,13 @@ public class ServletModificationCompte extends HttpServlet {
 		System.out.println(rue);
 		System.out.println(codePostal);
 		System.out.println(ville);
-		System.out.println(passwordNouveau);		
 		
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//On renvoie vers la visualisation du profil
+				RequestDispatcher rd;
+				rd = request.getRequestDispatcher("/ServletConsultationCompteBouton");
+				rd.forward(request, response);
+		
+		
 	}
 
 }

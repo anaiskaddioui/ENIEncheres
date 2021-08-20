@@ -26,7 +26,8 @@
 	<section class="container main-container">
 
 
-		<form method="post" action="./ServletModificationCompte">
+		<form method="post" action="${pageContext.request.contextPath }/ServletVerification">
+		<input type="hidden" name="hiddenPath" value="modification"/>
 			<div class="container">
 				<h1 class="mb-5 text-center">Mon Profil</h1>
 				<div class="row justify-content-start bloc-text-input">

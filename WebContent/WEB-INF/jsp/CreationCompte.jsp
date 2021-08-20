@@ -30,12 +30,12 @@
 	<section class="container main-container">
 
 
-		<form method="post" action="${pageContext.request.contextPath }/ServletVerificationPseudo">
+		<form method="post" action="${pageContext.request.contextPath }/ServletVerification">
+		<input type="hidden" name="hiddenPath" value="creation"/>
 			<div class="container">
 				<h1 class="mb-5 text-center">Mon Profil</h1>
-				<c:if test="${!empty pseudo}">
-					<h6 style="color: red;">Ce pseudo existe déjà</h6>
-				</c:if>
+					<h6 style="color: red;">${pseudoValidation }</h6>
+					<h6 style="color: red;">${emailValidation }</h6>
 				<div class="row justify-content-start bloc-text-input">
 					<div class="col-lg-6 col-sm-12">
 						<!-- Bloc Pseudo  -->

@@ -3,12 +3,12 @@
 
 	<Resource
 		name="jdbc/pool_cnx"
-		driverClassName="com.mysql.cj.jdbc.Driver"
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 		type="javax.sql.DataSource"
 		
-		url="jdbc:mysql://localhost:8889/ENCHERES_BDD"
-		username="root"
-		password="root"
+		url="jdbc:sqlserver://localhost;databasename=ENCHERES_BDD"
+		username="sa"
+		password="Pa$$w0rd"
 		
 		maxTotal="100"
 		maxIdle="30"

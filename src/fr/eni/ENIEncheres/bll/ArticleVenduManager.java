@@ -12,7 +12,8 @@ import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 public class ArticleVenduManager {
 
 	private ArticleVendu articleDAO;
-
+	
+	
 	public ArticleVenduManager() {
 		articleDAO = DAOFactory.getArticleVendu();
 	}

@@ -46,7 +46,6 @@ public class ServletCreationCompte extends HttpServlet {
 		String codePostal = request.getParameter("code_postal");		
 		String ville = request.getParameter("ville");		
 		String password = request.getParameter("password");		
-		String passwordConfirmation = request.getParameter("password-confirmation");
 		int credit = 0;
 		boolean administrateur = false;
 		
@@ -71,7 +70,6 @@ public class ServletCreationCompte extends HttpServlet {
 		System.out.println(codePostal);
 		System.out.println(ville);
 		System.out.println(password);
-		System.out.println(passwordConfirmation);	
 		
 		// TODO Auto-generated method stub
 		doGet(request, response);

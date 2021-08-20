@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +12,12 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 <style><%@ include file="/style.css"%></style>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Lato" />
+	
+	
 <title>Creer un compte</title>
 </head>
 <body>
@@ -25,9 +30,12 @@
 	<section class="container main-container">
 
 
-		<form method="post" action="./ServletCreationCompte">
+		<form method="post" action="${pageContext.request.contextPath }/ServletVerificationPseudo">
 			<div class="container">
 				<h1 class="mb-5 text-center">Mon Profil</h1>
+				<c:if test="${!empty pseudo}">
+					<h6 style="color: red;">Ce pseudo existe déjà</h6>
+				</c:if>
 				<div class="row justify-content-start bloc-text-input">
 					<div class="col-lg-6 col-sm-12">
 						<!-- Bloc Pseudo  -->
@@ -37,7 +45,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="pseudo" class="form-control-sm"
-									id="pseudo" required="required" />
+									id="pseudo" required="required" maxlength="30" value="${pseudo }"/>
 							</div>
 						</div>
 						<!-- Bloc Nom  -->
@@ -47,7 +55,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="nom" class="form-control-sm" id="nom"
-									required="required" />
+									required="required" maxlength="30" value="${nom}"/>
 							</div>
 						</div>
 						<!-- Bloc Prénom  -->
@@ -57,7 +65,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="prenom" class="form-control-sm"
-									id="prenom" required="required" />
+									id="prenom" required="required" maxlength="30" value="${prenom}"/>
 							</div>
 						</div>
 						<!-- Bloc Email  -->
@@ -67,7 +75,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="email" name="email" class="form-control-sm"
-									id="email" required="required" />
+									id="email" required="required" maxlength="50" value="${email}"/>
 							</div>
 						</div>
 						<!-- Bloc Telephone  -->
@@ -76,8 +84,8 @@
 								<label for="telephone" class="label">Téléphone : </label>
 							</div>
 							<div class="col-6 col-sm-3">
-								<input type="telephone" name="telephone" class="form-control-sm"
-									id="telephone" />
+								<input type="tel" name="telephone" class="form-control-sm"
+									id="telephone" pattern="[0]{1}[0-9]{9}" value="${telephone}"/>
 							</div>
 						</div>
 					</div>
@@ -89,7 +97,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="rue" class="form-control-sm" id="rue"
-									required="required" />
+									required="required" maxlength="30" value="${rue}"/>
 							</div>
 						</div>
 						<!-- Bloc Code Postal  -->
@@ -99,7 +107,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="code_postal" class="form-control-sm"
-									id="code_postal" required="required" />
+									id="code_postal" required="required" maxlength="10" value="${codePostal}"/>
 							</div>
 						</div>
 						<!-- Bloc Ville  -->
@@ -109,7 +117,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="text" name="ville" class="form-control-sm"
-									id="ville" required="required" />
+									id="ville" required="required" maxlength="30" value="${ville}"/>
 							</div>
 						</div>
 						<!-- Bloc Mot de Passe  -->
@@ -119,7 +127,7 @@
 							</div>
 							<div class="col-6 col-sm-3">
 								<input type="password" name="password" class="form-control-sm"
-									id="password" required="required" />
+									id="password" required="required" maxlength="30"/>
 							</div>
 						</div>
 						<!-- Bloc Confirmation Mot de Passe  -->
@@ -131,7 +139,8 @@
 							<div class="col-6 col-sm-3">
 								<input type="password" name="password-confirmation"
 									class="form-control-sm" id="password-confirmation"
-									required="required" />
+									required="required" maxlength="30"/>
+									<span id="message"></span>
 							</div>
 						</div>
 					</div>
@@ -143,16 +152,30 @@
 						<div class="col-4 col-sm-6">
 							<!-- Bouton creer un compte  -->
 							<input type="submit" name="creer" value="Créer"
-								class="btn btn-primary btn-compte" />
+								class="btn btn-primary btn-compte" id="submit" onclick="return Validate()"/>
 						</div>
 						<!-- Bouton Annuler  -->
 						<div class="col-4 col-sm-6">
-							<button href="#" class="btn btn-primary btn-compte">
-								Annuler</button>
+							<a href="<c:url value="/ServletConnexion"/>" class="btn btn-primary btn-compte">
+								Annuler</a>
 						</div>
 					</div>
 				</div>
+			</div>
 		</form>
 	</section>
+	
+<script type="text/javascript">
+function Validate(){
+	var password = document.getElementById("password").value;
+	var confirmPassword = document.getElementById("password-confirmation").value;
+	if (password != confirmPassword){
+		alert("Les mots de passe ne correspondent pas");
+		return false;
+	}
+	return true;
+}
+
+</script>
 </body>
 </html>

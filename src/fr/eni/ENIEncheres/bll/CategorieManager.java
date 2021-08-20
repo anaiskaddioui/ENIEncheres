@@ -4,7 +4,7 @@ import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.dao.CategorieDAO;
+import fr.eni.ENIEncheres.dal.dao.DAOCategorie;
 import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 public class CategorieManager {

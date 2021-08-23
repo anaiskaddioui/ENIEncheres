@@ -15,6 +15,9 @@ import fr.eni.ENIEncheres.dal.dao.DAOCategorie;
 
 public class CategorieJdbcImpl implements DAOCategorie {
 	
+	String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
+	String INSERT = "INSERT INTO CATEGORIES (libelle) VALUES (?)";
+	
 	@Override
 	public void insert(Categorie categorie) throws DALException {
 		Connection cnx = null;
@@ -25,7 +28,7 @@ public class CategorieJdbcImpl implements DAOCategorie {
 			e1.printStackTrace();
 		}
 		try {
-			String INSERT = "INSERT INTO CATEGORIES (libelle) VALUES (?)";
+			
 			PreparedStatement stmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, categorie.getLibelle());
 			stmt.executeUpdate();
@@ -53,7 +56,6 @@ public class CategorieJdbcImpl implements DAOCategorie {
 		}
 		Categorie categorie = null;
 		try {
-			String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
 			PreparedStatement stmt = cnx.prepareStatement(SELECT_BY_ID);
 			stmt.setInt(1, idCategorie);
 			stmt.execute();
@@ -99,16 +101,6 @@ public class CategorieJdbcImpl implements DAOCategorie {
 		return categories;
 	}
 
-	@Override
-	public void update(Categorie categorie) throws DALException {
-
-	}
-
-	@Override
-	public void delete(Categorie categorie) throws DALException {
-
-	}
-
 	 
 	public boolean checkForUniqueCategorieLibelle(String libelleToCheck) throws DALException {
 		Connection cnx = null;
@@ -138,9 +130,4 @@ public class CategorieJdbcImpl implements DAOCategorie {
 		return isUnique;
 	}
 
-	@Override
-	public Categorie selectById(int id) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -1,7 +1,6 @@
 package fr.eni.ENIEncheres.bo;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -17,12 +16,13 @@ public class ArticleVendu {
 	private int prixVente;
 	private String etatVente;
 	private int idCategorie;
-	private int idUtilsateur;
+	private int idUtilisateur;
 	private String pseudo;
+
 
 	
 	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+			Date dateFinEncheres, int prixInitial, int prixVente, String etatVente, int idUtilisateur, int idCategorie) {
 		super();
 		this.idArticle = idArticle;
 		this.nomArticle = nomArticle;
@@ -33,7 +33,7 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.idCategorie = idCategorie;
-		this.idUtilsateur = idUtilsateur;
+		this.idUtilisateur = idUtilisateur;
 
 	}
 	
@@ -59,7 +59,8 @@ public class ArticleVendu {
 	
 	// Constructeur pour JUDICAEL?
 	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
-			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur) {
+			int prixInitial, int prixVente, String etatVente, int idUtilisateur, int idCategorie) {
+
 		super();
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -69,14 +70,14 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.idCategorie = idCategorie;
-		this.idUtilsateur = idUtilsateur;
+		this.idUtilisateur = idUtilisateur;
 	}
 	
 	
 	
 	// Constructeur pour CHARLES
 	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
-			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilsateur, String pseudo) {
+			int prixInitial, int prixVente, String etatVente, int idCategorie, int idUtilisateur, String pseudo) {
 		super();
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -86,7 +87,7 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.idCategorie = idCategorie;
-		this.idUtilsateur = idUtilsateur;
+		this.idUtilisateur = idUtilisateur;
 		this.pseudo = pseudo;
 	}
 
@@ -174,12 +175,12 @@ public class ArticleVendu {
 		this.idCategorie = idCategorie;
 	}
 
-	public int getIdUtilsateur() {
-		return idUtilsateur;
+	public int getIdUtilisateur() {
+		return idUtilisateur;
 	}
 
-	public void setIdUtilsateur(int idUtilsateur) {
-		this.idUtilsateur = idUtilsateur;
+	public void setIdUtilsateur(int idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 
 	public String getPseudo() {
@@ -196,7 +197,7 @@ public class ArticleVendu {
 		return "Article [idArticle=" + idArticle + ", nomArticle=" + nomArticle + ", description=" + description
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
-				+ ", idUtilsateur=" + idUtilsateur + "]";
+				+ ", idUtilisateur=" + idUtilisateur + "]";
 	}
 
 }

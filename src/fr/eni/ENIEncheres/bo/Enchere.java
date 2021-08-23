@@ -1,7 +1,7 @@
 package fr.eni.ENIEncheres.bo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Enchere implements Serializable {
 
@@ -9,22 +9,29 @@ public class Enchere implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -181210324306383886L;
-	private Date dateEnchere;
+	private int idUtilisateur;
+	private int idArticle;
+	private Timestamp dateEnchere;
 	private int montantEnchere;
-	private Utilisateurs encherisseur;
 
-	public Enchere(Date dateEnchere, int montantEnchere, Utilisateurs encherisseur) {
+
+	public Enchere() {
+		
+	}
+	
+	public Enchere(int no_utilisateur, int no_article, Timestamp dateEnchere, int montantEnchere) {
 		super();
+		this.idUtilisateur = no_utilisateur;
+		this.idArticle = no_article;
 		this.dateEnchere = dateEnchere;
 		this.montantEnchere = montantEnchere;
-		this.encherisseur = encherisseur;
 	}
 
-	public Date getDateEnchere() {
+	public Timestamp getDateEnchere() {
 		return dateEnchere;
 	}
 
-	public void setDateEnchere(Date dateEnchere) {
+	public void setDateEnchere(Timestamp dateEnchere) {
 		this.dateEnchere = dateEnchere;
 	}
 
@@ -36,28 +43,27 @@ public class Enchere implements Serializable {
 		this.montantEnchere = montantEnchere;
 	}
 
-	public Utilisateurs getEncherisseur() {
-		return encherisseur;
-	}
-
-	public void setEncherisseur(Utilisateurs encherisseur) {
-		this.encherisseur = encherisseur;
-	}
-
 	public int getIdUtilisateur() {
-		return 0;
+		return idUtilisateur;
+	}
+
+	public void setIdUtilisateur(int no_utilisateur) {
+		this.idUtilisateur = no_utilisateur;
 	}
 
 	public int getIdArticle() {
-		return 0;
+		return idArticle;
+	}
 
+	public void setIdArticle(int no_article) {
+		this.idArticle = no_article;
 	}
 
 	@Override
 	public String toString() {
 		return "Enchere [dateEnchere=" + dateEnchere + ", montantEnchere=" + montantEnchere + ", encherisseur="
-				+ encherisseur + ", getDateEnchere()=" + getDateEnchere() + ", getMontantEnchere()="
-				+ getMontantEnchere() + ", getEncherisseur()=" + getEncherisseur() + ", getClass()=" + getClass()
+				+ idUtilisateur + ", getDateEnchere()=" + getDateEnchere() + ", getMontantEnchere()="
+				+ getMontantEnchere() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	
 	}

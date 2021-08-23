@@ -42,6 +42,18 @@ public class ArticlesManager {
 	//______________________________________________________________________________________________
 	
 	
+
+	public ArticleVendu selectArticleByID(int idArticle) {
+		ArticleVendu article = null;
+		try {
+			article = articleDAO.selectArticleById(idArticle);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+		return article;
+
+	}
+
   
   //______________________________________________________________________________________________
   //Méthodes de Charles pour Filtre encheres

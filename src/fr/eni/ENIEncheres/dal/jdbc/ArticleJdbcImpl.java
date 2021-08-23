@@ -5,13 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.ENIEncheres.bll.BLLException;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
-import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.Outils;
@@ -46,7 +43,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			+ "INNER JOIN ENCHERES as E ON A.no_utilisateur = E.no_utilisateur "
 			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
 	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, "
-			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
+			+ "date_fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
 
  /** REQUETES POUR CHARLES*/
 	private final static String SELECT_BY_ID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?;";
@@ -338,5 +335,80 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	}
 //_______________________________________________________________________________________________________________
 	
+
+
+
+	@Override
+	public List<ArticleVendu> insert(ArticleVendu articleVendu) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<ArticleVendu> SelectAllArticlesAvecUtilisateurEtCategorie(int utilisateurId, int categorieId)
+			throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente, int idUtilisateur) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<ArticleVendu> selectAllByEtatVenteGagne(int etatVente, int idUtilisateur) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<ArticleVendu> SelectAllEncheresByEtat(int idUtilisateur, int etatVente) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public ArticleVendu selectArticleById(int idArticle) throws DALException {
+		ArticleVendu article = null;
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(SQL_SELECT_ARTICLE_BY_ID);
+			rqt.setInt(1, idArticle);
+			ResultSet rs = rqt.executeQuery();
+			
+			
+			while (rs.next()) {
+							
+				article = new ArticleVendu(rs.getInt("no_article"),
+						rs.getString("nom_article"),
+						rs.getString("description"),
+						rs.getDate("date_debut_encheres"),
+						rs.getDate("date_fin_encheres"),
+						rs.getInt("prix_initial"),	
+						rs.getInt("prix_vente"),
+						rs.getString("etat_vente"),
+						rs.getInt("no_utilisateur"),
+						rs.getInt("no_categorie"));
+	
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return article;
+	}
 
 }

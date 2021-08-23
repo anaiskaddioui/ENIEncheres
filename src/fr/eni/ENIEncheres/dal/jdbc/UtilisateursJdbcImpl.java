@@ -15,14 +15,15 @@ import fr.eni.ENIEncheres.dal.dao.DAOUtilisateur;
 public class UtilisateursJdbcImpl implements DAOUtilisateur {
 	
 
-	private static final String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " +
+	private static final String SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " +
 			" FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static final String SELECT_ALL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " +  
 			" FROM UTILISATEURS";
-	private static final String UPDATE = "UPDATE UTILISATEURS set pseudo=?,nom=?,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?";
+	private static final String UPDATE_PASSWORD = "UPDATE UTILISATEURS set pseudo=?,nom=?,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur=?";
+	private static final String UPDATE_WO_PASSWORD = "UPDATE UTILISATEURS set pseudo=?,nom=?,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?, credit=?, administrateur=? WHERE no_utilisateur=?";
 	private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
-	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE pseudo=?";
+	private static final String DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
 	private static final String SELECT_BY_NAME = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom = ?";
 	private static final String SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " + 
@@ -47,8 +48,6 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 
 		}
 			
-		
-		
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			cnx.setAutoCommit(false);
@@ -140,6 +139,7 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 							
 				utilisateur = new Utilisateurs(rs.getInt("no_utilisateur"),
 						rs.getString("pseudo"),
+						rs.getString("mot_de_passe"),
 						rs.getString("nom"),
 						rs.getString("prenom"),
 						rs.getString("email"),
@@ -147,7 +147,6 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 						rs.getString("rue"),
 						rs.getString("code_postal"),
 						rs.getString("ville"),
-						rs.getString("mot_de_passe"),
 						rs.getInt("credit"),
 						rs.getBoolean("administrateur"));
 	
@@ -162,7 +161,6 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 	
 	@Override
 	public Utilisateurs selectByName(String name) throws DALException {
-		
 		
 		Utilisateurs utilisateur = null;
 
@@ -305,15 +303,48 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		return utilisateurs;
 	}
 
+//	@Override
+//	public void update(Utilisateurs maj) throws DALException {
+//		
+//		PreparedStatement rqt = null;
+//		
+//		try (Connection cnx = ConnectionProvider.getConnection())
+//		{
+//			cnx.setAutoCommit(false);
+//			rqt = cnx.prepareStatement(UPDATE);
+//			
+//			rqt.setString(1, maj.getPseudo());
+//			rqt.setString(2, maj.getNom());
+//			rqt.setString(3, maj.getPrenom());
+//			rqt.setString(4, maj.getEmail());
+//			rqt.setString(5, maj.getTel());
+//			rqt.setString(6, maj.getRue());
+//			rqt.setString(7, maj.getCoPostal());
+//			rqt.setString(8, maj.getVille());
+//			rqt.setString(9, maj.getPassword());
+//			rqt.setInt(10, maj.getCredit());
+//			rqt.setBoolean(11, maj.isAdministrateur());
+//			rqt.setInt(12, maj.getIdUtilisateur());
+//			
+//
+//			rqt.executeUpdate();
+//			cnx.commit();
+//			rqt.close();
+//
+//		} catch (SQLException e) {
+//			throw new DALException("Update article failed - " + maj, e);
+//		} 
+//	}
+	
 	@Override
-	public void update(Utilisateurs maj) throws DALException {
+	public void updateWithPassword(Utilisateurs maj) throws DALException {
 		
 		PreparedStatement rqt = null;
 		
 		try (Connection cnx = ConnectionProvider.getConnection())
 		{
 			cnx.setAutoCommit(false);
-			rqt = cnx.prepareStatement(UPDATE);
+			rqt = cnx.prepareStatement(UPDATE_PASSWORD);
 			
 			rqt.setString(1, maj.getPseudo());
 			rqt.setString(2, maj.getNom());
@@ -322,10 +353,11 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 			rqt.setString(5, maj.getTel());
 			rqt.setString(6, maj.getRue());
 			rqt.setString(7, maj.getCoPostal());
-			rqt.setString(9, maj.getVille());
-			rqt.setString(10, maj.getPassword());
-			rqt.setInt(11, maj.getCredit());
-			rqt.setBoolean(12, maj.isAdministrateur());
+			rqt.setString(8, maj.getVille());
+			rqt.setString(9, maj.getPassword());
+			rqt.setInt(10, maj.getCredit());
+			rqt.setBoolean(11, maj.isAdministrateur());
+			rqt.setInt(12, maj.getIdUtilisateur());
 			
 
 			rqt.executeUpdate();
@@ -337,8 +369,41 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		} 
 	}
 
+	
 	@Override
-	public void delete(String pseudo) throws DALException {
+	public void updateWithoutPassword(Utilisateurs maj) throws DALException {
+		
+		PreparedStatement rqt = null;
+		
+		try (Connection cnx = ConnectionProvider.getConnection())
+		{
+			cnx.setAutoCommit(false);
+			rqt = cnx.prepareStatement(UPDATE_WO_PASSWORD);
+			
+			rqt.setString(1, maj.getPseudo());
+			rqt.setString(2, maj.getNom());
+			rqt.setString(3, maj.getPrenom());
+			rqt.setString(4, maj.getEmail());
+			rqt.setString(5, maj.getTel());
+			rqt.setString(6, maj.getRue());
+			rqt.setString(7, maj.getCoPostal());
+			rqt.setString(8, maj.getVille());
+			rqt.setInt(9, maj.getCredit());
+			rqt.setBoolean(10, maj.isAdministrateur());
+			rqt.setInt(11, maj.getIdUtilisateur());
+			
+			
+			rqt.executeUpdate();
+			cnx.commit();
+			rqt.close();
+			
+		} catch (SQLException e) {
+			throw new DALException("Update article failed - " + maj, e);
+		} 
+	}
+
+	@Override
+	public void delete(int id) throws DALException {
 		
 		PreparedStatement rqt = null;
 		
@@ -346,14 +411,14 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 		{		
 			cnx.setAutoCommit(false);
 			rqt = cnx.prepareStatement(DELETE);
-			rqt.setString(1, pseudo);
+			rqt.setInt(1, id);
 			rqt.executeUpdate();			
 			cnx.commit();
 			rqt.close();
 			
 		} catch (SQLException e) {
 
-			  throw new DALException("Delete utilisateur failed - pseudo=" + pseudo, e);
+			  throw new DALException("Delete utilisateur failed - id=" + id, e);
 		} 
 	}
 

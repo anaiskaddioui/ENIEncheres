@@ -26,7 +26,7 @@
 
 	<!-- Corps  -->
 	<section class="container main-container">
-		<h1 class="row justify-content-center">Détail Vente</h1>
+		<h1 class="row justify-content-center">${nom_article }</h1>
 
 		<div class="row">
 			<!-- Colonne avec image -->
@@ -34,23 +34,16 @@
 				<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
 			</div>
 			<!-- Colonne avec Formulaire -->
-
 			<div class="col">
-				<form method="post" action="./ServletEncherir">
-					<!-- Input Article -->
-					<div class="row">
-						<p>Nom de l'article</p>
-					</div>
+				<form method="post" action="${pageContext.request.contextPath }/ServletEncherir">
+				<input type="hidden" name="idArticle" value="${idArticle }"/>
 					<!-- Input Description -->
 					<div class="row mt-2">
 						<div class="col-xs-sm-12 col-lg-3">
 							<label for="descrition">Description : </label>
 						</div>
 						<div class="col">
-							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-								Quis assumenda, corporis quae ea rem numquam provident totam
-								nihil placeat magni impedit deserunt ab ad tempore asperiores
-								voluptatibus praesentium quo sed?</p>
+							<p>${description }</p>
 						</div>
 					</div>
 					<!-- Select Categorie -->
@@ -59,7 +52,7 @@
 							<label for="categories">Catégorie :</label>
 						</div>
 						<div class="col">
-							<p>Nom de la catégorie</p>
+							<p>${categorie }</p>
 						</div>
 					</div>
 					<!-- Meilleure offre -->
@@ -69,7 +62,7 @@
 						</div>
 						<div class="col"> 
 							<p>
-								XXX pts par <a href="<c:url value="/ServletConsultationCompte?pseudo=PseudoTest"/>">PseudoTest</a>
+								${prix_vente } pts par <a href="<c:url value="/ServletConsultationCompte?pseudo=PseudoTest"/>">PseudoTest</a>
 							</p>
 						</div>
 					</div>
@@ -79,7 +72,7 @@
 							<label for="prix">Mise à prix :</label>
 						</div>
 						<div class="col">
-							<p>XXX points</p>
+							<p>${prix_initial } points</p>
 						</div>
 					</div>
 					<!-- Input Dates -->
@@ -88,7 +81,7 @@
 							<label for="date-fin">Fin de l'enchère :</label>
 						</div>
 						<div class="col">
-							<p>11/11/11</p>
+							<p>${date_fin_encheres }</p>
 						</div>
 					</div>
 					<!--Bloc Retrait -->
@@ -97,8 +90,8 @@
 							<label for="retrait">Retrait : </label>
 						</div>
 						<div class="col">
-							<p>1 rue ENI</p>
-							<p>44000 ST HERBLAIN</p>
+							<p>${rue_retrait }</p>
+							<p>${codePostal_retrait } ${ville_retrait }</p>
 						</div>
 					</div>
 					<!-- Input Vendeur -->
@@ -107,7 +100,7 @@
 							<label for="vendeur">Vendeur :</label>
 						</div>
 						<div class="col">
-							<p>Nom du vendeur</p>
+							<p>${utilisateur }</p>
 						</div>
 					</div>
 					<!-- input proposition -->

@@ -58,13 +58,20 @@ public class UtilisateursManager {
 
 	}
 	
-	public void supprimerUtilisateur(String pseudo) throws DALException {
-		this.utilisateurDAO.delete(pseudo);
+	public void supprimerUtilisateur(int idUtilisateur) throws DALException {
+		this.utilisateurDAO.delete(idUtilisateur);
 	}
 	
-	public void modifierUtilisateur(Utilisateurs u) throws DALException {
-		this.utilisateurDAO.update(u);
+	public void modifierUtilisateurSansMDP(Utilisateurs u) throws DALException {
+		this.utilisateurDAO.updateWithoutPassword(u);
 	}
+
+	public void modifierUtilisateurAvecMDP(Utilisateurs u) throws DALException {
+		this.utilisateurDAO.updateWithPassword(u);
+	}
+
+
+
 
 	
 }

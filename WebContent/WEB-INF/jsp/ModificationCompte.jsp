@@ -30,6 +30,8 @@
 		<input type="hidden" name="hiddenPath" value="modification"/>
 			<div class="container">
 				<h1 class="mb-5 text-center">Mon Profil</h1>
+				<h6 style="color: red;">${pseudoValidation }</h6>
+				<h6 style="color: red;">${emailValidation }</h6>
 				<div class="row justify-content-start bloc-text-input">
 					<div class="col-lg-6 col-sm-12">
 						<!-- Bloc Pseudo  -->
@@ -166,7 +168,7 @@
 				<div class="container text-center">
 					<div class="row">
 						<div class="col">
-							<!-- Bouton creer un compte  -->
+							<!-- Bouton Enregistrer le compte  -->
 							<input type="submit" name="creer" value="Enregistrer"
 								class="btn btn-primary btn-compte" onclick="return Validate()"/>
 							</div>

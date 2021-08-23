@@ -29,7 +29,7 @@ public class DAOFactory {
 		return new EnchereJdbcImpl();
 	}
 
-	public static RetraitJdbcImpl getDAORetrait() {
+	public static DAORetrait getDAORetrait() {
 		return new RetraitJdbcImpl();
 	}
 

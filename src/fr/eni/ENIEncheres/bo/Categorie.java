@@ -12,7 +12,13 @@ public class Categorie {
 		super();
 	}
 
-	public Categorie(int int1, String string) {
+	public Categorie(int id, String libelle) {
+		this.idCategorie = id;
+		this.libelle = libelle;
+	}
+
+	public Categorie(String libelle) {
+		this.libelle = libelle;
 	}
 
 	public int getIdCategorie() {

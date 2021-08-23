@@ -27,14 +27,15 @@ public class ServletModificationCompte extends HttpServlet {
 	 * On arrive depuis la JSP ConsultationCompteBouton.jsp
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//On récupère le pseudo de l'utilisateur stocké dans la session
+		//On récupère l'identifiant de l'utilisateur stocké dans la session
 				HttpSession session = request.getSession();
-				String pseudoUtilisateur = (String) session.getAttribute("pseudoUtilisateur");
+				int idUtilisateur = 6;
+						//(int) session.getAttribute("idUser");
 				
 				//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 				Utilisateurs user = null;
 				try {
-					user = new UtilisateursManager().selectUserByPseudo(pseudoUtilisateur);
+					user = new UtilisateursManager().selectUserById(idUtilisateur);
 				} catch (DALException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -83,40 +84,56 @@ public class ServletModificationCompte extends HttpServlet {
 		
 		//On récupère l'utilisateur associé à la session 
 		HttpSession session = request.getSession();
-		String pseudoUtilisateur = (String) session.getAttribute("pseudoUtilisateur");
+		int idUtilisateur = 6;
+				//(int) session.getAttribute("idUser");
 		Utilisateurs oldUser = null;
 		UtilisateursManager managerU = new UtilisateursManager();
 		try {
-			oldUser = managerU.selectUserByPseudo(pseudoUtilisateur);
+			oldUser = managerU.selectUserById(idUtilisateur);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		//On récupère l'ID de l'utilisateur, son crédit ainsi que savoir si c'est un administrateur ou pas
-		int idUtilisateur = oldUser.getIdUtilisateur();
 		int credit = oldUser.getCredit();
 		boolean admin = oldUser.isAdministrateur();
 		
-		//On crée un nouvel utilisateur avec les nouvelles valeurs
+		//On crée un nouvel utilisateur avec les nouvelles valeurs et on modifie l'encien avec les nouvelles valeurs
 		Utilisateurs newUser = null;
 		if(passwordNouveau == null) {
 			newUser = new Utilisateurs(idUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, admin);
+			try {
+				managerU.modifierUtilisateurSansMDP(newUser);
+			} catch (DALException e) {
+				e.printStackTrace();
+			}
 		} else {
 			newUser = new Utilisateurs(idUtilisateur, pseudo, passwordNouveau, nom, prenom, email, telephone, rue, codePostal, ville, credit, admin);
+			try {
+				managerU.modifierUtilisateurAvecMDP(newUser);
+			} catch (DALException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//On modifie l'ancien utilisateur avec les nouvelles valeurs
-		try {
-			managerU.modifierUtilisateur(newUser);
-		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		//On change le pseudo de l'utisateur en attribut de session
+		
+		//On change l'identifiant de l'utisateur en attribut de session
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!A FAIRE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
+		//On récupère les valeurs du nouvel utilisateur modifié
+		request.setAttribute("pseudo", newUser.getPseudo());
+		request.setAttribute("nom", newUser.getNom());
+		request.setAttribute("prenom", newUser.getPrenom());
+		request.setAttribute("email", newUser.getEmail());
+		request.setAttribute("telephone", newUser.getTel());
+		request.setAttribute("rue", newUser.getRue());
+		request.setAttribute("codePostal", newUser.getCoPostal());
+		request.setAttribute("ville", newUser.getVille());
+		request.setAttribute("password", newUser.getPassword());
+		request.setAttribute("credit", newUser.getCredit());
 		
 //		TEST RECUP VALEURS
 		System.out.println(pseudo);
@@ -129,9 +146,9 @@ public class ServletModificationCompte extends HttpServlet {
 		System.out.println(ville);
 		
 		//On renvoie vers la visualisation du profil
-				RequestDispatcher rd;
-				rd = request.getRequestDispatcher("/ServletConsultationCompteBouton");
-				rd.forward(request, response);
+		RequestDispatcher rd;
+		rd = request.getRequestDispatcher("/WEB-INF/jsp/ConsultationCompteBouton.jsp");
+		rd.forward(request, response);
 		
 		
 	}

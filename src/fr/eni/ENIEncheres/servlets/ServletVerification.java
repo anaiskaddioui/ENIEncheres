@@ -26,13 +26,11 @@ public class ServletVerification extends HttpServlet {
 		
 		//On va chercher si un utilisateur dans la BDD possède le même pseudo
 		Utilisateurs uPseudo = null;
-		String pseudo = request.getParameter("pseudo");
-		
 		UtilisateursManager managerU = new UtilisateursManager();
+		String pseudo = request.getParameter("pseudo");
 		try {
 			uPseudo = managerU.selectUserByPseudo(pseudo);
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -41,7 +39,8 @@ public class ServletVerification extends HttpServlet {
 		Utilisateurs uEmail = null;
 		String email = request.getParameter("email");
 		HttpSession session = request.getSession();
-		String pseudoSession = (String) session.getAttribute("pseudoUtilisateur");
+		int idUtilisateur = 6;
+		//(int) session.getAttribute("idUser");
 		try {
 			uEmail = managerU.selectUserByEmail(email);
 		} catch (DALException e) {
@@ -49,13 +48,26 @@ public class ServletVerification extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		//Si l'email existe on va comparer s'il appartient à l'utilisateur de la session ou s'il appartient à un autre utilisateur
-		if(uEmail != null) {
-			boolean mailUserSession = uEmail.getPseudo().equals(pseudoSession);
-			if(mailUserSession) {
-				uEmail = null;
+		//On va comparer si l'email et le pseudo appartiennent à l'utilisateur de la session ou s'il appartient à un autre utilisateur
+		String pseudoSession = null;
+		try {
+			pseudoSession = managerU.selectUserById(idUtilisateur).getPseudo();
+		} catch (DALException e1) {
+			e1.printStackTrace();
+		}
+		if(uPseudo != null) {
+			boolean pseudoUserSession = uPseudo.getPseudo().equals(pseudoSession);
+			if(pseudoUserSession) {
+				uPseudo = null;
 			}
 		}
+		if(uEmail != null) {
+				boolean mailUserSession = uEmail.getPseudo().equals(pseudoSession);
+				if(mailUserSession) {
+					uEmail = null;
+				}
+			}
+			
 		
 		//Si seulement le pseudo existe
 		if(uPseudo != null & uEmail == null) {
@@ -147,7 +159,7 @@ public class ServletVerification extends HttpServlet {
 			rd.forward(request, response);
 			} else if(request.getParameter("hiddenPath").equals("modification")) {
 				RequestDispatcher rd;
-				rd = request.getRequestDispatcher("/ServletConsultationCompteBouton");
+				rd = request.getRequestDispatcher("/ServletModificationCompte");
 				rd.forward(request, response);
 				}
 		}

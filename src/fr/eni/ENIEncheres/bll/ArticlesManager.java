@@ -133,7 +133,7 @@ public class ArticlesManager {
 	public ArticleVendu selectArticleByID(int idArticle) {
 		ArticleVendu article = null;
 		try {
-			article = articleDAO.SelectEnchereById(idArticle);
+			article = articleDAO.selectArticleById(idArticle);
 		} catch (DALException e) {
 			e.printStackTrace();
 		}

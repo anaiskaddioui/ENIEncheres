@@ -42,7 +42,7 @@ public interface DAOArticleVendu {
 	
 		public List<ArticleVendu> SelectAllEncheresByEtat(int idUtilisateur, int etatVente) throws DALException;
 	
-		public ArticleVendu SelectEnchereById(int idArticle) throws DALException;
+		public ArticleVendu selectArticleById(int idArticle) throws DALException;
 	
 	//Qui a créé cette méthode? A Checker si cette methode est utilisée car doublon avec la mienne MERCI Charles
 	//	List<ArticleVendu> filterByString(String filter) throws DALException;

@@ -101,7 +101,7 @@
 												<h2 class="titre-objet">${el.getNomArticle() }</h2>
 												<p>Prix : ${el.getPrixInitial() } points</p>
 												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
-												<p>Vendeur : ${el.getNomArticle() }</p>
+												<p>Vendeur : ${el.getPseudo() }</p>
 											</div>
 										</div>
 									</div>

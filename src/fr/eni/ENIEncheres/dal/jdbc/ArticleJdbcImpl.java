@@ -54,9 +54,14 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private final static String SELECTIDCATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, no_categorie, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
 	private final static String SELECTBYKEYWORD = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?;";
 	private final static String SELECTBYIDANDKEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?  AND no_categorie = ?;";
-	private final static String SELECTBYETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
+	private final static String SELECTBYETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
+//-----------------------------------------------------
 
-
+	
+	
+//_______________________________________METHODES POUR JUDICAEL____________________________________________________
+	
+	
 	@Override
 //	public List<ArticleVendu> insert(ArticleVendu articleVendu) throws DALException {
 //		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
@@ -112,7 +117,14 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 	}
 
+//_________________________________________________________________________________________________________
+	
+	
+	
+	
+	
 
+//_____________________________________METHODES POUR CHARLES_______________________________________________
 	
 	public List<ArticleVendu> selectParEtat(String etat)
 			throws DALException {
@@ -137,6 +149,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticles.add(articleVendu);
 			}
 
@@ -289,23 +302,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 			return listeArticle;
 	}
+//_______________________________________________________________________________________________________________
 	
-	
-
-	@Override
-	public List<ArticleVendu> filterByString(String filter) throws DALException {
-		return null;
-	}
-
-
-	@Override
-	public List<Integer> getArticlesFromASellerAndState(Utilisateurs utilisateur, String state) throws DALException {
-		return null;
-	}
-
-	@Override
-	public void updateCurrentPrice(int noArticle, int newPrice) throws DALException {
-
-	}
 
 }

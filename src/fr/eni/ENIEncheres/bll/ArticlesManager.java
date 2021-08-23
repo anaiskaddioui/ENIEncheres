@@ -47,34 +47,34 @@ public class ArticlesManager {
   //Méthodes de Charles pour Filtre encheres
   
   	//Méthodes selectArticle par nom qui contient : 
-	public List<ArticleVendu> selectionnerArticlesParMotCle(String nomArticle) throws DALException {
-		
+	public List<ArticleVendu> selectionnerArticlesParMotCle(String nomArticle) throws DALException {		
 		return this.articleDAO.selectParMotCle(nomArticle);
 	}
 	
 	//Méthodes selectArticle par categorie et nom qui contient : 
-	public List<ArticleVendu> selectionnerArticlesParCategEtMotCle(String nomArticle, int idCategorie) throws DALException {
-		
+	public List<ArticleVendu> selectionnerArticlesParCategEtMotCle(String nomArticle, int idCategorie) throws DALException {		
 		return this.articleDAO.selectParCategEtMotCle(nomArticle, idCategorie);
 	}	
-	
   
-	//Méthodes selectArtByEtatVente : 
-	public List<ArticleVendu> selectionnerTousLesArticlesByEtat(String etat) throws DALException {
-		
+	//Méthodes selectParEtatVente : 
+	public List<ArticleVendu> selectionnerTousLesArticlesByEtat(String etat) throws DALException {		
 		return this.articleDAO.selectParEtat(etat);
 	}
 	
 	//Méthodes selectAllArticles : 
-	public List<ArticleVendu> selectionnerTousLesArticles() {
-		
+	public List<ArticleVendu> selectionnerTousLesArticles() {		
 		return this.articleDAO.selectAllArticles();
 	}
 	
-	//Méthodes selectAllArticles : 
-	public List<ArticleVendu> selectionnerParIdCategorie(int idCategorie) throws DALException {
-		
+	//Méthodes selectParIdCategorie : 
+	public List<ArticleVendu> selectionnerParIdCategorie(int idCategorie) throws DALException {		
 		return this.articleDAO.selectParIdCategorie(idCategorie);
 	}
+	
+	//Méthodes selectParEtatEtUserId  : 	
+	public List<ArticleVendu> selectionnerParEtatEtUserId(String etat, int userId) throws DALException {
+		return this.articleDAO.selectParEtatEtUserId(etat, userId);
+	}
+
   //______________________________________________________________________________________________
 }

@@ -28,17 +28,17 @@ public class ServletAccueilConnecte extends HttpServlet {
 		
 		//Procede a la requete de selection des articles en cours d'encheres
 		//Puis les affiche dans la JSP
-		ArticlesManager articlesManager2 = new ArticlesManager();
-		List<ArticleVendu> listeArticlesEnCours;
+		ArticlesManager articlesManagerVentesEnCours = new ArticlesManager();
+		List<ArticleVendu> listeArticlesEnCoursConnecte;
 		
-		RequestDispatcher rdis;	
+		RequestDispatcher rdVenteEnCours;	
 		
 		
 		try {
-			listeArticlesEnCours = articlesManager2.selectionnerTousLesArticlesByEtat("EC");
-			request.setAttribute("listeArticlesEnCours", listeArticlesEnCours );	
-			rdis = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
-			rdis.forward(request, response);
+			listeArticlesEnCoursConnecte = articlesManagerVentesEnCours.selectionnerTousLesArticlesByEtat("EC");
+			request.setAttribute("listeArticlesEnCoursConnecte", listeArticlesEnCoursConnecte );
+			rdVenteEnCours = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
+			rdVenteEnCours.forward(request, response);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,21 +69,89 @@ public class ServletAccueilConnecte extends HttpServlet {
 		String ventesTerminees = request.getParameter("ventes-terminees");		
 		
 		
+//-________________________________________________________________________________________________________
 		
+		ArticlesManager articlesManagerCaseACocher = new ArticlesManager();
+		List<ArticleVendu> listeArticlesSelonCasesCochees = null;
 		
-//		TEST RECUP VALEURS
-		System.out.println(recherche);
-		System.out.println(libelleCategorie);	
-		System.out.println("Radio boutoon sur : " + achatsVentes);	
-		System.out.println("Checkbox encheres-ouvertes : "+ encheresOuvertes);	
-		System.out.println("Checkbox encheres-en-cours : "+ encheresEnCours);	
-		System.out.println("Checkbox encheres-remportees : "+ encheresRemportees);	
-		System.out.println("Checkbox ventes-en-cours : "+ ventesEnCours);	
-		System.out.println("Checkbox ventes-non-debutees : "+ ventesNonDebutees);	
-		System.out.println("Checkbox ventes-terminees : "+ ventesTerminees);		
+		RequestDispatcher rdCaseACocher;	
 		
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//Recupere les valeurs des checkbox ACHAT & VENTE et les stocke dans un tableau		
+		String valeursCBoxAchat[] = request.getParameterValues("cbox-achat");
+		String valeursCBoxVente[] = request.getParameterValues("cbox-vente");
+		
+		try {		
+			
+//-----------------------------------------------------------------
+			//TODO remplacer les SYSOUT par une requete qui récupère l'ID de l'utilisatuer, le compare à celui qui a fait la meilleure offre et affiche selon etat EC ou TE
+//------------------------------------------------------------------				
+			
+			
+		//Pour chaque ligne du tableau ACHAT, si la valeur correspond à la case cochée, on affiche la requete choisie
+			if (valeursCBoxAchat != null && valeursCBoxAchat.length != 0) {
+				for (int i = 0; i < valeursCBoxAchat.length; i++) {
+					if(valeursCBoxAchat[i].contentEquals("encheres-ouvertes")) {
+						System.out.println("vous avez choisi encheres-ouvertes"); // A remplacer TODO
+					}
+					if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
+						System.out.println("vous avez choisi encheres-en-cours");// A remplacer TODO
+					}
+					if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
+						System.out.println("vous avez choisi encheres-remportees");// A remplacer TODO
+					}
+					else {
+						System.out.println("ERREUR");
+					}
+				}
+			}
+			
+//-----------------------------------------------------------------
+			//TODO remplacer l'id en dur par l'id de session
+//------------------------------------------------------------------			
+			
+			//Pour chaque ligne du tableau VENTES, si la valeur correspond à la case cochée, on affiche la requete choisie
+			if (valeursCBoxVente != null && valeursCBoxVente.length != 0) {
+				for (int i = 0; i < valeursCBoxVente.length; i++) {
+					if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
+						System.out.println("vous avez choisi ventes-en-cours");
+						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
+//AAAA						
+//						List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
+//						for (ArticleVendu article : listeTampon) {
+//							listeArticlesSelonCasesCochees.add(article);
+//						}
+//						System.out.println(listeArticlesSelonCasesCochees);
+//AAAA									
+						
+					}
+					if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
+						System.out.println("vous avez choisi ventes-non-debutees");
+						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("ND", 2);// PARAM A remplacer TODO
+					}
+					if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
+						System.out.println("vous avez choisi ventes-terminees");
+						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", 2);// PARAM A remplacer TODO
+					}
+					else {
+						System.out.println("ERREUR");
+					}
+				}
+			}
+			
+// 3 - On pousse les infos des champs formulaire à la JSP pour les afficher comme criteres
+			request.setAttribute("listeArticlesSelonCasesCochees", listeArticlesSelonCasesCochees);	
+//			request.setAttribute("libelleCategorie", libelleCategorie );	
+//			request.setAttribute("articleContient", recherche );
+			System.out.println(listeArticlesSelonCasesCochees);
+			RequestDispatcher rd;
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
+			rd.forward(request, response);
+						
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

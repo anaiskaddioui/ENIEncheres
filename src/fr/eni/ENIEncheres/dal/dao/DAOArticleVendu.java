@@ -17,4 +17,5 @@ public interface DAOArticleVendu {
 		public List<ArticleVendu> selectParIdCategorie(int idCategorie) throws DALException;
 		public  ArrayList<ArticleVendu> selectParMotCle(String nomArticle) throws DALException;
 		public ArrayList<ArticleVendu> selectParCategEtMotCle(String nomArticle, int idCategorie)throws DALException;
+		public List<ArticleVendu> selectParEtatEtUserId(String etat, int userId) throws DALException;
 }

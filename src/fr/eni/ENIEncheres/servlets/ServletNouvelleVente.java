@@ -66,7 +66,7 @@ public class ServletNouvelleVente extends HttpServlet {
 		ArticleVendu article = new ArticleVendu(nomArticle, description, dateDebut, dateFin, prix, prixVente, etat_vente, idCategorie, idUtilisateur);
 		
 		DAOFactory articleDAO = new DAOFactory();
-		articleDAO.getArticleVendu().insertArticle(article);
+		//articleDAO.getArticleVendu().insertArticle(article);
 		
 		
 //		TEST RECUP VALEURS

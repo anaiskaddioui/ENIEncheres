@@ -38,9 +38,15 @@
 			<div class="col-1">
 				<a href="#">Mon Profil</a>
 			</div>
-			<div class="col-1">
-				<a href="#">Déconnexion</a>
-			</div>
+			
+			<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
+				<form method="post" action="ServletDeconnexion">
+					<div class="col-1">
+						<input type="hidden" name="deconnexion" value="deconnexion" />
+						<input type="submit" value="Déconnexion" />
+					</div>
+				</form>
+			</c:if>
 		</div>
 
 		<!-- Titre Principal -->

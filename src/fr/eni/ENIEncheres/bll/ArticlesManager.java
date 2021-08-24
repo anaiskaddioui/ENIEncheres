@@ -87,6 +87,10 @@ public class ArticlesManager {
 	public List<ArticleVendu> selectionnerParEtatEtUserId(String etat, int userId) throws DALException {
 		return this.articleDAO.selectParEtatEtUserId(etat, userId);
 	}
+	
+	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategEtMotCle(int userId, String nomArticle, int categorie, String etat) throws DALException {
+		return this.articleDAO.selectParEtatEtUserIdEtCategEtMotCle(userId, nomArticle, categorie, etat);
+	}
 
   //______________________________________________________________________________________________
 }

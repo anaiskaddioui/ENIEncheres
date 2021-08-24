@@ -51,7 +51,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		Liste deroulante catégorie
-		String libelleCategorie = request.getParameter("categorie");
+		String libelleCategorie = request.getParameter("categories");
 //		Text input Recherche
 		String recherche = request.getParameter("recherche");
 		
@@ -80,63 +80,147 @@ public class ServletAccueilConnecte extends HttpServlet {
 		String valeursCBoxAchat[] = request.getParameterValues("cbox-achat");
 		String valeursCBoxVente[] = request.getParameterValues("cbox-vente");
 		
-		try {		
-			
-//-----------------------------------------------------------------
-			//TODO remplacer les SYSOUT par une requete qui récupère l'ID de l'utilisatuer, le compare à celui qui a fait la meilleure offre et affiche selon etat EC ou TE
-//------------------------------------------------------------------				
-			
-			
-		//Pour chaque ligne du tableau ACHAT, si la valeur correspond à la case cochée, on affiche la requete choisie
-			if (valeursCBoxAchat != null && valeursCBoxAchat.length != 0) {
-				for (int i = 0; i < valeursCBoxAchat.length; i++) {
-					if(valeursCBoxAchat[i].contentEquals("encheres-ouvertes")) {
-						System.out.println("vous avez choisi encheres-ouvertes"); // A remplacer TODO
+		try {
+			if(!libelleCategorie.contentEquals("")) {
+				System.out.println("qqchose saisi dans catégorie");
+				if(!recherche.contentEquals("")) {
+					System.out.println("qqchose saisi dans motcle");
+					//-----------------------------------------------------------------
+					//TODO remplacer les SYSOUT par une requete qui récupère l'ID de l'utilisatuer, le compare à celui qui a fait la meilleure offre et affiche selon etat EC ou TE
+		//------------------------------------------------------------------				
+					
+					
+				//Pour chaque ligne du tableau ACHAT, si la valeur correspond à la case cochée, on affiche la requete choisie
+					if (valeursCBoxAchat != null && valeursCBoxAchat.length != 0) {
+						for (int i = 0; i < valeursCBoxAchat.length; i++) {
+							if(valeursCBoxAchat[i].contentEquals("encheres-ouvertes")) {
+								System.out.println("vous avez choisi encheres-ouvertes"); // A remplacer TODO select CATEG / MOTCLE / STATUT EO
+							}
+							if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
+								System.out.println("vous avez choisi encheres-en-cours");// A remplacer TODO select CATEG / MOTCLE / STATUT EC
+							}
+							if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
+								System.out.println("vous avez choisi encheres-remportees");// A remplacer TODO select CATEG / MOTCLE / STATUT ER
+							}
+							else {
+								System.out.println("ERREUR");
+							}
+						}
 					}
-					if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
-						System.out.println("vous avez choisi encheres-en-cours");// A remplacer TODO
-					}
-					if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
-						System.out.println("vous avez choisi encheres-remportees");// A remplacer TODO
-					}
-					else {
-						System.out.println("ERREUR");
-					}
+					
+		//-----------------------------------------------------------------
+					//TODO remplacer l'id en dur par l'id de session
+		//------------------------------------------------------------------			
+					
+					//Pour chaque ligne du tableau VENTES, si la valeur correspond à la case cochée, on affiche la requete choisie
+					if (valeursCBoxVente != null && valeursCBoxVente.length != 0) {
+						for (int i = 0; i < valeursCBoxVente.length; i++) {
+							if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
+								System.out.println("vous avez choisi ventes-en-cours");
+								listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO select CATEG / MOTCLE / STATUT VC
+		//AAAA						
+//								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
+//								for (ArticleVendu article : listeTampon) {
+//									listeArticlesSelonCasesCochees.add(article);
+//								}
+//								System.out.println(listeArticlesSelonCasesCochees);
+		//AAAA									
+								
+							}
+							if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
+								System.out.println("vous avez choisi ventes-non-debutees");
+								listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("ND", 2);// PARAM A remplacer TODO select CATEG / MOTCLE / STATUT VN
+							}
+							if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
+								System.out.println("vous avez choisi ventes-terminees");
+								listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", 2);// PARAM A remplacer TODO select CATEG / MOTCLE / STATUT VT
+							}
+							else {
+								System.out.println("ERREUR");
+							}
+						}
+					}					
+					
 				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			}
 			
-//-----------------------------------------------------------------
-			//TODO remplacer l'id en dur par l'id de session
-//------------------------------------------------------------------			
+////-----------------------------------------------------------------
+//			//TODO remplacer les SYSOUT par une requete qui récupère l'ID de l'utilisatuer, le compare à celui qui a fait la meilleure offre et affiche selon etat EC ou TE
+////------------------------------------------------------------------				
+//			
+//			
+//		//Pour chaque ligne du tableau ACHAT, si la valeur correspond à la case cochée, on affiche la requete choisie
+//			if (valeursCBoxAchat != null && valeursCBoxAchat.length != 0) {
+//				for (int i = 0; i < valeursCBoxAchat.length; i++) {
+//					if(valeursCBoxAchat[i].contentEquals("encheres-ouvertes")) {
+//						System.out.println("vous avez choisi encheres-ouvertes"); // A remplacer TODO
+//					}
+//					if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
+//						System.out.println("vous avez choisi encheres-en-cours");// A remplacer TODO
+//					}
+//					if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
+//						System.out.println("vous avez choisi encheres-remportees");// A remplacer TODO
+//					}
+//					else {
+//						System.out.println("ERREUR");
+//					}
+//				}
+//			}
+//			
+////-----------------------------------------------------------------
+//			//TODO remplacer l'id en dur par l'id de session
+////------------------------------------------------------------------			
+//			
+//			//Pour chaque ligne du tableau VENTES, si la valeur correspond à la case cochée, on affiche la requete choisie
+//			if (valeursCBoxVente != null && valeursCBoxVente.length != 0) {
+//				for (int i = 0; i < valeursCBoxVente.length; i++) {
+//					if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
+//						System.out.println("vous avez choisi ventes-en-cours");
+//						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
+////AAAA						
+////						List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
+////						for (ArticleVendu article : listeTampon) {
+////							listeArticlesSelonCasesCochees.add(article);
+////						}
+////						System.out.println(listeArticlesSelonCasesCochees);
+////AAAA									
+//						
+//					}
+//					if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
+//						System.out.println("vous avez choisi ventes-non-debutees");
+//						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("ND", 2);// PARAM A remplacer TODO
+//					}
+//					if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
+//						System.out.println("vous avez choisi ventes-terminees");
+//						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", 2);// PARAM A remplacer TODO
+//					}
+//					else {
+//						System.out.println("ERREUR");
+//					}
+//				}
+//			}
 			
-			//Pour chaque ligne du tableau VENTES, si la valeur correspond à la case cochée, on affiche la requete choisie
-			if (valeursCBoxVente != null && valeursCBoxVente.length != 0) {
-				for (int i = 0; i < valeursCBoxVente.length; i++) {
-					if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
-						System.out.println("vous avez choisi ventes-en-cours");
-						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
-//AAAA						
-//						List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
-//						for (ArticleVendu article : listeTampon) {
-//							listeArticlesSelonCasesCochees.add(article);
-//						}
-//						System.out.println(listeArticlesSelonCasesCochees);
-//AAAA									
-						
-					}
-					if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
-						System.out.println("vous avez choisi ventes-non-debutees");
-						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("ND", 2);// PARAM A remplacer TODO
-					}
-					if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
-						System.out.println("vous avez choisi ventes-terminees");
-						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", 2);// PARAM A remplacer TODO
-					}
-					else {
-						System.out.println("ERREUR");
-					}
-				}
-			}
+			
+			
+			
+			
 			
 // 3 - On pousse les infos des champs formulaire à la JSP pour les afficher comme criteres
 			request.setAttribute("listeArticlesSelonCasesCochees", listeArticlesSelonCasesCochees);	
@@ -152,6 +236,6 @@ public class ServletAccueilConnecte extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-	}
+	}//Fin du doPost
 
 }

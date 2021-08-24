@@ -1,6 +1,7 @@
 package fr.eni.ENIEncheres.bll;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
@@ -88,9 +89,33 @@ public class ArticlesManager {
 		return this.articleDAO.selectParEtatEtUserId(etat, userId);
 	}
 	
-	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategEtMotCle(int userId, String nomArticle, int categorie, String etat) throws DALException {
-		return this.articleDAO.selectParEtatEtUserIdEtCategEtMotCle(userId, nomArticle, categorie, etat);
+	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategEtMotCle(String etat, int userId, int categorie, String nomArticle) throws DALException {
+		return this.articleDAO.selectParEtatEtUserIdEtCategEtMotCle(etat, userId, categorie, nomArticle);
 	}
 
+	public List<ArticleVendu> selectionnerParUserId(int userId) throws DALException {
+		return this.articleDAO.selectParUserId(userId);
+	}	
+	
+	public ArrayList<ArticleVendu> selectionnerParEtatEtMotCle(String etat, String nomArticle)throws DALException {
+		return this.articleDAO.selectParEtatEtMotCle(etat, nomArticle);		
+	}
+	
+	public List<ArticleVendu> selectionnerParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle) throws DALException {
+	return this.articleDAO.selectParEtatEtUserIdEtMotCle(etat,  userId, nomArticle);		
+}	
+	
+	public ArrayList<ArticleVendu> selectionnerParEtatEtCategorie(String etat, int categorie)throws DALException {
+	return this.articleDAO.selectParEtatEtCategorie(etat, categorie);		
+}	
+
+	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategorie(String etat, int userId, int categorie) throws DALException {
+	return this.articleDAO.selectParEtatEtUserIdEtCategorie(etat, userId, categorie);
+}
+
+	public List<ArticleVendu> selectionnerParEtatEtCategEtMotCle(String etat, int categorie, String nomArticle) throws DALException {
+	return this.articleDAO.selectParEtatEtCategEtMotCle(etat, categorie, nomArticle);
+}	
+	
   //______________________________________________________________________________________________
 }

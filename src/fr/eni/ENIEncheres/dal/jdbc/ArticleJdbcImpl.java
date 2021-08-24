@@ -50,9 +50,15 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private final static String SELECT_BY_ID_CATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, no_categorie, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
 	private final static String SELECT_BY_KEYWORD = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?;";
 	private final static String SELECT_BY_ID_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?  AND no_categorie = ?;";
+	private final static String SELECT_BY_ETAT_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND nom_article LIKE ?;";
+	private final static String SELECT_BY_ETAT_AND_CATEGORY = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND ARTICLES_VENDUS.no_categorie = ?;";	
+	private final static String SELECT_BY_ETAT_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND no_categorie = ? AND nom_article LIKE ?";
 	private final static String SELECT_BY_ETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
+	private final static String SELECT_BY_USER_ID = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE UTILISATEURS.no_utilisateur = ?;";
 	private final static String SELECT_BY_ETAT_AND_USER_ID = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND UTILISATEURS.no_utilisateur = ?;";
-	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE UTILISATEURS.no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ? AND etat_vente = ?";
+	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND nom_article LIKE ?";
+	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEGORY = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND ARTICLES_VENDUS.no_categorie = ?";
+	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND no_categorie = ? AND nom_article LIKE ?";
 //-----------------------------------------------------
 
 	
@@ -298,6 +304,112 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	}
 	
 	
+	public ArrayList<ArticleVendu> selectParEtatEtMotCle(String etat, String nomArticle)throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_KEYWORD);
+			//On donne l'etat au 1er argument de la requete et les lettres du nom article au 2eme
+			pstmt.setString(1, etat);
+			pstmt.setString(2, "%" + nomArticle + "%");
+			rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu;
+			while (rs.next()) {
+				articleVendu = new ArticleVendu();
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				listeArticle.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParCategEtMotCle", e);
+		}
+
+			return listeArticle;
+	}
+	
+
+	public ArrayList<ArticleVendu> selectParEtatEtCategorie(String etat, int categorie)throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_CATEGORY);
+			//On donne l'etat au 1er argument de la requete et les lettres du nom article au 2eme
+			pstmt.setString(1, etat);
+			pstmt.setInt(2, categorie);
+			rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu;
+			while (rs.next()) {
+				articleVendu = new ArticleVendu();
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				listeArticle.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParCategEtMotCle", e);
+		}
+
+			return listeArticle;
+	}
+	
+	
+	public List<ArticleVendu> selectParEtatEtCategEtMotCle(String etat, int categorie, String nomArticle)
+			throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_CATEG_AND_KEYWORD);
+			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			pstmt.setString(1, etat);	
+			pstmt.setInt(2, categorie);
+			pstmt.setString(3, "%" + nomArticle + "%");
+			ResultSet rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu = null;
+			
+			while (rs.next()) {
+
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
+				listeArticles.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParEtatEtCategEtMotCle", e);
+		}
+		return listeArticles;
+	}
+	
+	
+	
 	public List<ArticleVendu> selectParEtatEtUserId(String etat, int userId)
 			throws DALException {
 		Connection cnx = null;
@@ -333,8 +445,117 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		return listeArticles;
 	}
 	
+	public List<ArticleVendu> selectParUserId(int userId)
+			throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECT_BY_USER_ID);
+			//On donne user ID au 1er argument de la requete
+			pstmt.setInt(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu = null;
+			
+			while (rs.next()) {
+
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
+				listeArticles.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParEtatEtUserId", e);
+		}
+		return listeArticles;
+	}
+
 	
-	public List<ArticleVendu> selectParEtatEtUserIdEtCategEtMotCle(int userId, String nomArticle, int categorie, String etat)
+	public List<ArticleVendu> selectParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle)
+			throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID_AND_KEYWORD);
+			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			pstmt.setString(1, etat);
+			pstmt.setInt(2, userId);
+			pstmt.setString(3, "%" + nomArticle + "%");
+			ResultSet rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu = null;
+			
+			while (rs.next()) {
+
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
+				listeArticles.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParEtatEtUserIdEtMotCle", e);
+		}
+		return listeArticles;
+	}
+
+	
+	public List<ArticleVendu> selectParEtatEtUserIdEtCategorie(String etat, int userId, int categorie)
+			throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID_AND_CATEGORY);
+			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			pstmt.setString(1, etat);
+			pstmt.setInt(2, userId);
+			pstmt.setInt(3, categorie);
+			ResultSet rs = pstmt.executeQuery();
+			Outils o = new Outils();
+			ArticleVendu articleVendu = null;
+			
+			while (rs.next()) {
+
+				articleVendu = new ArticleVendu();
+				articleVendu.setIdArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
+				listeArticles.add(articleVendu);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParEtatEtUserIdEtMotCle", e);
+		}
+		return listeArticles;
+	}
+	
+
+	
+	public List<ArticleVendu> selectParEtatEtUserIdEtCategEtMotCle(String etat, int userId, int categorie, String nomArticle)
 			throws DALException {
 		Connection cnx = null;
 		PreparedStatement pstmt = null;
@@ -343,10 +564,10 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD);
 			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
-			pstmt.setInt(1, userId);
-			pstmt.setString(2, "%" + nomArticle + "%");
+			pstmt.setString(1, etat);	
+			pstmt.setInt(2, userId);
 			pstmt.setInt(3, categorie);
-			pstmt.setString(4, etat);
+			pstmt.setString(4, "%" + nomArticle + "%");
 			ResultSet rs = pstmt.executeQuery();
 			Outils o = new Outils();
 			ArticleVendu articleVendu = null;

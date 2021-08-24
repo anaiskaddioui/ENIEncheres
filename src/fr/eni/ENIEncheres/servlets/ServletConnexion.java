@@ -98,7 +98,7 @@ public class ServletConnexion extends HttpServlet {
 							request.getRequestDispatcher("/WEB-INF/AccueilConnecte.jsp").forward(request, response);
 						}
 					 }else 
-						
+						//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
 						session.setAttribute("isConnected", false);
 						System.out.println(session.getAttribute("isConnected"));
 						//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
@@ -111,6 +111,7 @@ public class ServletConnexion extends HttpServlet {
 					e.printStackTrace();
 				}
 		
+				
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

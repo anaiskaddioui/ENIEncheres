@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,31 +88,31 @@
 										<div class="row">
 											<div>
 												<input type="radio" id="achats" name="achats-ventes"
-													value="achats" checked /> <label
-													for="achats">Achats</label>
+													value="achats" checked onclick="clikedAchats;" /> 
+												<label for="achats">Achats</label>
 											</div>
 										</div>
 										<div class="row">
 											<div>
 												<input type="checkbox" class="mt-3" id="encheres-ouvertes"
-													name="encheres-ouvertes" checked />
-												<label for="encheres-ouvertes">enchères
+													name="cbox-achat" value="encheres-ouvertes" checked />
+												<label for="encheres-ouvertes" id="encheres-ouvertes-label" >enchères
 													ouvertes</label>
 											</div>
 										</div>
 										<div class="row">
 											<div>
 												<input type="checkbox" id="encheres-en-cours"
-													name="encheres-en-cours" /> <label
-													for="encheres-en-cours">mes
+													name="cbox-achat" value="encheres-en-cours"  />
+												<label for="encheres-en-cours" id="encheres-en-cours-label">mes
 													enchères en cours</label>
 											</div>
 										</div>
 										<div class="row">
 											<div>
 												<input type="checkbox" id="encheres-remportees"
-													name="encheres-remportees" /> <label
-													for="encheres-remportees">mes
+													name="cbox-achat" value="encheres-remportees" />
+												<label for="encheres-remportees" id="encheres-remportees-label">mes
 													enchères remportées</label>
 											</div>
 										</div>
@@ -122,31 +123,30 @@
 										<div class="row">
 											<div>
 												<input type="radio" id="ventes" name="achats-ventes"
-													value="ventes" checked /> <label
+													value="ventes" onclick="clikedVentes;"/> <label
 													for="ventes">Ventes</label>
 											</div>
 										</div>
 										<div class="row">
 											<div>
 												<input type="checkbox" id="ventes-en-cours" class="mt-3"
-													name="ventes-en-cours" checked />
-												<label for="ventes-en-cours">mes
+													name="cbox-vente" value="ventes-en-cours" />
+												<label for="ventes-en-cours" id="ventes-en-cours-label">mes
 													ventes en cours</label>
 											</div>
 										</div>
 										<div class="row">
 											<div>
 												<input type="checkbox" id="ventes-non-debutees"
-													name="ventes-non-debutees" /> <label
-													for="ventes-non-debutees">ventes
-													non débutées</label>
+													name="cbox-vente" value="ventes-non-debutees"/>
+												<label for="ventes-non-debutees" id="ventes-non-debutees-label">ventes non débutées</label>
 											</div>
 										</div>
 										<div class="row">
 											<div>
 												<input type="checkbox" id="ventes-terminees"
-													name="ventes-terminees" /> <label
-													for="ventes-terminees">ventes terminées</label>
+													name="cbox-vente" value="ventes-terminees"/> 
+												<label for="ventes-terminees" id="ventes-terminees-label">ventes terminées</label>
 											</div>
 										</div>
 									</div>
@@ -167,47 +167,97 @@
 				<div class="container-fluid rounded mt-5">
 					<!-- Ligne d'objets -->
 					<div class="row">
-						<!-- Bloc pour 1 objet enchère -->
-						<div class="col-lg-6 col-sm-12">
-							<div class="container bloc-objet-encheres rounded mt-4">
-								<div class="row">
-									<div class="col-lg-6 col-sm-6">
-										<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
-									</div>
-									<div class="col-lg-6 col-sm-6">
-										<h2 class="titre-objet">Nom de l'objet</h2>
-										<p>Prix : XXX points</p>
-										<p>Fin de l'enchère : 11/11/11</p>
-										<p>
-											Vendeur : <a href="#">nomDuVendeur</a>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
 
-						<!-- Bloc pour 1 objet enchère -->
-						<div class="col-lg-6 col-sm-12">
-							<div class="container bloc-objet-encheres rounded mt-4">
-								<div class="row">
-									<div class="col-lg-6 col-sm-6">
-										<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
-									</div>
-									<div class="col-lg-6 col-sm-6">
-										<h2 class="titre-objet">Nom de l'objet</h2>
-										<p>Prix : XXX points</p>
-										<p>Fin de l'enchère : 11/11/11</p>
-										<p>
-											Vendeur : <a href="#">nomDuVendeur</a>
-										</p>
+
+<!-- 				Affiche les articles selon le filtre categories ou message si pas d'articles en cours -->
+					<c:choose>
+						<c:when test="${listeArticlesSelonCasesCochees.size()<1 }">
+							<p class="text-center display-6">Aucune vente en cours avec vos critères</p> 
+						
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="el" items="${listeArticlesSelonCasesCochees }" >
+								<!-- Bloc pour 1 objet enchère -->
+								<div class="col-lg-6 col-sm-12">
+									<div class="container bloc-objet-encheres rounded mt-4" id="article">
+										<div class="row">
+											<div class="col-lg-6 col-sm-6">
+												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpg")%>" alt="un objet" class="photo-objet" />
+											</div>
+											<div class="col-lg-6 col-sm-6">
+												<h2 class="titre-objet">${el.getNomArticle() }</h2>
+												<p>Prix : ${el.getPrixInitial() } points</p>
+												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
+												<p>Vendeur : ${el.getPseudo() }</p>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
+							</c:forEach>						
+						</c:otherwise>
+					</c:choose>				
 					</div>
 				</div>
 			</div>
 		</form>
 	</section>
+<!-- 	Fonction Javascript qui desactive les boutons radio et checkbox -->
+	<script type="text/javascript">
+		var RadioAchat = document.getElementById("achats");
+		var encheresOuvertes = document.getElementById("encheres-ouvertes");
+		var encheresEnCours = document.getElementById("encheres-en-cours");
+		var encheresRemportees = document.getElementById("encheres-remportees");
+
+		var RadioVente = document.getElementById("ventes");		
+		var ventesEnCours = document.getElementById("ventes-en-cours");
+		var ventesNonDebutees = document.getElementById("ventes-non-debutees");
+		var ventesTerminees = document.getElementById("ventes-terminees");
+		
+		var encheresOuvertesLabel = document.getElementById("encheres-ouvertes-label");
+		var encheresEnCoursLabel = document.getElementById("encheres-en-cours-label");
+		var encheresRemporteesLabel = document.getElementById("encheres-remportees-label");	
+		var ventesEnCoursLabel = document.getElementById("ventes-en-cours-label");
+		var ventesNonDebuteesLabel = document.getElementById("ventes-non-debutees-label");
+		var ventesTermineesLabel = document.getElementById("ventes-terminees-label");
+		
+		RadioAchat.addEventListener('click',
+		function clikedAchats() {
+			ventesEnCours.disabled = true;
+			ventesEnCours.checked = false;
+			ventesEnCoursLabel.style.color = "grey";
+			ventesNonDebutees.disabled = true;
+			ventesNonDebutees.checked = false;
+			ventesNonDebuteesLabel.style.color = "grey";
+			ventesTerminees.disabled = true;
+			ventesTerminees.checked = false;
+			ventesTermineesLabel.style.color = "grey";
+			encheresOuvertes.disabled = false;
+			encheresOuvertesLabel.style.color = "white";
+			encheresEnCours.disabled = false;
+			encheresEnCoursLabel.style.color = "white";
+			encheresRemportees.disabled = false;
+			encheresRemporteesLabel.style.color = "white";
+		})
+
+		RadioVente.addEventListener('click',
+		function clikedVentes() {
+			encheresOuvertes.disabled = true;
+			encheresOuvertes.checked = false;
+			encheresOuvertesLabel.style.color = "grey";
+ 			encheresEnCours.disabled = true;
+ 			encheresEnCours.checked = false;
+ 			encheresEnCoursLabel.style.color = "grey";
+ 			encheresRemportees.disabled = true;
+ 			encheresRemportees.checked = false;
+ 			encheresRemporteesLabel.style.color = "grey";
+			ventesEnCours.disabled = false;	
+			ventesEnCoursLabel.style.color = "white";
+			ventesNonDebutees.disabled = false;	
+			ventesNonDebuteesLabel.style.color = "white";
+			ventesTerminees.disabled = false;
+			ventesTermineesLabel.style.color = "white";
+		})
+		
+	</script>
 </body>
 </html>

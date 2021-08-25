@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
- * Servlet Filter implementation class XSSFilter
+ * Servlet Filter implementation class XSSFilter 
  */
 @WebFilter(filterName = "XSSFilter", urlPatterns = {"/*"}) //Filtre anti-injections html/javascript, dites "XSS" - Source : site KooR
-public class XSSFilter implements Filter {
+public class XSSFilter implements Filter {        //A REVOIR : Efface bien les injections mais pas de blocage de création/modification compte
 
 	@Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -94,4 +94,4 @@ public class XSSFilter implements Filter {
         }
     }
 
-}
+} 

@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
-import fr.eni.ENIEncheres.bll.CategorieManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
-import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.dal.DALException;
 
 /**
@@ -67,8 +65,14 @@ public class ServletAccueil extends HttpServlet {
 
 		
 //		Recupere champs du formulaire de la JSP
-		String libelleCategorie = request.getParameter("categorie");	
-		String recherche = request.getParameter("recherche");		
+		String libelleCategorie = "";
+		if(request.getParameter("categorie") != null) {
+			libelleCategorie = request.getParameter("categorie");
+		}
+		String recherche = "";
+		if(request.getParameter("recherche") != null) {
+			recherche = request.getParameter("recherche");
+		}
 
 	
 //-----------------------------------------------------------------

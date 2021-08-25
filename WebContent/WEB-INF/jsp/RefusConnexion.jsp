@@ -11,8 +11,8 @@
 		
 		<p>Souhaitez-vous : 
 			<ul>
-				<li><a href="CreationCompte.jsp">Créer un compte</a> ?</li>
-				<li><a href="Accueil.jsp">Retourner à la page d'accueil</a> ?</li>
+				<li><a href="./ServletCreationCompte">Créer un compte</a> ?</li>
+				<li><a href="./ServletAccueil">Retourner à la page d'accueil</a> ?</li>
 			</ul>
 		</p>
 	</body>

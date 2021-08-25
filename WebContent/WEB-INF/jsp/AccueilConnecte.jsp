@@ -19,17 +19,17 @@
 
 <body>
 	<!-- Entete  -->
-
 	<header class="container-fluid header">
-	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<c:choose>
 			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
 			</c:when>
 			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
 			</c:otherwise>
 		</c:choose>
+		
 		<h1>ENI-Encheres</h1>
 	</header>
 
@@ -47,15 +47,17 @@
 			<div class="col-1">
 				<a href="#">Mon Profil</a>
 			</div>
-			
-			<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
-				<form method="post" action="ServletDeconnexion">
-					<div class="col-1">
-						<input type="hidden" name="deconnexion" value="deconnexion" />
-						<input type="submit" value="Déconnexion" />
-					</div>
-				</form>
-			</c:if>
+
+			<div class="col-1">
+				<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
+					<form method="post" action="<%=request.getContextPath()%>/ServletDeconnexion">
+						<div class="col-1">
+							<input type="hidden" name="deconnexion" value="deconnexion" />
+							<input type="submit" value="Déconnexion" />
+						</div>
+					</form>
+				</c:if>
+			</div>
 		</div>
 
 		<!-- Titre Principal -->
@@ -197,7 +199,7 @@
 									<div class="container bloc-objet-encheres rounded mt-4" id="article">
 										<div class="row">
 											<div class="col-lg-6 col-sm-6">
-												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpg")%>" alt="un objet" class="photo-objet" />
+												<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
 											</div>
 											<div class="col-lg-6 col-sm-6">
 												<h2 class="titre-objet">${el.getNomArticle() }</h2>

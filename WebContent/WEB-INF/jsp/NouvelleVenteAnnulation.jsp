@@ -21,15 +21,16 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<c:choose>
 			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
 			</c:when>
 			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
 			</c:otherwise>
 		</c:choose>
+		
 		<h1>ENI-Encheres</h1>
 	</header>
 
@@ -132,7 +133,7 @@
 						<div class="col-sm-4 col-lg-6">
 							<c:if test="${!empty venteCommencee}">
 								<input type="number" id="prix" name="prix" min="0" max="10000"
-								class="form-control" value="${prix_initial }" disabled/>
+								class="form-control" value="${prix_initial }" readonly="readonly"/>
 							</c:if>
 							<c:if test="${empty venteCommencee}">
 								<input type="number" id="prix" name="prix" min="0" max="10000"
@@ -147,7 +148,7 @@
 								<c:if test="${!empty venteCommencee}">
 									<label for="date-debut">Début de l'enchère :</label> <input
 										type="date" id="date-debut" name="date-debut"
-										class="form-control-sm" value="${date_debut_encheres}" disabled/> <i
+										class="form-control-sm" value="${date_debut_encheres}" readonly="readonly"/> <i
 										class="fa fa-calendar"></i>
 								</c:if>
 								<c:if test="${empty venteCommencee}">
@@ -209,7 +210,7 @@
 						</div>
 						<!-- Bouton Annuler -->
 						<div class="col text-center">
-							<a href="<c:url value="${pageContext.request.contextPath }/ServletDetailArticle?idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
+							<a href="<c:url value="/ServletDetailArticle?idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
 								Annuler</a>
 						</div>
 						<!-- Bouton Annuler Vente-->

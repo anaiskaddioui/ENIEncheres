@@ -6,13 +6,14 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -52,19 +53,34 @@ public class FiltrePagesInterdites extends HttpServlet implements Filter {
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
-		boolean statut = (boolean) session.getAttribute("isConnected");
+	
+		boolean statut = false;
 		
+		if(session.getAttribute("isConnected") != null) {
+			statut = (boolean) session.getAttribute("isConnected");
+		}
+		else {
+			statut = false;
+		}
+		
+
 		
 		if((statut == false) && (
 				(httpRequest.getServletPath().toLowerCase().contains("connecte")) ||  //A compléter selon règles de vente
-				(httpRequest.getServletPath().toLowerCase().contains("consultation")) ||
+				(httpRequest.getServletPath().toLowerCase().contains("bouton")) ||
 				(httpRequest.getServletPath().toLowerCase().contains("modification")) ||
-				(httpRequest.getServletPath().toLowerCase().contains("profil")) )
+				(httpRequest.getServletPath().toLowerCase().contains("profil")) ||
+				(httpRequest.getServletPath().toLowerCase().contains("vente")) ||
+				(httpRequest.getServletPath().toLowerCase().contains("encherir"))
+				)
 				) 
 		{
 			
-			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+//			HttpServletResponse httpResponse = (HttpServletResponse) response;
+//			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+			RequestDispatcher rd;
+			rd = request.getRequestDispatcher("/WEB-INF/jsp/RefusConnexion.jsp");
+			rd.forward(request, response);
 			
 		} 
 		else {

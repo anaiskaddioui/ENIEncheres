@@ -21,15 +21,16 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<c:choose>
 			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
 			</c:when>
 			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
 			</c:otherwise>
 		</c:choose>
+		
 		<h1>ENI-Encheres</h1>
 	</header>
 
@@ -70,7 +71,7 @@
 						</div>
 						<div class="col"> 
 							<p>
-								${prix_vente } pts par <a href="<c:url value="/ServletConsultationCompte?pseudo=PseudoTest"/>">PseudoTest</a>
+								${prix_vente } pts par <a href="<c:url value="/ServletConsultationCompte?pseudo=Uzana"/>">Uzana</a>
 							</p>
 						</div>
 					</div>
@@ -108,7 +109,7 @@
 							<label for="vendeur">Vendeur :</label>
 						</div>
 						<div class="col">
-							<p>${utilisateur }</p>
+							<p>${vendeur }</p>
 						</div>
 					</div>
 					<!-- input proposition -->
@@ -128,21 +129,21 @@
 						</div>
 					</div>
 				<!-- input Modification et suppression -->
-				<!--<c:if test="${idVendeur} == ${sessionScope.idUtilisateur}">-->
+				<c:if test="${idVendeur} == ${sessionScope.idUtilisateur}">
 					<div class="row mt-2">
+				<p style="color: red;">${erreurSuppression }</p>
 						<!-- Bouton Modifier  -->
 						<div class="col">
-							<a href="<c:url value="?modification=modifier&idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
+							<a href="<c:url value="/ServletNouvelleVenteAnnulation?modification=modifier&idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
 								Modifier la vente</a>
 						</div>
 						<!-- Bouton Supprimer -->
 						<div class="col">
-						<p style="color: red;">${erreurSuppression }</p>
-							<a href="<c:url value="${pageContext.request.contextPath }/ServletNouvelleVenteAnnulation?modification=supprimer&idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
+							<a href="<c:url value="/ServletNouvelleVenteAnnulation?modification=supprimer&idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
 								Supprimer la vente</a>
 						</div>
 					</div>
-				<!--</c:if>-->
+				</c:if>
 				</div>
 			</div>
 		</form>

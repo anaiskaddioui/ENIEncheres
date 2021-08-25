@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +40,13 @@ public class ServletDeconnexion extends HttpServlet {
 		
 		if (deconnexion) {
 			session.setAttribute("isConnected", false);
-			
-			request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+			session.removeAttribute("idUser");
+	
+			RequestDispatcher rd2;
+			rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+			rd2.forward(request, response);
 		}
-		doGet(request, response);	
+//		doGet(request, response);	
 	}
 
 }

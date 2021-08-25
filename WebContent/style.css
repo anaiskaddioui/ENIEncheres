@@ -7,12 +7,18 @@
 
 header {
 	font-family: "Lato", sans-serif;
-	height: 10vh;
+	height: 20vh;
 	width: 100vw;
 	margin-bottom: 100px;
 	padding-top: 10px;
 	background-color: rgb(43, 48, 48);
 	color: #fff;
+}
+
+.photo-logo {
+	width: 90px !important;
+	max-width: 90px;
+	padding: 10px;
 }
 
 a {
@@ -52,6 +58,8 @@ body {
 	max-width: 300px;
 	padding: 10px;
 }
+
+
 
 .titre-objet {
 	margin-top: 20px;

@@ -26,6 +26,7 @@ public class ServletConsultationCompte extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère le pseudo de l'utilisateur de qui on veut voir le profil
+		System.out.println(request.getParameter("pseudo"));
 		String pseudoUtilisateur = (String) request.getParameter("pseudo");
 		
 		//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête

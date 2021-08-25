@@ -68,6 +68,14 @@ public class ArticlesManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void modifierArticle(ArticleVendu article) {
+		try {
+			this.articleDAO.updateArticle(article);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+	}
 
   
   //______________________________________________________________________________________________

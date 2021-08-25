@@ -21,6 +21,15 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<c:choose>
+			<c:when test="${!isConnected }">
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+			</c:when>
+			<c:otherwise>
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+			</c:otherwise>
+		</c:choose>
 		<h1>ENI-Encheres</h1>
 	</header>
 

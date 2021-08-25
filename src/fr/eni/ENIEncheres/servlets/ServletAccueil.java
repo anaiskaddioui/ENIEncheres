@@ -1,6 +1,8 @@
 package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -25,8 +27,34 @@ public class ServletAccueil extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		//------------------------------------------------------------------------------------
+		//1 - MISE A JOUR DU STATUT ENCHERE A TERMINE SI INF A  DATE DU JOUR 
+		//------------------------------------------------------------------------------------
+		
+		//Recupere la date du jour et la convertit en STRING
+	   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); 
+	   //OU 
+	   //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+	   LocalDateTime now = LocalDateTime.now();  
+	   String dateDuJour = (String) dtf.format(now); 
+	   System.out.println(dateDuJour); 
+	
+	   ArticlesManager articlesManagerFinEnchere = new ArticlesManager();
+	   
+	   
+	   try {
+		articlesManagerFinEnchere.miseAJourDateFinEnchere(dateDuJour);
+		} catch (DALException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   
+		//------------------------------------------------------------------------------------
+		//2 - AFFICHE LES ENCHERES EN COURS 
+		//------------------------------------------------------------------------------------	
 
-		//		Recupere champs du formulaire de la JSP
+		//Recupere champs du formulaire de la JSP
 		String libelleCategorie = request.getParameter("categorie");	
 		String recherche = request.getParameter("recherche");	
 		
@@ -37,12 +65,9 @@ public class ServletAccueil extends HttpServlet {
 		
 		RequestDispatcher rdis;	
 		
-		
 		try {
 			listeArticlesEnCours = articlesManager2.selectionnerTousLesArticlesByEtat("EC");
 			request.setAttribute("listeArticlesEnCours", listeArticlesEnCours );	
-			System.out.println("Recherche = " + recherche);
-			System.out.println("libeele = " + libelleCategorie);
 			rdis = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
 			rdis.forward(request, response);
 		} catch (DALException e) {
@@ -52,19 +77,12 @@ public class ServletAccueil extends HttpServlet {
 
 	}
 
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+//-----------------------------------------------------------------------------------------------------------------------------------------
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ArticlesManager articlesManager = new ArticlesManager();
-
 		List<ArticleVendu> listeArticlesFiltre= null;
-
-
 		
 //		Recupere champs du formulaire de la JSP
 		String libelleCategorie = request.getParameter("categorie");	
@@ -128,7 +146,6 @@ public class ServletAccueil extends HttpServlet {
 			request.setAttribute("listeArticlesEnCours", listeArticlesFiltre );	
 			request.setAttribute("libelleCategorie", libelleCategorie );	
 			request.setAttribute("articleContient", recherche );
-			System.out.println(recherche);
 			RequestDispatcher rd;
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
 			rd.forward(request, response);

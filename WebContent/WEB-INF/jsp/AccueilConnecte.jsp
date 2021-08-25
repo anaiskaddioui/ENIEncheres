@@ -20,48 +20,57 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
-		<c:choose>
-			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
-			</c:when>
-			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
-			</c:otherwise>
-		</c:choose>
-		
-		<h1>ENI-Encheres</h1>
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<div class="row">
+			<div class="col-9">
+			<c:choose>
+				<c:when test="${!isConnected }">
+					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+				</c:when>
+				<c:otherwise>
+					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+				</c:otherwise>
+			</c:choose>		
+			
+			</div>
+							<!-- Liens -->
+				<div class="row justify-content-end">
+					<div class="col-1">
+						<a href="#">Enchères</a>
+					</div>
+					<div class="col-2">
+						<a href="#">Vendre un article</a>
+					</div>
+					<div class="col-1">
+						<a href="#">Mon Profil</a>
+					</div>
+					<div class="col-1">
+						<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
+							<form method="post" action="<%=request.getContextPath()%>/ServletDeconnexion">
+								<div class="col-1">
+									<input type="hidden" name="deconnexion" value="deconnexion" />
+									<input type="submit" value="Déconnexion" />
+								</div>
+							</form>
+						</c:if>
+					</div>
+				</div>
+		</div>
 	</header>
 
 	<!-- Corps  -->
 
 	<section class="container main-container">
-		<!-- Liens -->
-		<div class="row justify-content-end">
-			<div class="col-1">
-				<a href="#">Enchères</a>
-			</div>
-			<div class="col-2">
-				<a href="#">Vendre un article</a>
-			</div>
-			<div class="col-1">
-				<a href="#">Mon Profil</a>
-			</div>
-			<div class="col-1">
-				<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
-					<form method="post" action="<%=request.getContextPath()%>/ServletDeconnexion">
-						<div class="col-1">
-							<input type="hidden" name="deconnexion" value="deconnexion" />
-							<input type="submit" value="Déconnexion" />
-						</div>
-					</form>
-				</c:if>
-			</div>
-		</div>
+
 
 		<!-- Titre Principal -->
 
-		<h1 class="row justify-content-center">Liste des enchères</h1>
+		<div class="bloc-titre">
+			<h1>ENI Encheres</h1> 
+			<h2>Achetez, Vendez, Partagez...</h2>
+			<p class="rectangle"></p>
+		</div>	
+		<h3 class="row justify-content-center">Liste des enchères</h3>
 
 		<form method="post" action="./ServletAccueilConnecte">
 			<div class="container">

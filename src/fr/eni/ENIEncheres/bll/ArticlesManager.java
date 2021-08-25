@@ -116,20 +116,23 @@ public class ArticlesManager {
 	}
 	
 	public List<ArticleVendu> selectionnerParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle) throws DALException {
-	return this.articleDAO.selectParEtatEtUserIdEtMotCle(etat,  userId, nomArticle);		
-}	
+		return this.articleDAO.selectParEtatEtUserIdEtMotCle(etat,  userId, nomArticle);		
+	}	
 	
 	public ArrayList<ArticleVendu> selectionnerParEtatEtCategorie(String etat, int categorie)throws DALException {
-	return this.articleDAO.selectParEtatEtCategorie(etat, categorie);		
-}	
+		return this.articleDAO.selectParEtatEtCategorie(etat, categorie);		
+	}	
 
 	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategorie(String etat, int userId, int categorie) throws DALException {
-	return this.articleDAO.selectParEtatEtUserIdEtCategorie(etat, userId, categorie);
-}
+		return this.articleDAO.selectParEtatEtUserIdEtCategorie(etat, userId, categorie);
+	}
 
 	public List<ArticleVendu> selectionnerParEtatEtCategEtMotCle(String etat, int categorie, String nomArticle) throws DALException {
-	return this.articleDAO.selectParEtatEtCategEtMotCle(etat, categorie, nomArticle);
-}	
+		return this.articleDAO.selectParEtatEtCategEtMotCle(etat, categorie, nomArticle);
+	}	
 	
+	public void miseAJourDateFinEnchere(String date) throws DALException {
+		this.articleDAO.updateDateFinEnchere(date);
+	}
   //______________________________________________________________________________________________
 }

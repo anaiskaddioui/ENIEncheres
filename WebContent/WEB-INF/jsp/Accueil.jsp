@@ -20,31 +20,40 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
-		<c:choose>
-			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
-			</c:when>
-			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
-			</c:otherwise>
-		</c:choose>
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<div class="row">
+			<div class="col-9">
+			<c:choose>
+				<c:when test="${!isConnected }">
+					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+				</c:when>
+				<c:otherwise>
+					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+				</c:otherwise>
+			</c:choose>		
+			
+			</div>
+			<div class="col">
+				<a href="<%=request.getContextPath()%>/ServletConnexion" class="lien-top">S'inscrire - Se connecter</a>			
+			</div>	
 		
-		<h1>ENI-Encheres</h1>
+		</div>
 	</header>
 
 	<!-- Corps  -->
 	<section class="container main-container">
-		<a href="<%=request.getContextPath()%>/ServletConnexion"
-			class="row justify-content-end">S'inscrire - Se
-			connecter</a>
-		<h1 class="row justify-content-center">Liste des enchères</h1>
 
+		<div class="bloc-titre">
+			<h1>ENI Encheres</h1> 
+			<h2>Achetez, Vendez, Partagez...</h2>
+			<p class="rectangle"></p>
+		</div>	
+		<h3 class="row justify-content-center">Liste des enchères</h3>
 		<form action="./ServletAccueil" method="post">
 			<div class="container">
 				<!-- Bloc Filtre/recherche/bouton  -->
-				<div class="container border rounded">
-					<p class="mt-3">Filtres :</p>
+				<div class="container rounded filtre">
+					<h4 class="mt-3">Filtres :</h4>
 					<div class="row justify-content-center bloc-text-input">
 						<!-- Bloc Liste Catégories/recherche  -->
 						<div class="col-lg-6 col-sm-12">
@@ -65,18 +74,20 @@
 							</div>
 
 							<!-- Bloc Barre recherche  -->
-							<div class="row justify-content-left bloc-text-input">
+							<div class="row bloc-text-input">
 								<input type="text" name="recherche"
 									placeholder="Le nom de l'article contient"
 									class="form-control barre-recherche" id="recherche" />
 							</div>
-							<c:if test="${!libelleCategorie.isEmpty()}">
-								<p class="text-decoration-underline">Vous visualisez les ventes de la catégorie : </p>
-								<p class="ms-2"> - ${libelleCategorie.toUpperCase() }</p>
-							</c:if>
-							<c:if test="${!articleContient.isEmpty() }">
-								<p class="ms-2"> - Le nom contient : "${articleContient }"</p>								
-							</c:if>
+							<div class="row filtres-affichage">
+								<c:if test="${!libelleCategorie.isEmpty()}">
+									<h5>Vous visualisez les ventes de la catégorie : </h5>
+									<p> - ${libelleCategorie.toUpperCase() }</p>
+								</c:if>
+								<c:if test="${!articleContient.isEmpty() }">
+									<p> - Le nom contient : "${articleContient }"</p>								
+								</c:if>
+							</div>
 						</div>
 
 						<!-- Bloc Bouttons  -->

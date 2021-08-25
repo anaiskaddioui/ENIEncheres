@@ -17,4 +17,12 @@ public class EncheresManager {
 			this.enchereDAO.insert(enchere);
 	}
 	
+	public Enchere rechercherEncheresArticle(int idArticle) throws DALException {
+		return this.enchereDAO.selectByIdArticle(idArticle);
+	}
+	
+	public void supprimerEnchere(int idUtilisateur) throws DALException {
+		this.enchereDAO.delete(idUtilisateur);
+	}
+	
 }

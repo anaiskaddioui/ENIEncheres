@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +36,8 @@
 			<!-- Colonne avec Formulaire -->
 
 			<div class="col">
-				<form method="post" action="./ServletNouvelleVenteAnnulation">
+				<form method="post" action="${pageContext.request.contextPath }/ServletNouvelleVenteAnnulation">
+					<input type="hidden" name="idArticle" value="${idArticle }"/>
 					<!-- Input Article -->
 					<div class="row">
 						<div class="col-sm-4 col-lg-3">
@@ -43,7 +45,7 @@
 						</div>
 						<div class="col-sm-8 col-lg-6">
 							<input type="text" name="article" class="form-control"
-								id="article" />
+								id="article" value="${nom_article }" />
 						</div>
 					</div>
 					<!-- Input Description -->
@@ -53,7 +55,7 @@
 						</div>
 						<div class="col-sm-8 col-lg-6">
 							<textarea name="description" id="description"
-								class="form-control" rows="5"></textarea>
+								class="form-control" rows="5">${description }</textarea>
 						</div>
 					</div>
 					<!-- Select Categorie -->
@@ -63,11 +65,43 @@
 						</div>
 						<div class="col-sm-8 col-lg-6">
 							<select name="categorie" class="form-select">
-								<option value="">Toutes</option>
-								<option value="informatique">Informatique</option>
-								<option value="ameublement">Ameublement</option>
-								<option value="vetement">Vêtement</option>
-								<option value="sport">Sport&Loisirs</option>
+								<c:choose>
+									<c:when test="${categorie == 'informatique'}">
+										<option value="">Toutes</option>
+										<option value="informatique" selected>Informatique</option>
+										<option value="ameublement">Ameublement</option>
+										<option value="vetement">Vêtement</option>
+										<option value="sport">Sport&Loisirs</option>
+									</c:when>
+									<c:when test="${categorie == 'ameublement'}">
+										<option value="">Toutes</option>
+										<option value="informatique">Informatique</option>
+										<option value="ameublement" selected>Ameublement</option>
+										<option value="vetement">Vêtement</option>
+										<option value="sport">Sport&Loisirs</option>
+									</c:when>
+									<c:when test="${categorie == 'vetement'}">
+										<option value="">Toutes</option>
+										<option value="informatique">Informatique</option>
+										<option value="ameublement">Ameublement</option>
+										<option value="vetement" selected>Vêtement</option>
+										<option value="sport">Sport&Loisirs</option>
+									</c:when>
+									<c:when test="${categorie == 'sport'}">
+										<option value="">Toutes</option>
+										<option value="informatique">Informatique</option>
+										<option value="ameublement">Ameublement</option>
+										<option value="vetement">Vêtement</option>
+										<option value="sport" selected>Sport&Loisirs</option>
+									</c:when>
+									<c:otherwise>
+										<option value="">Toutes</option>
+										<option value="informatique">Informatique</option>
+										<option value="ameublement">Ameublement</option>
+										<option value="vetement">Vêtement</option>
+										<option value="sport">Sport&Loisirs</option>
+									</c:otherwise>
+								</c:choose>
 							</select>
 						</div>
 					</div>
@@ -87,25 +121,39 @@
 							<label for="prix">Mise à prix :</label>
 						</div>
 						<div class="col-sm-4 col-lg-6">
-							<input type="number" id="prix" name="prix" min="0" max="10000"
-								class="form-control" />
+							<c:if test="${!empty venteCommencee}">
+								<input type="number" id="prix" name="prix" min="0" max="10000"
+								class="form-control" value="${prix_initial }" disabled/>
+							</c:if>
+							<c:if test="${empty venteCommencee}">
+								<input type="number" id="prix" name="prix" min="0" max="10000"
+								class="form-control" value="${prix_initial }"/>
+							</c:if>
 						</div>
 					</div>
 					<!-- Input Dates -->
 					<div class="row mt-2">
 						<div class="col-sm-12 col-md-6 col-lg-6">
 							<div>
-								<label for="date-debut">Début de l'enchère :</label> <input
-									type="date" id="date-debut" name="date-debut"
-									class="form-control-sm" /> <i
-									class="fa fa-calendar"></i>
+								<c:if test="${!empty venteCommencee}">
+									<label for="date-debut">Début de l'enchère :</label> <input
+										type="date" id="date-debut" name="date-debut"
+										class="form-control-sm" value="${date_debut_encheres}" disabled/> <i
+										class="fa fa-calendar"></i>
+								</c:if>
+								<c:if test="${empty venteCommencee}">
+									<label for="date-debut">Début de l'enchère :</label> <input
+										type="date" id="date-debut" name="date-debut"
+										class="form-control-sm" value="${date_debut_encheres}"/> <i
+										class="fa fa-calendar"></i>
+								</c:if>
 							</div>
 						</div>
 						<div class="col-sm-12 col-md-6 col-lg-6 mt-2">
 							<div>
-								<label for="date-debut">Fin de l'enchère :</label> <input
-									type="date" id="date-debut" name="date-debut"
-									class="form-control-sm" /> <i
+								<label for="date-fin">Fin de l'enchère :</label> <input
+									type="date" id="date-fin" name="date-fin"
+									class="form-control-sm" value="${date_fin_encheres }"/> <i
 									class="fa fa-calendar"></i>
 							</div>
 						</div>
@@ -119,7 +167,7 @@
 								<label for="rue">Rue : </label>
 							</div>
 							<div class="col-sm-8 col-md-9 col-lg-8">
-								<input type="text" name="rue" class="form-control" id="rue" />
+								<input type="text" name="rue" class="form-control" id="rue" value="${rue_retrait}"/>
 							</div>
 						</div>
 						<!-- Input CP -->
@@ -129,7 +177,7 @@
 							</div>
 							<div class="col-sm-8 col-md-9 col-lg-8">
 								<input type="text" name="code-postal" class="form-control"
-									id="code-postal" />
+									id="code-postal" value="${codePostal_retrait}"/>
 							</div>
 						</div>
 						<!-- Input  ville -->
@@ -138,7 +186,7 @@
 								<label for="ville">Ville : </label>
 							</div>
 							<div class="col-sm-8 col-md-9 col-lg-8">
-								<input type="text" name="ville" class="form-control" id="ville" />
+								<input type="text" name="ville" class="form-control" id="ville" value="${ville_retrait}"/>
 							</div>
 						</div>
 					</div>
@@ -152,8 +200,8 @@
 						</div>
 						<!-- Bouton Annuler -->
 						<div class="col text-center">
-							<button href="#" class="btn btn-primary btn-compte">
-								Annuler</button>
+							<a href="<c:url value="${pageContext.request.contextPath }/ServletDetailArticle?idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
+								Annuler</a>
 						</div>
 						<!-- Bouton Annuler Vente-->
 						<div class="col text-center">

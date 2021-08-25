@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Retrait;
 import fr.eni.ENIEncheres.dal.DALException;
@@ -15,7 +14,7 @@ public class RetraitJdbcImpl implements DAORetrait {
 	
 	private final static String INSERER = "INSERT INTO RETRAITS(no_article, rue,code_postal,ville,) VALUES (?, ?, ?, ?);";
 	private final static String SELECT_BY_ID = "SELECT rue, code_postal, ville FROM RETRAITS WHERE no_article = ?;";
-	
+	private final static String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE no_article = ?";
 	
 	//Ajouter un nouveau retrait
 	@Override
@@ -64,20 +63,16 @@ public class RetraitJdbcImpl implements DAORetrait {
 		return retrait;
 	}
 	
-	public List<Retrait> selectAll() throws DALException {
-		return null;
-	}
-
-	public void update(Retrait retrait) throws DALException {
+	@Override
+	public void updateRetrait(Retrait retrait) throws DALException {
 		Connection cnx = null;
 		try {
 			cnx = ConnectionProvider.getConnection();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		String UPDATE_RETRAIT = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE no_article = ?";
 		try {
-			PreparedStatement stmt = cnx.prepareStatement(UPDATE_RETRAIT);
+			PreparedStatement stmt = cnx.prepareStatement(UPDATE);
 			stmt.setString(1, retrait.getRue());
 			stmt.setInt(2, retrait.getCodePostal());
 			stmt.setString(3, retrait.getVille());
@@ -91,6 +86,7 @@ public class RetraitJdbcImpl implements DAORetrait {
 			throw dalException;
 		}
 	}
+
 
 
 	

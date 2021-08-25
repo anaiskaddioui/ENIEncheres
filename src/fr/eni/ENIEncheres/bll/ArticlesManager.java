@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
-import fr.eni.ENIEncheres.bo.Categorie;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
 import fr.eni.ENIEncheres.dal.dao.DAOFactory;
@@ -52,7 +51,22 @@ public class ArticlesManager {
 			e.printStackTrace();
 		}
 		return article;
-
+	}
+	
+	public void misAJourPrixVente(int idArticle, int prix) {
+		try {
+			articleDAO.updateSellPrice(idArticle, prix);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void supprimerArticle(int idArticle) {
+		try {
+			articleDAO.deleteArticle(idArticle);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
 	}
 
   

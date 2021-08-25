@@ -23,10 +23,10 @@
 <!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<c:choose>
 			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
 			</c:when>
 			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
 			</c:otherwise>
 		</c:choose>
 		
@@ -40,7 +40,7 @@
 			connecter</a>
 		<h1 class="row justify-content-center">Liste des enchères</h1>
 
-		<form action="./" method="post">
+		<form action="./ServletAccueil" method="post">
 			<div class="container">
 				<!-- Bloc Filtre/recherche/bouton  -->
 				<div class="container border rounded">
@@ -105,7 +105,7 @@
 									<div class="container bloc-objet-encheres rounded mt-4">
 										<div class="row">
 											<div class="col-lg-6 col-sm-6">
-												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpeg")%>" alt="un objet" class="photo-objet" />
+												<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
 											</div>
 											<div class="col-lg-6 col-sm-6">
 												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?id=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>

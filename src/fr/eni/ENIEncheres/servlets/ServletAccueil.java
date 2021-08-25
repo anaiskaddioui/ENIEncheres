@@ -26,6 +26,10 @@ public class ServletAccueil extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		//		Recupere champs du formulaire de la JSP
+		String libelleCategorie = request.getParameter("categorie");	
+		String recherche = request.getParameter("recherche");	
+		
 		//Procede a la requete de selection des articles en cours d'encheres
 		//Puis les affiche dans la JSP
 		ArticlesManager articlesManager2 = new ArticlesManager();
@@ -37,6 +41,8 @@ public class ServletAccueil extends HttpServlet {
 		try {
 			listeArticlesEnCours = articlesManager2.selectionnerTousLesArticlesByEtat("EC");
 			request.setAttribute("listeArticlesEnCours", listeArticlesEnCours );	
+			System.out.println("Recherche = " + recherche);
+			System.out.println("libeele = " + libelleCategorie);
 			rdis = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
 			rdis.forward(request, response);
 		} catch (DALException e) {

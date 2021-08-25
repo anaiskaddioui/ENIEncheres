@@ -20,6 +20,16 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
+<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<c:choose>
+			<c:when test="${!isConnected }">
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+			</c:when>
+			<c:otherwise>
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+			</c:otherwise>
+		</c:choose>
+		
 		<h1>ENI-Encheres</h1>
 	</header>
 
@@ -60,7 +70,7 @@
 									placeholder="Le nom de l'article contient"
 									class="form-control barre-recherche" id="recherche" />
 							</div>
-							<c:if test="${!libelleCategorie.isEmpty() }">
+							<c:if test="${!libelleCategorie.isEmpty()}">
 								<p class="text-decoration-underline">Vous visualisez les ventes de la catégorie : </p>
 								<p class="ms-2"> - ${libelleCategorie.toUpperCase() }</p>
 							</c:if>
@@ -95,7 +105,7 @@
 									<div class="container bloc-objet-encheres rounded mt-4">
 										<div class="row">
 											<div class="col-lg-6 col-sm-6">
-												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpg")%>" alt="un objet" class="photo-objet" />
+												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpeg")%>" alt="un objet" class="photo-objet" />
 											</div>
 											<div class="col-lg-6 col-sm-6">
 												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?id=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>

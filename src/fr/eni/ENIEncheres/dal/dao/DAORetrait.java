@@ -8,6 +8,8 @@ public interface DAORetrait {
 	public void ajouterRetrait(Retrait retrait) throws DALException;
 	
 	public Retrait selectRetraitParIdArticle(int idArticle) throws DALException;
+	
+	public void updateRetrait(Retrait retrait) throws DALException;
 
 }
 

@@ -2,8 +2,8 @@ package fr.eni.ENIEncheres.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import fr.eni.ENIEncheres.bo.Enchere;
 import fr.eni.ENIEncheres.dal.DALException;
@@ -13,6 +13,8 @@ import fr.eni.ENIEncheres.dal.dao.DAOEnchere;
 public class EnchereJdbcImpl implements DAOEnchere {
 
 	String INSERT = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?, ?, ?, ?)";
+	String SELECT_ARTICLE = "SELECT * FROM encheres WHERE no_article = ? ORDER BY montant_enchere DESC";
+	String DELETE = "DELETE FROM ENCHERES WHERE no_utilisateur = ?";
 	
 	@Override
 	public void insert(Enchere enchere) throws DALException {
@@ -39,23 +41,41 @@ public class EnchereJdbcImpl implements DAOEnchere {
 	}
 
 	@Override
-	public Enchere selectById(int id) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Enchere> selectAll() throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update(Enchere enchere) throws DALException {
-		// TODO Auto-generated method stub
+	public Enchere selectByIdArticle(int idArticle) throws DALException {
 		
+		Enchere enchere = null;
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(SELECT_ARTICLE);
+			rqt.setInt(1, idArticle);
+			ResultSet rs = rqt.executeQuery();
+			
+			while (rs.next()) {
+							
+				enchere = new Enchere(rs.getInt("no_utilisateur"), rs.getInt("no_article"), rs.getTimestamp("date_enchere"), rs.getInt("montant_enchere"));
+	
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return enchere;
 	}
 
+	@Override
+	public void delete(int idUtilisateur) throws DALException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(SELECT_ARTICLE);
+			rqt.setInt(1, idUtilisateur);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-
+		
 }
+
+
+

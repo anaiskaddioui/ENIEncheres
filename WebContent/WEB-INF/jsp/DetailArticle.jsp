@@ -21,13 +21,23 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<c:choose>
+			<c:when test="${!isConnected }">
+				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>
+			</c:when>
+			<c:otherwise>
+				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="../img/logo.jpeg"  alt="logo" class="photo-objet" /></a>						
+			</c:otherwise>
+		</c:choose>
 		<h1>ENI-Encheres</h1>
 	</header>
 
 	<!-- Corps  -->
 	<section class="container main-container">
+	<form method="post" action="${pageContext.request.contextPath }/ServletEncherir">
 		<h1 class="row justify-content-center">${nom_article }</h1>
-
+		<input type="hidden" name="idArticle" value="${idArticle }"/>
 		<div class="row">
 			<!-- Colonne avec image -->
 			<div class="col-xs-sm-12 col-lg-4 text-center">
@@ -35,8 +45,6 @@
 			</div>
 			<!-- Colonne avec Formulaire -->
 			<div class="col">
-				<form method="post" action="${pageContext.request.contextPath }/ServletEncherir">
-				<input type="hidden" name="idArticle" value="${idArticle }"/>
 					<!-- Input Description -->
 					<div class="row mt-2">
 						<div class="col-xs-sm-12 col-lg-3">
@@ -105,12 +113,13 @@
 					</div>
 					<!-- input proposition -->
 					<div class="row mt-2">
+					<p style="color: red;">${erreurCredit }</p>
 						<div class="col-6 col-sm-6 col-lg-3">
 							<label for="proposition">Ma proposition :</label>
 						</div>
 						<div class="col-4 col-sm-3 col-lg-2">
-							<input type="number" id="proposition" name="proposition" min="0"
-								max="10000" class="form-control" />
+							<input type="number" id="proposition" name="proposition" min="${prix_vente + 1}"
+								max="10000" class="form-control" value="${prix_vente }"/>
 						</div>
 						<!-- Bouton Enchérir -->
 						<div class="col text-center">
@@ -118,9 +127,25 @@
 								class="btn btn-primary btn-compte" />
 						</div>
 					</div>
-				</form>
+				<!-- input Modification et suppression -->
+				<!--<c:if test="${idVendeur} == ${sessionScope.idUtilisateur}">-->
+					<div class="row mt-2">
+						<!-- Bouton Modifier  -->
+						<div class="col">
+							<a href="<c:url value="?modification=modifier&idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
+								Modifier la vente</a>
+						</div>
+						<!-- Bouton Supprimer -->
+						<div class="col">
+						<p style="color: red;">${erreurSuppression }</p>
+							<a href="<c:url value="${pageContext.request.contextPath }/ServletNouvelleVenteAnnulation?modification=supprimer&idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
+								Supprimer la vente</a>
+						</div>
+					</div>
+				<!--</c:if>-->
+				</div>
 			</div>
-		</div>
+		</form>
 	</section>
 </body>
 </html>

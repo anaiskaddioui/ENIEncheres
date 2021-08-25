@@ -13,7 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -67,9 +66,12 @@ public class FiltrePagesInterdites extends HttpServlet implements Filter {
 		
 		if((statut == false) && (
 				(httpRequest.getServletPath().toLowerCase().contains("connecte")) ||  //A compléter selon règles de vente
-				(httpRequest.getServletPath().toLowerCase().contains("consultation")) ||
+				(httpRequest.getServletPath().toLowerCase().contains("bouton")) ||
 				(httpRequest.getServletPath().toLowerCase().contains("modification")) ||
-				(httpRequest.getServletPath().toLowerCase().contains("profil")) )
+				(httpRequest.getServletPath().toLowerCase().contains("profil")) ||
+				(httpRequest.getServletPath().toLowerCase().contains("vente")) ||
+				(httpRequest.getServletPath().toLowerCase().contains("encherir"))
+				)
 				) 
 		{
 			

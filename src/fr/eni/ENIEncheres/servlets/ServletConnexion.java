@@ -63,12 +63,22 @@ public class ServletConnexion extends HttpServlet {
 				
 				try  {//Les vérifications BDD ont été faites par Benjamin, donc je n'en mets pas ici :
 					userConnected = userConnect.selectUserByPseudo(identifiant);
-					idUser = userConnected.getIdUtilisateur();
+					
 					
 	
 					if (userConnected != null) {
-						
+						idUser = userConnected.getIdUtilisateur();
 						System.out.println(userConnected.toString());
+						
+						if(!password.contentEquals(userConnected.getPassword())) {
+							request.setAttribute("erreurPassword", "Mot de passe erroné");
+							
+							RequestDispatcher rd2;
+							rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp");
+							rd2.forward(request, response);
+						}
+						
+						
 						
 						session.setAttribute("isConnected", true);
 						session.setAttribute("idUser", idUser); 
@@ -78,6 +88,7 @@ public class ServletConnexion extends HttpServlet {
 						
 						if (connexionAuto.contentEquals("on")) {
 						
+							boolean cookieExiste = false;
 							for(Cookie unCookie : cookies) {
 	
 								if (unCookie.equals("idUser")) { //Si déjà cookie, la valeur de l'idUser est réattribuée
@@ -85,31 +96,34 @@ public class ServletConnexion extends HttpServlet {
 									request.setAttribute("idUser", unCookie.getValue());
 									session.setAttribute("idUser", unCookie.getValue());
 									//EtatAppli.setUtilisateur(userConnected);
-								} else {
-									
-									//Stockage durable de l'identifiant côté client (1an) :
-									Cookie cookie = new Cookie("idUser", Integer.toString(idUser));
-									cookie.setMaxAge(60 * 60 * 24 * 365);
-									response.addCookie(cookie);
-									
-									session.setAttribute("idUser", unCookie.getValue());
-								}
+									cookieExiste= true;
+								} 
 							}
+							if(!cookieExiste) {
+								//Stockage durable de l'identifiant côté client (1an) :
+								Cookie cookie = new Cookie("idUser", Integer.toString(idUser));
+								cookie.setMaxAge(60 * 60 * 24 * 365);
+								response.addCookie(cookie);
+								session.setAttribute("idUser", cookie.getValue());
+							}
+							
+							
 							RequestDispatcher rd;
 							rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
 							rd.forward(request, response);
 						}
-						 else {
-							//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
-							session.setAttribute("isConnected", false);
-							System.out.println(session.getAttribute("isConnected"));
-							//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
 						 
-							RequestDispatcher rd2;
-							rd2 = request.getRequestDispatcher("/WEB-INF/jsp/RefusConnexion.jsp");
-							rd2.forward(request, response);
-						 }
-					}
+					} else {
+						//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
+						session.setAttribute("isConnected", false);
+						System.out.println(session.getAttribute("isConnected"));
+						//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
+						request.setAttribute("erreurPseudo", "Ce pseudo n'existe pas");
+					 
+						RequestDispatcher rd2;
+						rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp");
+						rd2.forward(request, response);
+					 }
 				} catch (DALException e) {
 					e.printStackTrace();
 				}

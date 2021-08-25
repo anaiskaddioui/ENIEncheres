@@ -19,5 +19,6 @@ import fr.eni.ENIEncheres.dal.DALException;
 		public void delete(int id) throws DALException;
 		public void updateWithPassword(Utilisateurs u) throws DALException;
 		public void updateWithoutPassword(Utilisateurs u) throws DALException;
+		public void updateCredit(int id, int credit) throws DALException;
 
 }

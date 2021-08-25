@@ -16,11 +16,15 @@ public class RetraitManager {
 
 	    public void insertRetrait(Retrait retrait) throws DALException, BLLException {
 	      
-	    	retraitDAO.ajouterRetrait(retrait);
+	    	this.retraitDAO.ajouterRetrait(retrait);
 	    }
 
 	    public Retrait getRetraitByNoArticle(int noArticle) throws DALException {
 	    	return retraitDAO.selectRetraitParIdArticle(noArticle);
+	    }
+	    
+	    public void updateRetrait(Retrait retrait) throws DALException {
+	    	this.retraitDAO.updateRetrait(retrait);
 	    }
 
 	}

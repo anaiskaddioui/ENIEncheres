@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
-import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.Outils;
 import fr.eni.ENIEncheres.dal.dao.DAOArticleVendu;
@@ -45,6 +44,11 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, "
 			+ "date_fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
 
+	//** REQUETES BEN */
+	private final static String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = ? WHERE no_article = ?";
+	private final static String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+	
+	
  /** REQUETES POUR CHARLES*/
 	private final static String SELECTBYID = "SELECT no_categorie, libelle FROM CATEGORIES WHERE no_categorie = ?;";
 	private final static String LISTER = "SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres, prix_initial, prix_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur;";
@@ -375,6 +379,39 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			e.printStackTrace();
 		}
 		return article;
+	}
+
+	@Override
+	public void updateSellPrice(int idArticle, int prix) throws DALException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(UPDATE_PRICE);
+			rqt.setInt(1, prix);
+			rqt.setInt(2, idArticle);
+			rqt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	@Override
+	public void deleteArticle(int idArticle) throws DALException {
+	PreparedStatement rqt = null;
+		
+		try (Connection cnx = ConnectionProvider.getConnection())
+		{		
+			cnx.setAutoCommit(false);
+			rqt = cnx.prepareStatement(DELETE);
+			rqt.setInt(1, idArticle);
+			rqt.executeUpdate();			
+			cnx.commit();
+			rqt.close();
+			
+		} catch (SQLException e) {
+
+			  throw new DALException("Delete article failed - id=" + idArticle, e);
+		} 		
 	}
 
 }

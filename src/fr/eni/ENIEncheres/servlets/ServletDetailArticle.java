@@ -22,7 +22,7 @@ import fr.eni.ENIEncheres.dal.DALException;
 /**
  * Servlet implementation class ServletConnexion
  */
-@WebServlet("/ServletEncherir")
+@WebServlet("/ServletDetailArticle")
 public class ServletDetailArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,7 +34,11 @@ public class ServletDetailArticle extends HttpServlet {
 		
 		//On récupère l'id de l'article sur lequel on a cliqué
 		int idArticle = 2;
-				//(int) request.getAttribute("id");
+		if(request.getAttribute("id") != null) {
+		idArticle = (int) request.getAttribute("id");
+		} else if(request.getParameter("idArticle") != null) {
+			idArticle = Integer.valueOf(request.getParameter("idArticle"));
+		}
 		
 		//On sélectionne l'article
 		ArticlesManager manArticle = new ArticlesManager();
@@ -87,6 +91,7 @@ public class ServletDetailArticle extends HttpServlet {
 		}
 		if(utilisateur != null) {
 			request.setAttribute("utilisateur", utilisateur.getPseudo());
+			request.setAttribute("idVendeur", utilisateur.getIdUtilisateur());
 		}
 		
 		

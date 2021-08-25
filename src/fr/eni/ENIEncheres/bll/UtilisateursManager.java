@@ -69,6 +69,10 @@ public class UtilisateursManager {
 	public void modifierUtilisateurAvecMDP(Utilisateurs u) throws DALException {
 		this.utilisateurDAO.updateWithPassword(u);
 	}
+	
+	public void misAJourCredit(int idUtilisateur, int credit) throws DALException{
+		this.utilisateurDAO.updateCredit(idUtilisateur, credit);
+	}
 
 
 

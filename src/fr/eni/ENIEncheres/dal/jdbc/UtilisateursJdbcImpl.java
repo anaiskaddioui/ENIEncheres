@@ -33,6 +33,8 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 
 	private static final String SELECT_BY_MOT_CLE = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom LIKE ? OR prenom LIKE ? OR pseudo LIKE ? OR ville LIKE ?";
+	
+	private final static String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?";
 
 	
 
@@ -420,6 +422,20 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 
 			  throw new DALException("Delete utilisateur failed - id=" + id, e);
 		} 
+	}
+
+	@Override
+	public void updateCredit(int id, int credit) throws DALException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(UPDATE_CREDIT);
+			rqt.setInt(1, credit);
+			rqt.setInt(2, id);
+			rqt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	

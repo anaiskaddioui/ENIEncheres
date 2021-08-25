@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
@@ -52,10 +53,11 @@ public class ServletCreationCompte extends HttpServlet {
 		
 		Utilisateurs u1 = new Utilisateurs(pseudo, password, nom, prenom, email, telephone, rue, codePostal, ville, credit, administrateur);
 		UtilisateursManager managerU = new UtilisateursManager();
+		Utilisateurs monUser = null;
 		try {
 			managerU.ajouterUtilisateur(u1);
+			monUser = managerU.selectUserByPseudo(pseudo);
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -71,9 +73,16 @@ public class ServletCreationCompte extends HttpServlet {
 		System.out.println(ville);
 		System.out.println(password);
 		
-		//On renvoie vers la page d'accueil (ou de connexion ?)
+		
+		//On se connecte
+		HttpSession session = request.getSession();
+		session.setAttribute("isConnected", true);
+		if(monUser != null)
+			session.setAttribute("idUser", monUser.getIdUtilisateur());
+		
+		//On renvoie vers la page d'accueil
 		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("/ServletAccueil");
+		rd = request.getRequestDispatcher("/ServletAccueilConnecte");
 		rd.forward(request, response);
 		
 	}

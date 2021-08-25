@@ -73,7 +73,7 @@ public class ServletCreationCompte extends HttpServlet {
 		
 		//On renvoie vers la page d'accueil (ou de connexion ?)
 		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("/ServletAccueil");
+		rd = request.getRequestDispatcher("/ServletAccueil"); //Si compte créé ==> redirection vers accueil Connecté ?
 		rd.forward(request, response);
 		
 	}

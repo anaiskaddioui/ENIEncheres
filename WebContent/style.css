@@ -15,6 +15,11 @@ header {
 	color: #fff;
 }
 
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
 body {
 	color: white;
 	height: 100vh;

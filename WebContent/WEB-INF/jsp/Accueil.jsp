@@ -108,7 +108,7 @@
 												<img src="<%=getServletContext().getResourceAsStream("/img/objet.jpeg")%>" alt="un objet" class="photo-objet" />
 											</div>
 											<div class="col-lg-6 col-sm-6">
-												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?id=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>
+												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?idArticle=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>
 												<p>Prix : ${el.getPrixInitial() } points</p>
 												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
 												<p>Vendeur : ${el.getPseudo() }</p>

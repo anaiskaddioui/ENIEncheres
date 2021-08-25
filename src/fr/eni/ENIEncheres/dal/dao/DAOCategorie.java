@@ -14,4 +14,6 @@ public interface DAOCategorie {
 	public Categorie selectByIdCategorie(int idCategorie) throws DALException;
 	public void insert(Categorie categorie) throws DALException;
 	
+	public int selectIdByLibelle(String libelle) throws DALException;
+	
 }

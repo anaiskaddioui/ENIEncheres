@@ -2,6 +2,8 @@ package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,8 +35,9 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Si on a cliqué sur le bouton "Supprimer"
-		if(request.getParameter("modification") == "supprimer") {
-			//On regarde si l'nchère n'a pas déjà commencé
+		System.out.println(request.getParameter("modification"));
+		if( request.getParameter("modification").equalsIgnoreCase("supprimer")) {
+			//On regarde si l'enchère n'a pas déjà commencé
 			Date today = new Date(System.currentTimeMillis());
 			ArticlesManager manArticle = new ArticlesManager();
 			int idArticle = Integer.valueOf(request.getParameter("idArticle"));
@@ -48,12 +51,13 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 				//Si l'enchère a commencé, on ne peut pas supprimer et l'indiquer à l'utilisateur
 			} else if (today.equals(articleCourant.getDateDebutEncheres()) | today.after(articleCourant.getDateDebutEncheres())) {
 				request.setAttribute("erreurSuppression", "Vous ne pouvez pas supprimer un article dont la vente a commencé");
+				request.setAttribute("idArticle", Integer.valueOf(request.getParameter("idArticle")));
 				RequestDispatcher rd;
-				rd = request.getRequestDispatcher("/WEB-INF/jsp/DetailArticle.jsp");
+				rd = request.getRequestDispatcher("/ServletDetailArticle");
 				rd.forward(request, response);
 			}
 			//Si on a cliqué sur le bouton "Modifier"
-			} else if(request.getParameter("modification") == "modifier") {
+			} else if(request.getParameter("modification").equalsIgnoreCase("modifier")) {
 				//On regarde si l'enchère n'a pas déjà commencé
 				Date today = new Date(System.currentTimeMillis());
 				ArticlesManager manArticle = new ArticlesManager();
@@ -115,7 +119,7 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 					request.setAttribute("utilisateur", utilisateur.getPseudo());
 					request.setAttribute("idVendeur", utilisateur.getIdUtilisateur());
 				}
-				
+			
 				
 //				TEST RECUP VALEURS
 				System.out.println(articleCourant);
@@ -133,18 +137,38 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		//Mise à jour de l'article
+		request.setCharacterEncoding("UTF-8");
+		
+		//Récupération des données de l'article
 		String nom_article = request.getParameter("article");
 		int idArticle = Integer.valueOf(request.getParameter("idArticle"));
 		String description = request.getParameter("description");
-		String categorie = request.getParameter("categorie");		
-		String prix = request.getParameter("prix");		
-		String dateDebut = request.getParameter("date-debut");		
-		String dateFin = request.getParameter("date-fin");	
+		String categorie = request.getParameter("categorie");	
+		System.out.println(request.getParameter("prix"));
+		String test = request.getParameter("prix");
+		int prix = Integer.valueOf(request.getParameter("prix"));		
+		Date dateDebut = new Date(
+				(LocalDate.parse(request.getParameter("date-debut")).atStartOfDay(ZoneId.systemDefault()).toEpochSecond())* 1000);
+		Date dateFin = new Date(
+				(LocalDate.parse(request.getParameter("date-fin")).atStartOfDay(ZoneId.systemDefault()).toEpochSecond())* 1000);	
 		
+		//Récupération de l'idCategorie
+		CategorieManager manCategorie = new CategorieManager();
+		int idCategorie = 0;
+		try {
+			idCategorie = manCategorie.getIdCategorie(categorie);
+		} catch (DALException e1) {
+			e1.printStackTrace();
+		}
 		
-		//Mis à jour du retrait
+		//Création d'un article
+		ArticleVendu nouvelArticle = new ArticleVendu(idArticle, nom_article, description, dateDebut, dateFin, prix, idCategorie);
+		
+		//Mise à jour de l'article
+		ArticlesManager manArticle = new ArticlesManager();
+		manArticle.modifierArticle(nouvelArticle);
+		
+		//Mise à jour du retrait
 		String rue = request.getParameter("rue");	
 		int codePostal = Integer.valueOf(request.getParameter("code-postal"));		
 		String ville = request.getParameter("ville");
@@ -158,7 +182,6 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 		
 		
 //		TEST RECUP VALEURS
-		System.out.println(article);
 		System.out.println(description);
 		System.out.println(categorie);
 		System.out.println(prix);
@@ -168,9 +191,11 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 		System.out.println(codePostal);
 		System.out.println(ville);
 
+		request.setAttribute("idArticle", idArticle);
+		RequestDispatcher rd;
+		rd = request.getRequestDispatcher("/ServletDetailArticle");
+		rd.forward(request, response);
 		
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

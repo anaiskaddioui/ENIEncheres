@@ -34,10 +34,11 @@ public class ServletDetailArticle extends HttpServlet {
 		
 		//On récupère l'id de l'article sur lequel on a cliqué
 		int idArticle = 2;
-		if(request.getAttribute("id") != null) {
-		idArticle = (int) request.getAttribute("id");
+		System.out.println(request.getParameter("idArticle"));
+		if(request.getAttribute("idArticle") != null) {
+		idArticle = (int) request.getAttribute("idArticle");
 		} else if(request.getParameter("idArticle") != null) {
-			idArticle = Integer.valueOf(request.getParameter("idArticle"));
+			idArticle =Integer.valueOf(request.getParameter("idArticle"));
 		}
 		
 		//On sélectionne l'article
@@ -90,7 +91,7 @@ public class ServletDetailArticle extends HttpServlet {
 			request.setAttribute("categorie", categorie.getLibelle());
 		}
 		if(utilisateur != null) {
-			request.setAttribute("utilisateur", utilisateur.getPseudo());
+			request.setAttribute("vendeur", utilisateur.getPseudo());
 			request.setAttribute("idVendeur", utilisateur.getIdUtilisateur());
 		}
 		

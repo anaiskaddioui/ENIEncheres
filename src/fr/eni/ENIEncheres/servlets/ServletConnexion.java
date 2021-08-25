@@ -57,11 +57,11 @@ public class ServletConnexion extends HttpServlet {
 				//Si "se souvenir de moi" a été sélectionné : 
 				Cookie cookies[] = request.getCookies();
 				
-				boolean isConnected = false;
+//				boolean isConnected = false;
 				
 				System.out.println("Recherche cookie idUser : ");
 				
-				try { //Les vérifications BDD ont été faites par Benjamin, donc je n'en mets pas ici :
+				try  {//Les vérifications BDD ont été faites par Benjamin, donc je n'en mets pas ici :
 					userConnected = userConnect.selectUserByPseudo(identifiant);
 					idUser = userConnected.getIdUtilisateur();
 					
@@ -74,9 +74,9 @@ public class ServletConnexion extends HttpServlet {
 						session.setAttribute("idUser", idUser); 
 						session.setAttribute("pseudo", identifiant);
 						
-						isConnected = true;
+//						isConnected = true;
 						
-						if (connexionAuto == "on") {
+						if (connexionAuto.contentEquals("on")) {
 						
 							for(Cookie unCookie : cookies) {
 	
@@ -95,25 +95,28 @@ public class ServletConnexion extends HttpServlet {
 									session.setAttribute("idUser", unCookie.getValue());
 								}
 							}
-							request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp").forward(request, response);
+							RequestDispatcher rd;
+							rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
+							rd.forward(request, response);
 						}
-					 }else 
-						//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
-						session.setAttribute("isConnected", false);
-						System.out.println(session.getAttribute("isConnected"));
-						//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
-						
-						request.getRequestDispatcher("/WEB-INF/jsp/RefusConnexion.jsp");
-						((RequestDispatcher) request).forward(request, response);
-
-					
+						 else {
+							//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
+							session.setAttribute("isConnected", false);
+							System.out.println(session.getAttribute("isConnected"));
+							//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
+						 
+							RequestDispatcher rd2;
+							rd2 = request.getRequestDispatcher("/WEB-INF/jsp/RefusConnexion.jsp");
+							rd2.forward(request, response);
+						 }
+					}
 				} catch (DALException e) {
 					e.printStackTrace();
 				}
 		
 				//Commentaire pour pusher
 		// TODO Auto-generated method stub
-		doGet(request, response);
+//		doGet(request, response);
 	}
 
 }

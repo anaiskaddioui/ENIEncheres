@@ -52,9 +52,10 @@ public class FiltrePagesInterdites extends HttpServlet implements Filter {
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
+		boolean statut = (boolean) session.getAttribute("isConnected");
 		
 		
-		if((session.getAttribute("isConnected") == "false") && (
+		if((statut == false) && (
 				(httpRequest.getServletPath().toLowerCase().contains("connecte")) ||  //A compléter selon règles de vente
 				(httpRequest.getServletPath().toLowerCase().contains("consultation")) ||
 				(httpRequest.getServletPath().toLowerCase().contains("modification")) ||

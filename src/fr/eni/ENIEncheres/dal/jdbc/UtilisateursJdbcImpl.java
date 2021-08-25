@@ -30,12 +30,14 @@ public class UtilisateursJdbcImpl implements DAOUtilisateur {
 			" FROM UTILISATEURS WHERE pseudo = ?";
 	private static final String SELECT_BY_EMAIL = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur " + 
 			" FROM UTILISATEURS WHERE email = ?";
-
+	
 	private static final String SELECT_BY_MOT_CLE = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, credit, administrateur " + 
 													" FROM UTILISATEURS WHERE nom LIKE ? OR prenom LIKE ? OR pseudo LIKE ? OR ville LIKE ?";
 	
 	private final static String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?";
 
+	
+	
 	
 
 	public void insert(Utilisateurs utilisateur) throws DALException {

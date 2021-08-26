@@ -146,6 +146,8 @@ public class ServletAccueil extends HttpServlet {
 
 			}
 			
+			System.out.println(listeArticlesFiltre);
+			
 // 3 - On pousse les infos des champs formulaire à la JSP pour les afficher comme criteres
 			request.setAttribute("listeArticlesEnCours", listeArticlesFiltre );	
 			request.setAttribute("libelleCategorie", libelleCategorie );	

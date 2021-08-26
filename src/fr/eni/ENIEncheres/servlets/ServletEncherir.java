@@ -32,8 +32,8 @@ public class ServletEncherir extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère l'id de l'utilisateur de la session qui enchérit
 		HttpSession session = request.getSession();
-		int idUtilisateur = 3;
-				//(int) session.getAttribute("idUser");
+		String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+		int idUtilisateur = Integer.valueOf(idUtilisateurString);
 		
 		//On récupère l'id de l'article
 		int idArticle = Integer.valueOf(request.getParameter("idArticle"));

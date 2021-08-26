@@ -114,7 +114,7 @@
 							<div>
 								<label for="date-debut">Début de l'enchère :</label> <input
 									type="date" id="date-debut" name="date-debut"
-									class="form-control-sm" required="required"/> <i
+									class="form-control-sm" min="${dateMin}" required="required"/> <i
 									class="fa fa-calendar"></i>
 							</div>
 						</div>
@@ -122,7 +122,7 @@
 							<div>
 								<label for="date-fin">Fin de l'enchère :</label> <input
 									type="date" id="date-fin" name="date-fin"
-									class="form-control-sm" required="required"/> <i
+									class="form-control-sm" min="${dateFin}" required="required"/> <i
 									class="fa fa-calendar"></i>
 							</div>
 						</div>

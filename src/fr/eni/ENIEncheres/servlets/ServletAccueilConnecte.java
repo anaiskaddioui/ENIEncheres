@@ -986,20 +986,20 @@ public class ServletAccueilConnecte extends HttpServlet {
 //						System.out.println("selection vide affichage de toutes vos ventes");
 //						listeArticlesSelonCasesCochees = articlesManagerCaseACocher.selectionnerParUserId(2);// PARAM A remplacer TODO		
 //					}
-					else {
-						System.out.println("Sortie de : 3- Si rien de saisi dans RECHERCHE ni CATEGORIE // Vente");
-						System.out.println("vous avez choisi ventes");
-						//TODO remplacer l'id en dur par l'id de session
-						List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerTousLesArticles();
-						for (ArticleVendu article : listeTampon) {
-							listeArticlesSelonCasesCochees.add(article);
-						}
+//					else {
+//						System.out.println("Sortie de : 3- Si rien de saisi dans RECHERCHE ni CATEGORIE // Vente");
+//						System.out.println("vous avez choisi ventes");
+//						//TODO remplacer l'id en dur par l'id de session
+//						List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerTousLesArticles();
+//						for (ArticleVendu article : listeTampon) {
+//							listeArticlesSelonCasesCochees.add(article);
+//						}
 					}						
 					
-				}
-				else {
-					System.out.println("Sortie de la boucle");
-				}
+//				}
+//				else {
+//					System.out.println("Sortie de la boucle");
+//				}
 						
 						System.out.println(listeArticlesSelonCasesCochees);
 						

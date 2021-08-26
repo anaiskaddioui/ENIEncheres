@@ -69,6 +69,7 @@ public class EnchereJdbcImpl implements DAOEnchere {
 		{
 			PreparedStatement rqt = cnx.prepareStatement(SELECT_ARTICLE);
 			rqt.setInt(1, idUtilisateur);
+			rqt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

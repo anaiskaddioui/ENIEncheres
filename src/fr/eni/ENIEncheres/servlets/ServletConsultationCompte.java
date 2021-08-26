@@ -26,13 +26,13 @@ public class ServletConsultationCompte extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère le pseudo de l'utilisateur de qui on veut voir le profil
-		System.out.println(request.getParameter("pseudo"));
-		String pseudoUtilisateur = (String) request.getParameter("pseudo");
+		System.out.println(request.getParameter("idUtilisateur"));
+		int idUtilisateur = Integer.valueOf(request.getParameter("idUtilisateur"));
 		
 		//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 		Utilisateurs user = null;
 		try {
-			user = new UtilisateursManager().selectUserByPseudo(pseudoUtilisateur);
+			user = new UtilisateursManager().selectUserById(idUtilisateur);
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

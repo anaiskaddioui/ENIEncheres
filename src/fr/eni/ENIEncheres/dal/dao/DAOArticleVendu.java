@@ -8,7 +8,9 @@ import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.dal.DALException;
 
 public interface DAOArticleVendu {
-		public void insertArticle(ArticleVendu article, int idUtilisateur, int idCategorie) throws SQLException, DALException;
+		public ArticleVendu insertArticle(ArticleVendu articleCree) throws SQLException, DALException;
+			
+		
 		public List<ArticleVendu> selectParEtat(String etat) throws DALException;
 		public List <ArticleVendu> selectAllArticles();
 		public List<ArticleVendu> selectParIdCategorie(int idCategorie) throws DALException;

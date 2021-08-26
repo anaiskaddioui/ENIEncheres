@@ -12,7 +12,7 @@ public class BLLException extends Exception {
 
 	private List<Integer> listErrorCodes;
 
-	public BLLException() {
+	public BLLException(String string) {
 		super();
 		this.listErrorCodes = new ArrayList<>();
 	}

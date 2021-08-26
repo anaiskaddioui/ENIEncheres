@@ -209,7 +209,7 @@
 												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?idArticle=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>
 												<p>Prix : ${el.getPrixInitial() } points</p>
 												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
-												<p>Vendeur : <a href="<c:url value="/ServletConsultationCompte?pseudo="/>"> ${el.getPseudo() }</a></p>
+												<p>Vendeur : <a href="<c:url value="/ServletConsultationCompte?idUtilisateur=${el.getIdUtilisateur()}"/>">${el.getPseudo() }</a></p>
 											</div>
 										</div>
 									</div>

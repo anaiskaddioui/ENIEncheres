@@ -2,7 +2,6 @@ package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -12,16 +11,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
 import fr.eni.ENIEncheres.bll.BLLException;
+import fr.eni.ENIEncheres.bll.CategorieManager;
 import fr.eni.ENIEncheres.bll.RetraitManager;
-import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Retrait;
-import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
-import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 /**
  * Servlet implementation class ServletConnexion
@@ -35,6 +33,9 @@ public class ServletNouvelleVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Date dateMin = java.sql.Date.valueOf(LocalDate.now(ZoneId.systemDefault()));
+		Date dateFin = java.sql.Date.valueOf(LocalDate.now(ZoneId.systemDefault()).plusDays(1));
+		
 		RequestDispatcher rd;
 		rd = request.getRequestDispatcher("/WEB-INF/jsp/NouvelleVente.jsp");
 		rd.forward(request, response);
@@ -46,6 +47,7 @@ public class ServletNouvelleVente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 		
 		Date dateDebutEncheres = new Date(
 				(LocalDate.parse(request.getParameter("date-debut")).atStartOfDay(ZoneId.systemDefault()).toEpochSecond())
@@ -66,9 +68,15 @@ public class ServletNouvelleVente extends HttpServlet {
 		String ville = request.getParameter("ville");				
 		
 		int prixVente = 0;
-		int idUtilisateur = 1;
-		int idCategorie = 2;
-		String etatVente = "EC";
+		String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+		int idUtilisateur = Integer.valueOf(idUtilisateurString);
+		int idCategorie = 0;
+		try {
+			idCategorie = new CategorieManager().getIdCategorie(categorie);
+		} catch (DALException e1) {
+			e1.printStackTrace();
+		}
+		String etatVente = "ND";
 		
 		ArticleVendu newAdd = new ArticleVendu(nomArticle,description, dateDebutEncheres, dateFinEncheres,
 				prixInitial, prixVente, etatVente,idUtilisateur, idCategorie);

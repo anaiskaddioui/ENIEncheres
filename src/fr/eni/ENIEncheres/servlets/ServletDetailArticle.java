@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
 import fr.eni.ENIEncheres.bll.CategorieManager;
+import fr.eni.ENIEncheres.bll.EncheresManager;
 import fr.eni.ENIEncheres.bll.RetraitManager;
 import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.bo.Categorie;
+import fr.eni.ENIEncheres.bo.Enchere;
 import fr.eni.ENIEncheres.bo.Retrait;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
@@ -73,6 +75,22 @@ public class ServletDetailArticle extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		//On récupère le pseudo de la personne qui a fait la meilleure enchère
+		EncheresManager manEnchere = new EncheresManager();
+		Enchere enchere = null;
+		String pseudoEnchere = new String();
+		int idUserEnchere = 0;
+		try {
+			enchere = manEnchere.rechercherEncheresArticle(idArticle);
+			if(enchere != null) {
+				Utilisateurs userEnchere = manUtilisateur.selectUserById(enchere.getIdUtilisateur());
+				pseudoEnchere = userEnchere.getPseudo();
+				idUserEnchere = enchere.getIdUtilisateur();
+			}
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+		
 		
 		//On met toutes les caractéristiques en attribut de requête
 		request.setAttribute("idArticle", articleCourant.getIdArticle());
@@ -93,6 +111,10 @@ public class ServletDetailArticle extends HttpServlet {
 		if(utilisateur != null) {
 			request.setAttribute("vendeur", utilisateur.getPseudo());
 			request.setAttribute("idVendeur", utilisateur.getIdUtilisateur());
+		}
+		if(enchere != null) {
+			request.setAttribute("pseudoEnchere", pseudoEnchere);
+			request.setAttribute("idUserEnchere", idUserEnchere);
 		}
 		
 		

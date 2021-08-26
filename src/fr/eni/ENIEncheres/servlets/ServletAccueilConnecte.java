@@ -942,10 +942,10 @@ public class ServletAccueilConnecte extends HttpServlet {
 //						}
 					}						
 					
-				}
-				else {
-					System.out.println("Sortie de la boucle");
-				}
+//				}
+//				else {
+//					System.out.println("Sortie de la boucle");
+//				}
 						
 						System.out.println(listeArticlesSelonCasesCochees);
 						

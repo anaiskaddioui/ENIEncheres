@@ -29,15 +29,13 @@ public class ServletModificationCompte extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère l'identifiant de l'utilisateur stocké dans la session
 				HttpSession session = request.getSession();
-				int idUtilisateur = 6;
-						//(int) session.getAttribute("idUser");
+				int idUtilisateur = (int) session.getAttribute("idUser");
 				
 				//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 				Utilisateurs user = null;
 				try {
 					user = new UtilisateursManager().selectUserById(idUtilisateur);
 				} catch (DALException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -84,8 +82,7 @@ public class ServletModificationCompte extends HttpServlet {
 		
 		//On récupère l'utilisateur associé à la session 
 		HttpSession session = request.getSession();
-		int idUtilisateur = 6;
-				//(int) session.getAttribute("idUser");
+		int idUtilisateur = (int) session.getAttribute("idUser");
 		Utilisateurs oldUser = null;
 		UtilisateursManager managerU = new UtilisateursManager();
 		try {

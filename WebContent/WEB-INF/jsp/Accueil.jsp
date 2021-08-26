@@ -23,10 +23,10 @@
 <!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<c:choose>
 			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
+				<a href="${pageContext.request.contextPath }/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
 			</c:when>
 			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
+				<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
 			</c:otherwise>
 		</c:choose>
 		
@@ -35,7 +35,7 @@
 
 	<!-- Corps  -->
 	<section class="container main-container">
-		<a href="<%=request.getContextPath()%>/ServletConnexion"
+		<a href="${pageContext.request.contextPath }/ServletConnexion"
 			class="row justify-content-end">S'inscrire - Se
 			connecter</a>
 		<h1 class="row justify-content-center">Liste des enchères</h1>

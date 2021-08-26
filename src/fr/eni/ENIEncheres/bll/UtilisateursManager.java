@@ -73,9 +73,5 @@ public class UtilisateursManager {
 	public void misAJourCredit(int idUtilisateur, int credit) throws DALException{
 		this.utilisateurDAO.updateCredit(idUtilisateur, credit);
 	}
-
-
-
-
 	
 }

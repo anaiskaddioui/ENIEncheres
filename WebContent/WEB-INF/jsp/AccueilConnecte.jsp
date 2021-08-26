@@ -23,10 +23,10 @@
 <!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<c:choose>
 			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
+				<a href="${pageContext.request.contextPath }/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
 			</c:when>
 			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
+				<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
 			</c:otherwise>
 		</c:choose>
 		
@@ -42,14 +42,14 @@
 				<a href="#">Enchères</a>
 			</div>
 			<div class="col-2">
-				<a href="#">Vendre un article</a>
+				<a href="">Vendre un article</a>
 			</div>
 			<div class="col-1">
-				<a href="#">Mon Profil</a>
+				<a href="<c:url value="/ServletConsultationCompteBouton"/>">Mon Profil</a>
 			</div>
 			<div class="col-1">
 				<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
-					<form method="post" action="<%=request.getContextPath()%>/ServletDeconnexion">
+					<form method="post" action="${pageContext.request.contextPath }/ServletDeconnexion">
 						<div class="col-1">
 							<input type="hidden" name="deconnexion" value="deconnexion" />
 							<input type="submit" value="Déconnexion" />
@@ -201,7 +201,7 @@
 												<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
 											</div>
 											<div class="col-lg-6 col-sm-6">
-												<h2 class="titre-objet">${el.getNomArticle() }</h2>
+												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?idArticle=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>
 												<p>Prix : ${el.getPrixInitial() } points</p>
 												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
 												<p>Vendeur : ${el.getPseudo() }</p>

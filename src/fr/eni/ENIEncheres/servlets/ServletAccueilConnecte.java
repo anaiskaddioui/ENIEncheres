@@ -53,9 +53,15 @@ public class ServletAccueilConnecte extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		Liste deroulante catégorie
-		String libelleCategorie = request.getParameter("categories");
+		String libelleCategorie = "";
+		if(request.getParameter("categorie") != null) {
+			libelleCategorie = request.getParameter("categorie");
+		}
 //		Text input Recherche
-		String recherche = request.getParameter("recherche");
+		String recherche = "";
+		if(request.getParameter("recherche") != null) {
+			recherche = request.getParameter("recherche");
+		}
 		
 //		Radio Achats/vente
 		String achatsVentes = request.getParameter("achats-ventes");

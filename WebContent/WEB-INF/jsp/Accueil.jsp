@@ -20,21 +20,22 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
+
 	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
 		<div class="row">
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+					<a href="${pageContext.request.contextPath }/ServletAccueil><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
 				</c:otherwise>
 			</c:choose>		
 			
 			</div>
 			<div class="col">
-				<a href="<%=request.getContextPath()%>/ServletConnexion" class="lien-top">S'inscrire - Se connecter</a>			
+				<a href="${pageContext.request.contextPath }/ServletConnexion" class="lien-top">S'inscrire - Se connecter</a>			
 			</div>	
 		
 		</div>
@@ -42,7 +43,6 @@
 
 	<!-- Corps  -->
 	<section class="container main-container">
-
 		<div class="bloc-titre">
 			<h1>ENI Encheres</h1> 
 			<h2>Achetez, Vendez, Partagez...</h2>

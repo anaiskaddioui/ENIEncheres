@@ -46,6 +46,8 @@
 		<h3 class="row justify-content-center">Connexion</h3>
 	<!-- Corps  -->
 	<section class="container main-container formulaire-connexion">
+	<h6 style="color: red;">${erreurPseudo}</h6>
+	<h6 style="color: red;">${erreurPassword}</h6>
 		<form method="post" action="./ServletConnexion">
 			<!-- Bloc Identifiant  -->
 			<div class="container">
@@ -91,8 +93,8 @@
 				</div>
 				<!-- Bouton creer un compte  -->
 				<div class="row justify-content-center col-sm-6 col-xs-4">
-					<button href="<%=request.getContextPath()%>/ServletCreationCompte" class="btn btn-primary btn-compte">Créer
-						un compte</button>
+					<a href="<c:url value="/ServletCreationCompte"/>" class="btn btn-primary btn-compte">Créer
+						un compte</a>
 				</div>
 			</div>
 		</form>

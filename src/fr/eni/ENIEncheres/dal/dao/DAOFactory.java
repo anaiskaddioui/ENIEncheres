@@ -1,6 +1,5 @@
 package fr.eni.ENIEncheres.dal.dao;
 
-import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.dal.jdbc.ArticleJdbcImpl;
 import fr.eni.ENIEncheres.dal.jdbc.CategorieJdbcImpl;
 import fr.eni.ENIEncheres.dal.jdbc.EnchereJdbcImpl;
@@ -9,10 +8,7 @@ import fr.eni.ENIEncheres.dal.jdbc.UtilisateursJdbcImpl;
 
 public class DAOFactory {
 
-	public static ArticleVendu getArticleVendu() {
-		return null;
-	}
-
+	
 	public static DAOUtilisateur getDAOUtilisateur() {
 		return new UtilisateursJdbcImpl();
 	}

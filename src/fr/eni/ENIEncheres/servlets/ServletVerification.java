@@ -39,8 +39,11 @@ public class ServletVerification extends HttpServlet {
 		Utilisateurs uEmail = null;
 		String email = request.getParameter("email");
 		HttpSession session = request.getSession();
-		int idUtilisateur = 6;
-		//(int) session.getAttribute("idUser");
+		int idUtilisateur = 0;
+		if(session.getAttribute("idUser") != null) {
+			int idUtilisateur1 = (int) session.getAttribute("idUser");
+			idUtilisateur = Integer.valueOf((String) session.getAttribute("idUser"));
+		}
 		try {
 			uEmail = managerU.selectUserByEmail(email);
 		} catch (DALException e) {
@@ -49,6 +52,7 @@ public class ServletVerification extends HttpServlet {
 		}
 		
 		//On va comparer si l'email et le pseudo appartiennent à l'utilisateur de la session ou s'il appartient à un autre utilisateur
+		if(idUtilisateur != 0) {
 		String pseudoSession = null;
 		try {
 			pseudoSession = managerU.selectUserById(idUtilisateur).getPseudo();
@@ -67,6 +71,7 @@ public class ServletVerification extends HttpServlet {
 					uEmail = null;
 				}
 			}
+		}
 			
 		
 		//Si seulement le pseudo existe

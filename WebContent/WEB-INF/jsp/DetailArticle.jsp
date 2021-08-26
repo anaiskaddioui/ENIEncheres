@@ -78,7 +78,7 @@
 						</div>
 						<div class="col"> 
 							<p>
-								${prix_vente } pts par <a href="<c:url value="/ServletConsultationCompte?pseudo=Uzana"/>">Uzana</a>
+								${prix_vente } pts par <a href="<c:url value="/ServletConsultationCompte?idUtilisateur=${idUserEnchere }"/>">${pseudoEnchere }</a>
 							</p>
 						</div>
 					</div>

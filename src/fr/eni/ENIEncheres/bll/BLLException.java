@@ -17,6 +17,9 @@ public class BLLException extends Exception {
 		this.listErrorCodes = new ArrayList<>();
 	}
 
+	public BLLException() {
+	}
+
 	public boolean hasErrors() {
 		return this.listErrorCodes.size() > 0;
 	}

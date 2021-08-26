@@ -35,7 +35,7 @@ CREATE TABLE UTILISATEURS (
     pseudo           VARCHAR(30) NOT NULL,
     nom              VARCHAR(30) NOT NULL,
     prenom           VARCHAR(30) NOT NULL,
-    email            VARCHAR(20) NOT NULL,
+    email            VARCHAR(50) NOT NULL,
     telephone        VARCHAR(15),
     rue              VARCHAR(30) NOT NULL,
     code_postal      VARCHAR(10) NOT NULL,
@@ -57,45 +57,43 @@ CREATE TABLE ARTICLES_VENDUS (
     prix_initial                  INTEGER,
     prix_vente                    INTEGER,
     no_utilisateur                INTEGER NOT NULL,
-    no_categorie                  INTEGER NOT NULL
+    no_categorie                  INTEGER NOT NULL,
+	etat_vente					  CHAR(2) NOT NULL CONSTRAINT CK_etat_vente CHECK (etat_vente IN ('ND', 'EC', 'TE'))
 )
 
 ALTER TABLE ARTICLES_VENDUS ADD constraint articles_vendus_pk PRIMARY KEY (no_article)
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT encheres_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
-ON DELETE NO ACTION 
+ON DELETE CASCADE
     ON UPDATE no action 
 
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_articles_vendus_fk FOREIGN KEY ( no_article )
         REFERENCES ARTICLES_VENDUS ( no_article )
-ON DELETE NO ACTION 
+ON DELETE CASCADE 
     ON UPDATE no action 
 
 ALTER TABLE RETRAITS
     ADD CONSTRAINT retraits_articles_vendus_fk FOREIGN KEY ( no_article )
         REFERENCES ARTICLES_VENDUS ( no_article )
-ON DELETE NO ACTION 
+ON DELETE CASCADE
     ON UPDATE no action 
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT articles_vendus_categories_fk FOREIGN KEY ( no_categorie )
         REFERENCES categories ( no_categorie )
-ON DELETE NO ACTION 
+ON DELETE CASCADE 
     ON UPDATE no action 
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT ventes_utilisateur_fk FOREIGN KEY ( no_utilisateur )
         REFERENCES utilisateurs ( no_utilisateur )
-ON DELETE NO ACTION 
+ON DELETE no action
     ON UPDATE no action 
-    
-    
------------------------------------------------------------------------------
--- Modifications apportées 
--------------------------------------------------------------------------------
 
-ALTER TABLE ARTICLES_VENDUS
-	ADD COLUMN etat_vente CHAR(2) NOT NULL CONSTRAINT CK_etat_vente CHECK (etat_vente IN('ND', 'EC', 'TE'))  
- 
+
+	insert into CATEGORIES values('informatique')
+	insert into CATEGORIES values('ameublement')
+	insert into CATEGORIES values('vetement')
+	insert into CATEGORIES values('sport')

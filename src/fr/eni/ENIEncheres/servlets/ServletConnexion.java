@@ -36,6 +36,8 @@ public class ServletConnexion extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		
 //		User id
 		String identifiant = request.getParameter("utilisateur_identifiant");
 //		User password
@@ -116,18 +118,20 @@ public class ServletConnexion extends HttpServlet {
 							rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
 							rd.forward(request, response);
 						}
-						 
-					} else {
-						//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
-						session.setAttribute("isConnected", false);
-						System.out.println(session.getAttribute("isConnected"));
-						//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
-						request.setAttribute("erreurPseudo", "Ce pseudo n'existe pas");
-					 
-						RequestDispatcher rd2;
-						rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp");
-						rd2.forward(request, response);
-						}
+						
+						
+						 } else {
+								//impossible d'attribuer ici, mais peu gênant : l'attribut de session "idUser" sera inexistant si non-connecté			
+								session.setAttribute("isConnected", false);
+								System.out.println(session.getAttribute("isConnected"));
+								//Créer une page de transition ? (ex : "Vous n'êtes pas enregistré : Voulez-vous créer un compte ?)
+								request.setAttribute("erreurPseudo", "Ce pseudo n'existe pas");
+							 
+								RequestDispatcher rd2;
+								rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp");
+								rd2.forward(request, response);
+						 }
+
 				} catch (DALException e) {
 					e.printStackTrace();
 				}

@@ -82,6 +82,7 @@ public class ServletConnexion extends HttpServlet {
 						
 						session.setAttribute("isConnected", true);
 						session.setAttribute("idUser", idUser); 
+						session.setMaxInactiveInterval(300);
 						session.setAttribute("pseudo", identifiant);
 						
 //						isConnected = true;

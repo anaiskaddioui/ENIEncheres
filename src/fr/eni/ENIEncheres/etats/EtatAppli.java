@@ -80,16 +80,16 @@ public class EtatAppli {
 		}
 	}
 	
-	public static String getIdUser() {
+	public static int getIdUserSession() {
 		
-		EtatAppli.setIdUser();
-		return idUser;
+		EtatAppli.setIdUserSession();
+		return idUserSession;
 	}
-	public static void setIdUser() {
+	public static void setIdUserSession() {
 		if (session.getAttribute("idUser") != null) {
 			EtatAppli.idUser = (String) session.getAttribute("idUser");
 			EtatAppli.idUserSession = Integer.valueOf(EtatAppli.idUser);
-		}
+		} 
 	}
 	
 	

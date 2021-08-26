@@ -41,6 +41,7 @@ public class ServletDeconnexion extends HttpServlet {
 		if (deconnexion) {
 			session.setAttribute("isConnected", false);
 			session.removeAttribute("idUser");
+			session.invalidate();
 	
 			RequestDispatcher rd2;
 			rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");

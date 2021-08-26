@@ -29,19 +29,20 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	
  /** REQUETES POUR CHARLES*/
 	private final static String LISTER = "SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres, prix_initial, prix_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur;";
-	private final static String SELECT_BY_ID_CATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, no_categorie, etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
+	private final static String SELECT_BY_ID_CATEGORIE = "SELECT no_article,nom_article,description,date_fin_encheres,prix_initial, prix_vente, no_categorie, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.no_categorie = ?;";
 	private final static String SELECT_BY_KEYWORD = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?;";
 	private final static String SELECT_BY_ID_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE nom_article LIKE ?  AND no_categorie = ?;";
-	private final static String SELECT_BY_ETAT_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND nom_article LIKE ?;";
-	private final static String SELECT_BY_ETAT_AND_CATEGORY = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND ARTICLES_VENDUS.no_categorie = ?;";	
-	private final static String SELECT_BY_ETAT_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND no_categorie = ? AND nom_article LIKE ?";
-	private final static String SELECT_BY_ETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
+	private final static String SELECT_BY_ETAT_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres, etat_vente, prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND nom_article LIKE ?;";
+	private final static String SELECT_BY_ETAT_AND_CATEGORY = "SELECT no_article,nom_article,description, date_debut_encheres, date_fin_encheres, etat_vente, prix_initial, no_categorie, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND ARTICLES_VENDUS.no_categorie = ?;";	
+	private final static String SELECT_BY_ETAT_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article, description, date_debut_encheres, date_fin_encheres, etat_vente, prix_initial, prix_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND no_categorie = ? AND nom_article LIKE ?";
+	private final static String SELECT_BY_ETAT = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ?;";
 	private final static String SELECT_BY_USER_ID = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE UTILISATEURS.no_utilisateur = ?;";
-	private final static String SELECT_BY_ETAT_AND_USER_ID = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND UTILISATEURS.no_utilisateur = ?;";
-	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND nom_article LIKE ?";
-	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEGORY = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND ARTICLES_VENDUS.no_categorie = ?";
+	private final static String SELECT_BY_ETAT_AND_USER_ID = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, no_categorie, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE ARTICLES_VENDUS.etat_vente = ? AND UTILISATEURS.no_utilisateur = ?;";
+	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, no_categorie, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND nom_article LIKE ?";
+	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEGORY = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, no_categorie, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND ARTICLES_VENDUS.no_categorie = ?";
 	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND no_categorie = ? AND nom_article LIKE ?";
 	private final static String UPDATE_DATE_FIN_ENCHERES = "UPDATE ARTICLES_VENDUS SET etat_vente = 'TE' WHERE date_fin_encheres < ? ";
+	private final static String UPDATE_DATE_DEBUT_ENCHERES = "UPDATE ARTICLES_VENDUS SET etat_vente = 'EC' WHERE date_debut_encheres >= ? ";
 //-----------------------------------------------------
 
 	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente FROM ARTICLES_VENDUS WHERE ARTICLES_VENDUS.no_article = ?";
@@ -144,6 +145,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
 				listeArticles.add(articleVendu);
 			}
 
@@ -209,6 +211,8 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setIdCategorie(rs.getInt("no_categorie"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -242,7 +246,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -276,7 +280,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -309,7 +313,8 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -342,7 +347,9 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
-				//articleVendu.setPseudo(rs.getInt("pseudo"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
+				articleVendu.setIdCategorie(rs.getInt("no_categorie"));
+				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticle.add(articleVendu);
 			}
 
@@ -379,7 +386,9 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
+				articleVendu.setIdCategorie(rs.getInt("no_categorie"));
 				listeArticles.add(articleVendu);
 			}
 
@@ -415,7 +424,9 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
+				articleVendu.setIdCategorie(rs.getInt("no_categorie"));
 				listeArticles.add(articleVendu);
 			}
 
@@ -484,6 +495,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
 				listeArticles.add(articleVendu);
 			}
@@ -520,7 +532,9 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
+				articleVendu.setIdCategorie(rs.getInt("no_categorie"));
 				listeArticles.add(articleVendu);
 			}
 
@@ -558,13 +572,15 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setEtatVente(rs.getString("etat_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
+				articleVendu.setIdCategorie(rs.getInt("no_categorie"));
 				listeArticles.add(articleVendu);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DALException("Echec de selectParEtatEtUserId", e);
+			throw new DALException("Echec de selectParEtatEtUserIdEtCategEtMotCle", e);
 		}
 		return listeArticles;
 	}
@@ -572,7 +588,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	public void updateDateFinEnchere(String date) throws DALException {
 		Connection cnx = null;
 		PreparedStatement pstmt = null;
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(UPDATE_DATE_FIN_ENCHERES);
@@ -582,7 +597,24 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DALException("Echec de selectParEtatEtUserId", e);
+			throw new DALException("Echec de updateDateFinEnchere", e);
+		}
+	}
+	
+	
+	public void updateDateDebutEnchere(String date) throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(UPDATE_DATE_DEBUT_ENCHERES);
+			//On donne les parametres de requete
+			pstmt.setString(1, date);	
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de updateStatutDateDebutEnchere", e);
 		}
 	}
 	

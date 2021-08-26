@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +38,6 @@ public class ServletAccueilConnecte extends HttpServlet {
 				//------------------------------------------------------------------------------------
 				
 				//Recupere la date du jour
-			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); 
-			   //OU 
-			   //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
 			   Date dateDuJour = java.sql.Date.valueOf(LocalDate.now(ZoneId.systemDefault()));
 			   System.out.println(dateDuJour); 
 			
@@ -116,18 +112,18 @@ public class ServletAccueilConnecte extends HttpServlet {
 			recherche = request.getParameter("recherche");
 		}
 		
-//		Radio Achats/vente
-		String achatsVentes = request.getParameter("achats-ventes");
-		
-//		Checkbox Encheres 
-		String encheresOuvertes = request.getParameter("encheres-ouvertes");
-		String encheresEnCours = request.getParameter("encheres-en-cours");		
-		String encheresRemportees = request.getParameter("encheres-remportees");	
-		
-//		Checkbox Vente
-		String ventesEnCours = request.getParameter("ventes-en-cours");
-		String ventesNonDebutees = request.getParameter("ventes-non-debutees");		
-		String ventesTerminees = request.getParameter("ventes-terminees");		
+////		Radio Achats/vente
+//		String achatsVentes = request.getParameter("achats-ventes");
+//		
+////		Checkbox Encheres 
+//		String encheresOuvertes = request.getParameter("encheres-ouvertes");
+//		String encheresEnCours = request.getParameter("encheres-en-cours");		
+//		String encheresRemportees = request.getParameter("encheres-remportees");	
+//		
+////		Checkbox Vente
+//		String ventesEnCours = request.getParameter("ventes-en-cours");
+//		String ventesNonDebutees = request.getParameter("ventes-non-debutees");		
+//		String ventesTerminees = request.getParameter("ventes-terminees");		
 
 		//Recupere l'id de session
 		HttpSession session = request.getSession();
@@ -141,7 +137,6 @@ public class ServletAccueilConnecte extends HttpServlet {
 		ArticlesManager articlesManagerCaseACocher = new ArticlesManager();
 		List<ArticleVendu> listeArticlesSelonCasesCochees = new ArrayList<ArticleVendu>();
 		
-		RequestDispatcher rdCaseACocher;	
 		
 		//Recupere les valeurs des checkbox ACHAT & VENTE et les stocke dans un tableau		
 		String valeursCBoxAchat[] = request.getParameterValues("cbox-achat");
@@ -686,13 +681,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
-								else {
-									System.out.println("Sortie de : 1- Si saisie dans CATEGORIE / Vetement / Achat");
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtCategorie("EC", 3);
-									for (ArticleVendu article : listeTampon) {
-										listeArticlesSelonCasesCochees.add(article);
-									}
-								}
+								
 							}
 						}
 						

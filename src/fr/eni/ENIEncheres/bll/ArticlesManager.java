@@ -131,6 +131,11 @@ public class ArticlesManager {
 	public void miseAJourDateFinEnchere(String date) throws DALException {
 		this.articleDAO.updateDateFinEnchere(date);
 	}
+	
+	public ArrayList<ArticleVendu> selectionnerParEtatEtMotCle(String etat, String nomArticle)throws DALException{
+		return this.articleDAO.selectParEtatEtMotCle(etat, nomArticle);		
+	}
+	
   //______________________________________________________________________________________________
 
 }

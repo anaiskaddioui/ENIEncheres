@@ -81,14 +81,9 @@ public class ServletAccueilConnecte extends HttpServlet {
 //-----------------------------		
 		//Recupere l'id de session
 		HttpSession session = request.getSession();
-		int idSession;
-		
-		if(session.getAttribute("idUser")== null) {
-			idSession = (int) session.getAttribute("idUser");
-		}
-		else {
-			idSession = 2;
-		}
+
+		String idSessionString = String.valueOf(session.getAttribute("idUser"));	
+		int idSession = Integer.valueOf(idSessionString);
 //-------------------------------------		
 		
 //-________________________________________________________________________________________________________

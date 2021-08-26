@@ -12,7 +12,7 @@ import fr.eni.ENIEncheres.dal.dao.DAORetrait;
 
 public class RetraitJdbcImpl implements DAORetrait {
 	
-	private final static String INSERER = "INSERT INTO RETRAITS(no_article, rue,code_postal,ville,) VALUES (?, ?, ?, ?);";
+	private final static String INSERER = "INSERT INTO RETRAITS(no_article, rue,code_postal,ville) VALUES (?, ?, ?, ?);";
 	private final static String SELECT_BY_ID = "SELECT rue, code_postal, ville FROM RETRAITS WHERE no_article = ?;";
 	private final static String UPDATE = "UPDATE RETRAITS SET rue = ?, code_postal = ?, ville = ? WHERE no_article = ?";
 	
@@ -25,7 +25,7 @@ public class RetraitJdbcImpl implements DAORetrait {
 			PreparedStatement stmt = cnx.prepareStatement(INSERER);
 			stmt.setInt(1, retrait.getIdArticle());
 			stmt.setString(2, retrait.getRue());
-			stmt.setInt(3, retrait.getCodePostal());
+			stmt.setString(3, retrait.getCodePostal());
 			stmt.setString(4, retrait.getVille());
 			stmt.executeUpdate();
 			
@@ -53,7 +53,7 @@ public class RetraitJdbcImpl implements DAORetrait {
 			
 			while (rs.next()) {
 							
-				retrait = new Retrait(idArticle, rs.getString("rue"), rs.getInt("code_postal"), rs.getString("ville"));
+				retrait = new Retrait(idArticle, rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville"));
 	
 			}
 
@@ -74,7 +74,7 @@ public class RetraitJdbcImpl implements DAORetrait {
 		try {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE);
 			stmt.setString(1, retrait.getRue());
-			stmt.setInt(2, retrait.getCodePostal());
+			stmt.setString(2, retrait.getCodePostal());
 			stmt.setString(3, retrait.getVille());
 			stmt.setInt(4, retrait.getIdArticle());
 			stmt.executeUpdate();

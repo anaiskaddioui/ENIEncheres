@@ -104,8 +104,8 @@
 							<label for="prix">Mise à prix :</label>
 						</div>
 						<div class="col-sm-4 col-lg-6">
-							<input type="number" id="prix" name="prix" min="0" max="1000"
-								class="form-control" />
+							<input type="number" id="prixInitial" name="prixInitial" min="0" max="1000"
+								class="form-control" required="required"/>
 						</div>
 					</div>
 					<!-- Input Dates -->

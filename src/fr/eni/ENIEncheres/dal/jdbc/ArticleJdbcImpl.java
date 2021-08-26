@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
+import com.mysql.cj.protocol.Resultset;
+
 import fr.eni.ENIEncheres.bo.ArticleVendu;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.Outils;
@@ -24,31 +26,8 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	 * Attributs de classe des requêtes SQL
 	 */
 
-//	private static final String SQL_SELECT_ALL_ARTICLES = "SELECT no_article, nom_article, description, date_debut_encheres,"
-//			+ " date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS ";
-
 	private static final String SQL_INSERT_INTO_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article, description, date_debut_encheres,"
-			+ " date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie) VALUES(?,?,?,?,?,?,?,?,?)";
-
-//	private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
-//	private static final String SQL_SELECT_ARTICLES_BY_ETAT = "SELECT * FROM ARTICLES_VENDUS as A INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
-//			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur WHERE A.etatVente = ?";
-//	private static final String SQL_SELECT_ARTICLES_BY_ETAT_AND_UTILISATEUR = "SELECT A.no_article, nom_article, description, date_debut_encheres, "
-//			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, U.no_utilisateur, no_categorie FROM ARTICLES_VENDUS as A "
-//			+ "INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
-//			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur "
-//			+ "WHERE A.etatVente = ? AND U.no_utilisateur = ?";
-//	private static final String SQL_SELECT_ARTICLES_BY_ETAT_AND_GAGNE = "SELECT A.no_article, nom_article, description, date_debut_encheres, "
-//			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, E.no_utilisateur, no_categorie FROM ARTICLES_VENDUS as A "
-//			+ "INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
-//			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur "
-//			+ "INNER JOIN UTILISATEURS as ACH ON ACH.no_utilisateur = E.no_utilisateur "
-//			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
-//	private static final String SQL_SELECT_ENCHERES_BY_ETAT = "SELECT * FROM ARTICLES_VENDUS as A "
-//			+ "INNER JOIN ENCHERES as E ON A.no_utilisateur = E.no_utilisateur "
-//			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
-//	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, "
-//			+ "date_fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
+			+ " date_fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie) VALUES(?,?,?,?,?,?,?,?,?)";
 
 	//** REQUETES BEN */
 	private final static String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = ? WHERE no_article = ?";
@@ -73,9 +52,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private final static String UPDATE_DATE_FIN_ENCHERES = "UPDATE ARTICLES_VENDUS SET etat_vente = 'TE' WHERE date_fin_encheres < ? ";
 //-----------------------------------------------------
 
-	private static final String SQL_SELECT_ARTICLE_BY_ID = null;
-
-	
+	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente FROM ARTICLES_VENDUS WHERE ARTICLES_VENDUS.no_article = ?";
 	
 //_______________________________________METHODES POUR JUDICAEL____________________________________________________
 	
@@ -128,6 +105,12 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setInt(8, newAdd.getIdUtilisateur());
 			pstmt.setInt(9, newAdd.getIdCategorie());
 			pstmt.executeUpdate();
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				newAdd.setIdArticle(rs.getInt(1));
+			}
+			rs.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -613,7 +596,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	
 //_______________________________________________________________________________________________________________
 	
-
 
 
 

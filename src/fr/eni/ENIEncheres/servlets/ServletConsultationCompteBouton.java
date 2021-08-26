@@ -28,7 +28,8 @@ public class ServletConsultationCompteBouton extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère l'identifiant de l'utilisateur stocké dans la session
 		HttpSession session = request.getSession();
-		int idUtilisateur = (int) session.getAttribute("idUser");
+		String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+		int idUtilisateur = Integer.valueOf(idUtilisateurString);
 		
 		//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 		Utilisateurs user = null;
@@ -64,8 +65,8 @@ public class ServletConsultationCompteBouton extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère l'identifiant de l'utilisateur stocké dans la session
 		HttpSession session = request.getSession();
-		int idUtilisateur = 6;
-				//(int) session.getAttribute("idUser");
+		String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+		int idUtilisateur = Integer.valueOf(idUtilisateurString);
 		
 		//On supprime l'utilisateur
 		UtilisateursManager managerU = new UtilisateursManager();

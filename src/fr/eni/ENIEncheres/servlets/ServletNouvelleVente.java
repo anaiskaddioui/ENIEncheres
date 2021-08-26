@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
+import fr.eni.ENIEncheres.bll.BLLException;
+import fr.eni.ENIEncheres.bll.RetraitManager;
 import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
+import fr.eni.ENIEncheres.bo.Retrait;
 import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.dao.DAOFactory;
@@ -23,7 +26,7 @@ import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 /**
  * Servlet implementation class ServletConnexion
  */
-@WebServlet("/NouvelleVente")
+@WebServlet("/ServletNouvelleVente")
 public class ServletNouvelleVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -71,15 +74,30 @@ public class ServletNouvelleVente extends HttpServlet {
 				prixInitial, prixVente, etatVente,idUtilisateur, idCategorie);
 		ArticlesManager articlesManager = new ArticlesManager();
 		ArticleVendu monArticle = null;
-			
+		
+		
 
 		try {
-			articlesManager.insertArticle(newAdd);
 			monArticle = articlesManager.insertArticle(newAdd);
 		} catch (DALException e) {
 			e.printStackTrace();
 		}
 		
+		
+		//Insertion Adresse dans table retrait
+		try {
+			Retrait retrait = new Retrait(monArticle.getIdArticle(), rue, codePostal, ville);
+			RetraitManager retraitManager = new RetraitManager();
+			retraitManager.insertRetrait(retrait);
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BLLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		request.setAttribute("idArticle", monArticle.getIdArticle());
 		
 //		TEST RECUP VALEURS
 		System.out.println(newAdd);
@@ -91,7 +109,12 @@ public class ServletNouvelleVente extends HttpServlet {
 		System.out.println(rue);
 		System.out.println(codePostal);
 		System.out.println(ville);
+		
 
+		RequestDispatcher rd2;
+		rd2 = request.getRequestDispatcher("/ServletDetailArticle");
+		rd2.forward(request, response);
+		
 		
 		// TODO Auto-generated method stub
 		doGet(request, response);

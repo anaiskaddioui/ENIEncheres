@@ -29,7 +29,8 @@ public class ServletModificationCompte extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//On récupère l'identifiant de l'utilisateur stocké dans la session
 				HttpSession session = request.getSession();
-				int idUtilisateur = (int) session.getAttribute("idUser");
+				String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+				int idUtilisateur = Integer.valueOf(idUtilisateurString);
 				
 				//On va chercher cet utilisateur dans la base de données et stocker ses valeurs en attribut de requête
 				Utilisateurs user = null;
@@ -75,14 +76,15 @@ public class ServletModificationCompte extends HttpServlet {
 		String codePostal = request.getParameter("code_postal");		
 		String ville = request.getParameter("ville");
 		String passwordNouveau = null;
-		if(request.getParameter("password-nouveau") != null) {
+		if(request.getParameter("password-nouveau") != "") {
 			passwordNouveau = request.getParameter("password-nouveau");
 		}
 		
 		
 		//On récupère l'utilisateur associé à la session 
 		HttpSession session = request.getSession();
-		int idUtilisateur = (int) session.getAttribute("idUser");
+		String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+		int idUtilisateur = Integer.valueOf(idUtilisateurString);
 		Utilisateurs oldUser = null;
 		UtilisateursManager managerU = new UtilisateursManager();
 		try {
@@ -98,7 +100,7 @@ public class ServletModificationCompte extends HttpServlet {
 		
 		//On crée un nouvel utilisateur avec les nouvelles valeurs et on modifie l'encien avec les nouvelles valeurs
 		Utilisateurs newUser = null;
-		if(passwordNouveau == null) {
+		if(passwordNouveau == "") {
 			newUser = new Utilisateurs(idUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, credit, admin);
 			try {
 				managerU.modifierUtilisateurSansMDP(newUser);

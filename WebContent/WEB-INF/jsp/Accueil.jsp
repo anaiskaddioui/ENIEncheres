@@ -26,7 +26,7 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="${pageContext.request.contextPath }/ServletAccueil><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+					<a href="${pageContext.request.contextPath }/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
 				</c:when>
 				<c:otherwise>
 					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
@@ -80,11 +80,11 @@
 									class="form-control barre-recherche" id="recherche" />
 							</div>
 							<div class="row filtres-affichage">
-								<c:if test="${!libelleCategorie.isEmpty()}">
+								<c:if test="${!libelleCategorie.isEmpty() && libelleCategorie != null}">
 									<h5>Vous visualisez les ventes de la catégorie : </h5>
 									<p> - ${libelleCategorie.toUpperCase() }</p>
 								</c:if>
-								<c:if test="${!articleContient.isEmpty() }">
+								<c:if test="${!articleContient.isEmpty() && articleContient != null}">
 									<p> - Le nom contient : "${articleContient }"</p>								
 								</c:if>
 							</div>

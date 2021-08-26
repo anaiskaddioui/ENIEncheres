@@ -19,7 +19,7 @@
 	</head>
 	<body>
 		
-		<!-- Entete  -->
+		<!-- Entete  --><!-- Commentaire pour push nouveau css -->
 		<header class="container-fluid header">
 	
 		<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->

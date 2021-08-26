@@ -42,10 +42,7 @@ public class ServletAccueil extends HttpServlet {
 	   
 	   
 	   try {
-		//Met à jour statut de l'enchère TE lorsque la date de fin enchère est terminee
 		articlesManagerFinEnchere.miseAJourDateFinEnchere(dateDuJour);
-		//Met à jour statut de l'enchère EC lorsque la date du jour dépassee
-		articlesManagerFinEnchere.miseAJourDateDebutEnchere(dateDuJour);		
 		} catch (DALException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

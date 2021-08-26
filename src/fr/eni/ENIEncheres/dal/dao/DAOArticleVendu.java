@@ -29,5 +29,4 @@ public interface DAOArticleVendu {
 		public List<ArticleVendu> selectParEtatEtUserIdEtCategorie(String etat, int userId, int categorie)throws DALException;
 		public List<ArticleVendu> selectParEtatEtUserIdEtCategEtMotCle(String etat, int userId, int categorie, String nomArticle) throws DALException;
 		public void updateDateFinEnchere(String date) throws DALException;
-		public void updateDateDebutEnchere(String date) throws DALException;
 }

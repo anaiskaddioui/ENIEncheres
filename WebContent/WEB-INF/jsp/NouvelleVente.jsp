@@ -169,7 +169,7 @@
 						</div>
 						<!-- Bouton Annuler -->
 						<div class="col text-center">
-							<button href="#" class="btn btn-primary btn-compte">
+							<button href="<%=request.getContextPath()%>/ServletAccueil" class="btn btn-primary btn-compte">
 								Annuler</button>
 						</div>
 					</div>

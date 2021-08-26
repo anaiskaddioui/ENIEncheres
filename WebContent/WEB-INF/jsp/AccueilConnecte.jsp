@@ -35,14 +35,11 @@
 			</div>
 							<!-- Liens -->
 				<div class="row justify-content-end">
-					<div class="col-1">
-						<a href="#">Enchères</a>
-					</div>
 					<div class="col-2">
-						<a href="#">Vendre un article</a>
+						<a href="<%=request.getContextPath()%>/ServletNouvelleVente">Vendre un article</a>
 					</div>
 					<div class="col-1">
-						<a href="#">Mon Profil</a>
+						<a href="<%=request.getContextPath()%>/ServletConsultationCompteBouton">Mon Profil</a>
 					</div>
 					<div class="col-1">
 						<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->

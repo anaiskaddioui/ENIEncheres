@@ -32,8 +32,7 @@
 			</c:choose>		
 			
 			</div>
-			<div class="col">
-				<a href="<%=request.getContextPath()%>/ServletConnexion" class="lien-top">S'inscrire - Se connecter</a>			
+			<div class="col">		
 			</div>	
 		
 		</div>
@@ -92,7 +91,7 @@
 				</div>
 				<!-- Bouton creer un compte  -->
 				<div class="row justify-content-center col-sm-6 col-xs-4">
-					<button href="#" class="btn btn-primary btn-compte">Créer
+					<button href="<%=request.getContextPath()%>/ServletCreationCompte" class="btn btn-primary btn-compte">Créer
 						un compte</button>
 				</div>
 			</div>

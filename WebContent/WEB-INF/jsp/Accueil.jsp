@@ -48,7 +48,7 @@
 			<h2>Achetez, Vendez, Partagez...</h2>
 			<p class="rectangle"></p>
 		</div>	
-		<h3 class="row justify-content-center">Liste des enchères</h3>
+		<h3 class="row justify-content-center">Liste des enchères en cours</h3>
 		<form action="./ServletAccueil" method="post">
 			<div class="container">
 				<!-- Bloc Filtre/recherche/bouton  -->

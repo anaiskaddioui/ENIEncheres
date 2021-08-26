@@ -78,7 +78,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 		int idSession;
 		
 		if(session.getAttribute("idUser")== null) {
-			idSession = Integer.parseInt((String) session.getAttribute("idUser"));
+			idSession = (int) session.getAttribute("idUser");
 		}
 		else {
 			idSession = 2;

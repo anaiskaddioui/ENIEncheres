@@ -136,6 +136,10 @@ public class ArticlesManager {
 		return this.articleDAO.selectParEtatEtMotCle(etat, nomArticle);		
 	}
 	
+	public void miseAJourDateDebutEnchere(String date) throws DALException {
+		this.articleDAO.updateDateDebutEnchere(date);
+	}
+	
   //______________________________________________________________________________________________
 
 }

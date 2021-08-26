@@ -1010,9 +1010,9 @@ public class ServletAccueilConnecte extends HttpServlet {
 			RequestDispatcher rd;
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
 			rd.forward(request, response);
-						
 				
 				} catch (DALException e) {
+
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

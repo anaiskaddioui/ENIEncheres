@@ -130,8 +130,8 @@ public class ServletConnexion extends HttpServlet {
 								RequestDispatcher rd2;
 								rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp");
 								rd2.forward(request, response);
-						 
-					} 
+						 }
+
 				} catch (DALException e) {
 					e.printStackTrace();
 				}

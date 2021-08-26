@@ -33,10 +33,10 @@ public class ServletDetailArticle extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//On récupère l'id de l'article sur lequel on a cliqué
-		int idArticle = 2;
+		int idArticle = 0;
 		System.out.println(request.getParameter("idArticle"));
 		if(request.getAttribute("idArticle") != null) {
-		idArticle = (int) request.getAttribute("idArticle");
+			idArticle = (int) request.getAttribute("idArticle");
 		} else if(request.getParameter("idArticle") != null) {
 			idArticle =Integer.valueOf(request.getParameter("idArticle"));
 		}

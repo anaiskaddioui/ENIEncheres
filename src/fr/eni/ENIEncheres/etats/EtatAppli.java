@@ -20,6 +20,7 @@ public class EtatAppli {
 	private static Categorie categorie;	
 	private static boolean isConnected;
 	private static String idUser;
+	private static int idUserSession;
 	private static HttpSession session;
 	private static UtilisateursManager uManager;
 	private static ArticlesManager artManager;
@@ -80,12 +81,16 @@ public class EtatAppli {
 	}
 	
 	public static String getIdUser() {
+		
+		EtatAppli.setIdUser();
 		return idUser;
 	}
 	public static void setIdUser() {
 		if (session.getAttribute("idUser") != null) {
 			EtatAppli.idUser = (String) session.getAttribute("idUser");
+			EtatAppli.idUserSession = Integer.valueOf(EtatAppli.idUser);
 		}
 	}
+	
 	
 }

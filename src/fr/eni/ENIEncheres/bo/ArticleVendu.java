@@ -50,7 +50,7 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.idCategorie = idCategorie;
-		this.idUtilsateur = idUtilsateur;
+		this.idUtilisateur = idUtilsateur;
 		this.pseudo = pseudo;
 
 	}
@@ -90,7 +90,20 @@ public class ArticleVendu {
 		this.idUtilisateur = idUtilisateur;
 		this.pseudo = pseudo;
 	}
+	
 
+	//Constructeur pour modifier un article
+	public ArticleVendu(int idArticle, String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int prixInitial, int idCategorie) {
+		this.idArticle = idArticle;
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.prixInitial = prixInitial;
+		this.idCategorie = idCategorie;
+	}
+	
 	public ArticleVendu() {
 	}
 

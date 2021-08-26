@@ -52,6 +52,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	//** REQUETES BEN */
 	private final static String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = ? WHERE no_article = ?";
 	private final static String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+	private final static String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?, prix_initial = ?, no_categorie = ? WHERE no_article = ?";
 	
 	
  /** REQUETES POUR CHARLES*/
@@ -713,6 +714,25 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 			  throw new DALException("Delete article failed - id=" + idArticle, e);
 		} 		
+	}
+
+	@Override
+	public void updateArticle(ArticleVendu article) throws DALException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(UPDATE_ARTICLE);
+			rqt.setString(1, article.getNomArticle());
+			rqt.setString(2, article.getDescription());
+			rqt.setDate(3, article.getDateDebutEncheres());
+			rqt.setDate(4, article.getDateFinEncheres());
+			rqt.setInt(5, article.getPrixInitial());
+			rqt.setInt(6, article.getIdCategorie());
+			rqt.setInt(7, article.getIdArticle());
+			rqt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
 	}
 
 }

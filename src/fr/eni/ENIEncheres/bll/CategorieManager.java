@@ -41,4 +41,8 @@ public class CategorieManager {
     public List<Categorie> selectionnerToutesCategories() throws DALException {
         return categorieDAO.selectAll();
     }
+    
+    public int getIdCategorie(String libelle) throws DALException {
+    	return this.categorieDAO.selectIdByLibelle(libelle);
+    }
 }

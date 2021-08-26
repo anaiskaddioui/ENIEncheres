@@ -17,6 +17,7 @@ public class CategorieJdbcImpl implements DAOCategorie {
 	
 	String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
 	String INSERT = "INSERT INTO CATEGORIES (libelle) VALUES (?)";
+	String SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES WHERE libelle = ?";
 	
 	@Override
 	public void insert(Categorie categorie) throws DALException {
@@ -51,7 +52,6 @@ public class CategorieJdbcImpl implements DAOCategorie {
 		try {
 			cnx = ConnectionProvider.getConnection();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		Categorie categorie = null;
@@ -128,6 +128,24 @@ public class CategorieJdbcImpl implements DAOCategorie {
 			throw dalException;
 		}
 		return isUnique;
+	}
+
+	@Override
+	public int selectIdByLibelle(String libelle) throws DALException {
+		int idCategorie = 0;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement rqt = cnx.prepareStatement(SELECT_BY_LIBELLE);
+			rqt.setString(1, libelle);
+			rqt.execute();
+			ResultSet rs = rqt.getResultSet();
+			while (rs.next()) {
+				idCategorie = rs.getInt("no_categorie");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return idCategorie;
 	}
 
 }

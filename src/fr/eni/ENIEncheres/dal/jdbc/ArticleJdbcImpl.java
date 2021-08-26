@@ -19,30 +19,31 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	 * Attributs de classe des requêtes SQL
 	 */
 
-	private static final String SQL_SELECT_ALL_ARTICLES = "SELECT no_article, nom_article, description, date_debut_encheres,"
-			+ " date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS ";
+//	private static final String SQL_SELECT_ALL_ARTICLES = "SELECT no_article, nom_article, description, date_debut_encheres,"
+//			+ " date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS ";
 
-	private static final String SQL_INSERT_INTO_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie) VALUES(?,?,?,?,?,?,?,?,?)";
+	private static final String SQL_INSERT_INTO_ARTICLE = "INSERT INTO ARTICLES_VENDUS(nom_article, description, date_debut_encheres,"
+			+ " date_fin_encheres, prix_initial, prix_vente, etatVente, no_utilisateur, no_categorie) VALUES(?,?,?,?,?,?,?,?,?)";
 
-	private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
-	private static final String SQL_SELECT_ARTICLES_BY_ETAT = "SELECT * FROM ARTICLES_VENDUS as A INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
-			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur WHERE A.etatVente = ?";
-	private static final String SQL_SELECT_ARTICLES_BY_ETAT_AND_UTILISATEUR = "SELECT A.no_article, nom_article, description, date_debut_encheres, "
-			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, U.no_utilisateur, no_categorie FROM ARTICLES_VENDUS as A "
-			+ "INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
-			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur "
-			+ "WHERE A.etatVente = ? AND U.no_utilisateur = ?";
-	private static final String SQL_SELECT_ARTICLES_BY_ETAT_AND_GAGNE = "SELECT A.no_article, nom_article, description, date_debut_encheres, "
-			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, E.no_utilisateur, no_categorie FROM ARTICLES_VENDUS as A "
-			+ "INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
-			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur "
-			+ "INNER JOIN UTILISATEURS as ACH ON ACH.no_utilisateur = E.no_utilisateur "
-			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
-	private static final String SQL_SELECT_ENCHERES_BY_ETAT = "SELECT * FROM ARTICLES_VENDUS as A "
-			+ "INNER JOIN ENCHERES as E ON A.no_utilisateur = E.no_utilisateur "
-			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
-	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, "
-			+ "date_fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
+//	private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
+//	private static final String SQL_SELECT_ARTICLES_BY_ETAT = "SELECT * FROM ARTICLES_VENDUS as A INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
+//			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur WHERE A.etatVente = ?";
+//	private static final String SQL_SELECT_ARTICLES_BY_ETAT_AND_UTILISATEUR = "SELECT A.no_article, nom_article, description, date_debut_encheres, "
+//			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, U.no_utilisateur, no_categorie FROM ARTICLES_VENDUS as A "
+//			+ "INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
+//			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur "
+//			+ "WHERE A.etatVente = ? AND U.no_utilisateur = ?";
+//	private static final String SQL_SELECT_ARTICLES_BY_ETAT_AND_GAGNE = "SELECT A.no_article, nom_article, description, date_debut_encheres, "
+//			+ "date_fin_encheres, prix_initial, prix_vente, etatVente, E.no_utilisateur, no_categorie FROM ARTICLES_VENDUS as A "
+//			+ "INNER JOIN UTILISATEURS as U ON A.no_utilisateur = U.no_utilisateur "
+//			+ "INNER JOIN ENCHERES as E ON U.no_utilisateur = E.no_utilisateur "
+//			+ "INNER JOIN UTILISATEURS as ACH ON ACH.no_utilisateur = E.no_utilisateur "
+//			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
+//	private static final String SQL_SELECT_ENCHERES_BY_ETAT = "SELECT * FROM ARTICLES_VENDUS as A "
+//			+ "INNER JOIN ENCHERES as E ON A.no_utilisateur = E.no_utilisateur "
+//			+ "WHERE A.etatVente = ? AND E.no_utilisateur = ?";
+//	private static final String SQL_SELECT_ARTICLE_BY_ID = "SELECT no_article, nom_article, description, date_debut_encheres, "
+//			+ "date_fin_encheres, prix_initial, prix_vente, etat_vente, no_utilisateur, no_categorie FROM ARTICLES_VENDUS WHERE no_article = ?";
 
 	//** REQUETES BEN */
 	private final static String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = ? WHERE no_article = ?";
@@ -66,12 +67,14 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND no_categorie = ? AND nom_article LIKE ?";
 //-----------------------------------------------------
 
+	private static final String SQL_SELECT_ARTICLE_BY_ID = null;
+
 	
 	
 //_______________________________________METHODES POUR JUDICAEL____________________________________________________
 	
 	
-	@Override
+	
 //	public List<ArticleVendu> insert(ArticleVendu articleVendu) throws DALException {
 //		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 //		try (Connection conn = ConnectionProvider.getConnection()) {
@@ -101,28 +104,30 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	/**
 	 * Méthode d'insertion d'un objet en BDD
 	 */
-	public void insertArticle(ArticleVendu article, int idUtilisateur, int idCategorie) throws SQLException, DALException {
-		try (Connection conn = ConnectionProvider.getConnection()) {
+	public ArticleVendu  insertArticle(ArticleVendu newAdd) throws SQLException, DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			Outils o = new Outils();
 
-			PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT_INTO_ARTICLE,
+			PreparedStatement pstmt = cnx.prepareStatement(SQL_INSERT_INTO_ARTICLE,
 					PreparedStatement.RETURN_GENERATED_KEYS);
-			System.out.println("art daoImpl : " + article);
-
-			pstmt.setString(1, article.getNomArticle());
-			pstmt.setString(2, article.getDescription());
-			pstmt.setDate(3, java.sql.Date.valueOf(article.getDateDebutEncheres()));
-			pstmt.setDate(4, java.sql.Date.valueOf(article.getDateFinEncheres()));
-			pstmt.setInt(5, article.getPrixInitial());
-			pstmt.setInt(6, article.getPrixVente());
-			pstmt.setString(7, article.getEtatVente());
-			pstmt.setInt(8, idUtilisateur);
-			pstmt.setInt(9, idCategorie);
+			System.out.println("art daoImpl : " + newAdd);
+				 
+			pstmt.setString(1, newAdd.getNomArticle());
+			pstmt.setString(2, newAdd.getDescription());
+			pstmt.setDate(3, o.dateJavaUtilEnDateSQL(newAdd.getDateDebutEncheres()));
+			pstmt.setDate(4, o.dateJavaUtilEnDateSQL(newAdd.getDateFinEncheres()));
+			pstmt.setInt(5, newAdd.getPrixInitial());
+			pstmt.setInt(6, newAdd.getPrixVente());
+			pstmt.setString(7, newAdd.getEtatVente());
+			pstmt.setInt(8, newAdd.getIdUtilisateur());
+			pstmt.setInt(9, newAdd.getIdCategorie());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DALException("Echec de l'insertion d'un nouvel article", e);
 		}
+		return newAdd;
 
 	}
 
@@ -146,7 +151,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			//On donne l'etat vente au 1er argument de la requete
 			pstmt.setString(1, etat);
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -215,7 +219,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			//On donne l'id catégorie au 1er argument de la requete
 			pstmt.setInt(1, idCategorie);
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
+			
 
 			ArticleVendu articleVendu = null;
 			
@@ -251,7 +255,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			//On donne les lettres du nom article au 1er argument de la requete
 			pstmt.setString(1, "%" + nomArticle + "%");
 			rs = pstmt.executeQuery();
-			Outils o = new Outils();
+			
 			ArticleVendu articleVendu = null;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -287,7 +291,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setString(1, "%" + nomArticle + "%");
 			pstmt.setInt(2, idCategorie);
 			rs = pstmt.executeQuery();
-			Outils o = new Outils();
+			
 			ArticleVendu articleVendu;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -321,7 +325,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setString(1, etat);
 			pstmt.setString(2, "%" + nomArticle + "%");
 			rs = pstmt.executeQuery();
-			Outils o = new Outils();
+			
 			ArticleVendu articleVendu;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -355,7 +359,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setString(1, etat);
 			pstmt.setInt(2, categorie);
 			rs = pstmt.executeQuery();
-			Outils o = new Outils();
+			
 			ArticleVendu articleVendu;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -390,7 +394,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setInt(2, categorie);
 			pstmt.setString(3, "%" + nomArticle + "%");
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -427,7 +430,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setString(1, etat);
 			pstmt.setInt(2, userId);
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -461,7 +463,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			//On donne user ID au 1er argument de la requete
 			pstmt.setInt(1, userId);
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -498,7 +499,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setInt(2, userId);
 			pstmt.setString(3, "%" + nomArticle + "%");
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -535,7 +535,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setInt(2, userId);
 			pstmt.setInt(3, categorie);
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -574,7 +573,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			pstmt.setInt(3, categorie);
 			pstmt.setString(4, "%" + nomArticle + "%");
 			ResultSet rs = pstmt.executeQuery();
-			Outils o = new Outils();
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -601,44 +599,6 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 
 
 
-	@Override
-	public List<ArticleVendu> insert(ArticleVendu articleVendu) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<ArticleVendu> SelectAllArticlesAvecUtilisateurEtCategorie(int utilisateurId, int categorieId)
-			throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<ArticleVendu> selectAllByEtatVenteUtilisateur(int etatVente, int idUtilisateur) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<ArticleVendu> selectAllByEtatVenteGagne(int etatVente, int idUtilisateur) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<ArticleVendu> SelectAllEncheresByEtat(int idUtilisateur, int etatVente) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

@@ -2,6 +2,7 @@ package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -12,14 +13,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.ENIEncheres.bll.ArticlesManager;
+import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
+import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 import fr.eni.ENIEncheres.dal.dao.DAOFactory;
 
 /**
  * Servlet implementation class ServletConnexion
  */
-@WebServlet("/ServletNouvelleVente")
+@WebServlet("/NouvelleVente")
 public class ServletNouvelleVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,18 +44,18 @@ public class ServletNouvelleVente extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		Date dateDebut = new Date(
+		Date dateDebutEncheres = new Date(
 				(LocalDate.parse(request.getParameter("date-debut")).atStartOfDay(ZoneId.systemDefault()).toEpochSecond())
 				* 1000);
 		
-		Date dateFin = new Date(
+		Date dateFinEncheres = new Date(
 				(LocalDate.parse(request.getParameter("date-fin")).atStartOfDay(ZoneId.systemDefault()).toEpochSecond())
 				* 1000);
 	
 		String nomArticle = request.getParameter("article");
 		String description = request.getParameter("description");
 		String categorie = request.getParameter("categorie");		
-		int prix = Integer.valueOf(request.getParameter("prix"));		
+		int prixInitial = Integer.valueOf(request.getParameter("prixInitial"));		
 		//String dateDebut = request.getParameter("date-debut");		
 		//String dateFin = request.getParameter("date-fin");	
 		String rue = request.getParameter("rue");	
@@ -61,21 +65,29 @@ public class ServletNouvelleVente extends HttpServlet {
 		int prixVente = 0;
 		int idUtilisateur = 1;
 		int idCategorie = 2;
-		String etat_vente = "EC";
+		String etatVente = "EC";
 		
-		ArticleVendu article = new ArticleVendu(nomArticle, description, dateDebut, dateFin, prix, prixVente, etat_vente, idCategorie, idUtilisateur);
-		
-		DAOFactory articleDAO = new DAOFactory();
-		//articleDAO.getArticleVendu().insertArticle(article);
+		ArticleVendu newAdd = new ArticleVendu(nomArticle,description, dateDebutEncheres, dateFinEncheres,
+				prixInitial, prixVente, etatVente,idUtilisateur, idCategorie);
+		ArticlesManager articlesManager = new ArticlesManager();
+		ArticleVendu monArticle = null;
+			
+
+		try {
+			articlesManager.insertArticle(newAdd);
+			monArticle = articlesManager.insertArticle(newAdd);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
 		
 		
 //		TEST RECUP VALEURS
-		System.out.println(article);
+		System.out.println(newAdd);
 		System.out.println(description);
 		System.out.println(categorie);
-		System.out.println(prix);
-		System.out.println(dateDebut);
-		System.out.println(dateFin);		
+		System.out.println(prixInitial);
+		System.out.println(dateDebutEncheres);
+		System.out.println(dateFinEncheres);		
 		System.out.println(rue);
 		System.out.println(codePostal);
 		System.out.println(ville);

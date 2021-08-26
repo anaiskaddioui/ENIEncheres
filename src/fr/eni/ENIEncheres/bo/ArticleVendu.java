@@ -59,7 +59,7 @@ public class ArticleVendu {
 	
 	// Constructeur pour JUDICAEL?
 	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
-			int prixInitial, int prixVente, String etatVente, int idUtilisateur, int idCategorie) {
+		int	prixInitial, int prixVente, String etatVente, int idUtilisateur, int idCategorie) {
 
 		super();
 		this.nomArticle = nomArticle;
@@ -211,6 +211,11 @@ public class ArticleVendu {
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", prixInitial="
 				+ prixInitial + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", idCategorie=" + idCategorie
 				+ ", idUtilisateur=" + idUtilisateur + "]";
+	}
+
+	public Object getRetrait() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

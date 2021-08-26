@@ -86,7 +86,7 @@ public class ServletConnexion extends HttpServlet {
 						
 //						isConnected = true;
 						
-						if (connexionAuto.contentEquals("on")) {
+						if (connexionAuto != null) {
 						
 							boolean cookieExiste = false;
 							for(Cookie unCookie : cookies) {
@@ -111,6 +111,10 @@ public class ServletConnexion extends HttpServlet {
 							RequestDispatcher rd;
 							rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
 							rd.forward(request, response);
+						} else {
+							RequestDispatcher rd;
+							rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
+							rd.forward(request, response);
 						}
 						 
 					} else {
@@ -123,7 +127,7 @@ public class ServletConnexion extends HttpServlet {
 						RequestDispatcher rd2;
 						rd2 = request.getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp");
 						rd2.forward(request, response);
-					 }
+						}
 				} catch (DALException e) {
 					e.printStackTrace();
 				}

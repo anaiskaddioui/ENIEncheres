@@ -111,29 +111,26 @@ public class ArticlesManager {
 	public List<ArticleVendu> selectionnerParUserId(int userId) throws DALException {
 		return this.articleDAO.selectParUserId(userId);
 	}
+	
+	public List<ArticleVendu> selectionnerParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle) throws DALException {
+		return this.articleDAO.selectParEtatEtUserIdEtMotCle(etat,  userId, nomArticle);		
+	}	
+	
+	public ArrayList<ArticleVendu> selectionnerParEtatEtCategorie(String etat, int categorie)throws DALException {
+		return this.articleDAO.selectParEtatEtCategorie(etat, categorie);		
+	}	
 
-	public ArrayList<ArticleVendu> selectionnerParEtatEtMotCle(String etat, String nomArticle) throws DALException {
-		return this.articleDAO.selectParEtatEtMotCle(etat, nomArticle);
-	}
-
-	public List<ArticleVendu> selectionnerParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle)
-			throws DALException {
-		return this.articleDAO.selectParEtatEtUserIdEtMotCle(etat, userId, nomArticle);
-	}
-
-	public ArrayList<ArticleVendu> selectionnerParEtatEtCategorie(String etat, int categorie) throws DALException {
-		return this.articleDAO.selectParEtatEtCategorie(etat, categorie);
-	}
-
-	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategorie(String etat, int userId, int categorie)
-			throws DALException {
+	public List<ArticleVendu> selectionnerParEtatEtUserIdEtCategorie(String etat, int userId, int categorie) throws DALException {
 		return this.articleDAO.selectParEtatEtUserIdEtCategorie(etat, userId, categorie);
 	}
 
-	public List<ArticleVendu> selectionnerParEtatEtCategEtMotCle(String etat, int categorie, String nomArticle)
-			throws DALException {
+	public List<ArticleVendu> selectionnerParEtatEtCategEtMotCle(String etat, int categorie, String nomArticle) throws DALException {
 		return this.articleDAO.selectParEtatEtCategEtMotCle(etat, categorie, nomArticle);
+	}	
+	
+	public void miseAJourDateFinEnchere(String date) throws DALException {
+		this.articleDAO.updateDateFinEnchere(date);
 	}
+  //______________________________________________________________________________________________
 
-	// ______________________________________________________________________________________________
 }

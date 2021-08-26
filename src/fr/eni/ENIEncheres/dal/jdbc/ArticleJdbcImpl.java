@@ -5,7 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import fr.eni.ENIEncheres.bo.ArticleVendu;
@@ -65,6 +70,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND nom_article LIKE ?";
 	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEGORY = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND ARTICLES_VENDUS.no_categorie = ?";
 	private final static String SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD = "SELECT no_article,nom_article,description,date_debut_encheres, date_fin_encheres,prix_initial, prix_vente, etat_vente, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE etat_vente = ? AND UTILISATEURS.no_utilisateur = ? AND no_categorie = ? AND nom_article LIKE ?";
+	private final static String UPDATE_DATE_FIN_ENCHERES = "UPDATE ARTICLES_VENDUS SET etat_vente = 'TE' WHERE date_fin_encheres < ? ";
 //-----------------------------------------------------
 
 	private static final String SQL_SELECT_ARTICLE_BY_ID = null;
@@ -148,18 +154,18 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT);
-			//On donne l'etat vente au 1er argument de la requete
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);
 			ResultSet rs = pstmt.executeQuery();
-			ArticleVendu articleVendu = null;
-			
+			ArticleVendu articleVendu = null;		
+
 			while (rs.next()) {
 
 				articleVendu = new ArticleVendu();
 				articleVendu.setIdArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+				articleVendu.setDescription(rs.getString("description"));							
+				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));				
 				articleVendu.setPrixInitial(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setPseudo(rs.getString("pseudo"));
@@ -183,8 +189,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 			Connection cnx = ConnectionProvider.getConnection();
 			stmtConsultation = cnx.createStatement();
 			ResultSet rsConsultation = stmtConsultation.executeQuery(LISTER);
-			ArticleVendu article = null;
-			
+			ArticleVendu article = null;		
 			while(rsConsultation.next()) {
 			
 					article=new ArticleVendu();
@@ -216,11 +221,9 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ID_CATEGORIE);
-			//On donne l'id catégorie au 1er argument de la requete
+			//On donne les parametres de requete
 			pstmt.setInt(1, idCategorie);
 			ResultSet rs = pstmt.executeQuery();
-			
-
 			ArticleVendu articleVendu = null;
 			
 			while (rs.next()) {
@@ -252,10 +255,9 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_KEYWORD);
-			//On donne les lettres du nom article au 1er argument de la requete
+			//On donne les parametres de requete
 			pstmt.setString(1, "%" + nomArticle + "%");
 			rs = pstmt.executeQuery();
-			
 			ArticleVendu articleVendu = null;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -287,11 +289,10 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ID_AND_KEYWORD);
-			//On donne les lettres du nom article au 1er argument de la requete et le l'id de catégorie au 2eme
+			//On donne les parametres de requete
 			pstmt.setString(1, "%" + nomArticle + "%");
 			pstmt.setInt(2, idCategorie);
 			rs = pstmt.executeQuery();
-			
 			ArticleVendu articleVendu;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -321,11 +322,10 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_KEYWORD);
-			//On donne l'etat au 1er argument de la requete et les lettres du nom article au 2eme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);
 			pstmt.setString(2, "%" + nomArticle + "%");
 			rs = pstmt.executeQuery();
-			
 			ArticleVendu articleVendu;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -355,11 +355,10 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_CATEGORY);
-			//On donne l'etat au 1er argument de la requete et les lettres du nom article au 2eme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);
 			pstmt.setInt(2, categorie);
 			rs = pstmt.executeQuery();
-			
 			ArticleVendu articleVendu;
 			while (rs.next()) {
 				articleVendu = new ArticleVendu();
@@ -389,7 +388,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_CATEG_AND_KEYWORD);
-			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);	
 			pstmt.setInt(2, categorie);
 			pstmt.setString(3, "%" + nomArticle + "%");
@@ -426,7 +425,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID);
-			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);
 			pstmt.setInt(2, userId);
 			ResultSet rs = pstmt.executeQuery();
@@ -460,7 +459,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_USER_ID);
-			//On donne user ID au 1er argument de la requete
+			//On donne les parametres de requete
 			pstmt.setInt(1, userId);
 			ResultSet rs = pstmt.executeQuery();
 			ArticleVendu articleVendu = null;
@@ -494,7 +493,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID_AND_KEYWORD);
-			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);
 			pstmt.setInt(2, userId);
 			pstmt.setString(3, "%" + nomArticle + "%");
@@ -530,7 +529,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID_AND_CATEGORY);
-			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);
 			pstmt.setInt(2, userId);
 			pstmt.setInt(3, categorie);
@@ -567,7 +566,7 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		try {
 			cnx = ConnectionProvider.getConnection();
 			pstmt = cnx.prepareStatement(SELECT_BY_ETAT_AND_USER_ID_AND_CATEG_AND_KEYWORD);
-			//On donne l'etat au 1er argument de la requete et le l'userID au deuxieme
+			//On donne les parametres de requete
 			pstmt.setString(1, etat);	
 			pstmt.setInt(2, userId);
 			pstmt.setInt(3, categorie);
@@ -594,6 +593,24 @@ public class ArticleJdbcImpl implements DAOArticleVendu {
 		}
 		return listeArticles;
 	}
+
+	public void updateDateFinEnchere(String date) throws DALException {
+		Connection cnx = null;
+		PreparedStatement pstmt = null;
+		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+		try {
+			cnx = ConnectionProvider.getConnection();
+			pstmt = cnx.prepareStatement(UPDATE_DATE_FIN_ENCHERES);
+			//On donne les parametres de requete
+			pstmt.setString(1, date);	
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException("Echec de selectParEtatEtUserId", e);
+		}
+	}
+	
 //_______________________________________________________________________________________________________________
 	
 

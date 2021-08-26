@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Cubics';
+  src: url('Cubics.ttf')  format('truetype');
+}
+
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -5,14 +11,17 @@
 	/* border: red  2px solid; */
 }
 
-header {
+.lien-top {
 	font-family: "Lato", sans-serif;
-	height: 20vh;
-	width: 100vw;
-	margin-bottom: 100px;
-	padding-top: 10px;
-	background-color: rgb(43, 48, 48);
-	color: #fff;
+}
+
+.bloc-titre {
+	margin-left:20%;
+	margin-right: 20%;
+	margin-bottom: 30px;
+	padding: 20px;
+	border : 3px solid white;
+/* 	text-align: center; */
 }
 
 .photo-logo {
@@ -26,43 +35,88 @@ a {
 	color: #fff;
 }
 
+a:hover {
+	color: rgb(67,142,193);
+}
+
 body {
 	color: white;
-	height: 100vh;
-	background: rgb(73, 73, 69);
+	height: 100%;
+	background: rgb(67,142,193);
+	background: linear-gradient(124deg, rgba(67,142,193,1) 0%, rgba(115,112,167,1) 47%, rgba(161,41,142,1) 100%);
 }
+
+.sous-titre{
+	margin-bottom : 40px;
+}
+
+
+/* PAGGE ACCUEIL */
+
 
 .bloc-text-input {
 	margin-bottom: 20px;
 }
 
-.btn-compte {
-	margin-top: 30px;
-	margin-bottom: 30px;
-}
-
-/* ------------------ */
-/* PAGE ACCUEIL */
-/* ------------------ */
-.barre-recherche {
+.barre-recherche{
+	margin-left: 30%;
 	width: 300px;
 }
 
+.filtres-affichage{
+	margin-right: 20px;
+	margin-left: 20px;
+	text-align:center;
+	border : 1px dotted white;
+}
+
+.btn-compte {
+	margin-top: 30px;
+	margin-bottom: 30px;
+/* 	color: rgba(67,142,193,1); */
+/* 	background-color : #dedc02; */
+	border : none;
+}
+
+
+.btn-compte:hover {
+	margin-top: 30px;
+	margin-bottom: 30px;
+/* 	background-color: rgba(161,41,142,1); */
+/* 	color : #dedc02; */
+	border : none;
+}
+
+
+.filtre {
+	background: rgba(26,182,222,0.3);
+	padding : 20px;
+}
+
+
 .bloc-objet-encheres {
 	margin-bottom: 20px;
-	background-color: rgb(155, 151, 151);
+	background-color: #32b5e3;
 }
 
 .photo-objet {
 	width: 100%;
 	max-width: 300px;
-	padding: 10px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border-radius: 50%;
 }
-
-
 
 .titre-objet {
 	margin-top: 20px;
+}
+
+
+/* PAGE CONNEXION */
+
+.formulaire-connexion {
+	margin-top: 40px;
+	margin-left: 20%;
 }
 
 /* ------------------ */

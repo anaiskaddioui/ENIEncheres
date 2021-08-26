@@ -19,17 +19,23 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
-		<c:choose>
-			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
-			</c:when>
-			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
-			</c:otherwise>
-		</c:choose>
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<div class="row">
+			<div class="col-9">
+			<c:choose>
+				<c:when test="${!isConnected }">
+					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+				</c:when>
+				<c:otherwise>
+					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+				</c:otherwise>
+			</c:choose>		
+			
+			</div>
+			<div class="col">	
+			</div>	
 		
-		<h1>ENI-Encheres</h1>
+		</div>
 	</header>
 
 	<!-- Corps  -->
@@ -39,7 +45,12 @@
 		<form method="post" action="${pageContext.request.contextPath }/ServletVerification">
 		<input type="hidden" name="hiddenPath" value="modification"/>
 			<div class="container">
-				<h1 class="mb-5 text-center">Mon Profil</h1>
+				<div class="bloc-titre">
+					<h1>ENI Encheres</h1> 
+					<h2>Achetez, Vendez, Partagez...</h2>
+					<p class="rectangle"></p>
+				</div>	
+				<h3 class="row justify-content-center sous-titre">Mon Profil</h3>
 				<h6 style="color: red;">${pseudoValidation }</h6>
 				<h6 style="color: red;">${emailValidation }</h6>
 				<div class="row justify-content-start bloc-text-input">

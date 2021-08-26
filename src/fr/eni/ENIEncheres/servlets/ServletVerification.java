@@ -41,7 +41,8 @@ public class ServletVerification extends HttpServlet {
 		HttpSession session = request.getSession();
 		int idUtilisateur = 0;
 		if(session.getAttribute("idUser") != null) {
-			idUtilisateur = Integer.valueOf((String) session.getAttribute("idUser"));
+			String idUtilisateurString = String.valueOf(session.getAttribute("idUser"));	
+			idUtilisateur = Integer.valueOf(idUtilisateurString);
 		}
 		try {
 			uEmail = managerU.selectUserByEmail(email);

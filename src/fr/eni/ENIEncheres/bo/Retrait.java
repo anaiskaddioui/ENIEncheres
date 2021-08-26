@@ -6,7 +6,7 @@ package fr.eni.ENIEncheres.bo;
 	public class Retrait {
 	    private int idArticle;
 	    private String rue;
-	    private int codePostal;
+	    private String codePostal;
 	    private String ville;
 
 	    
@@ -14,7 +14,7 @@ package fr.eni.ENIEncheres.bo;
 
 	    }
 
-	    public Retrait(int idArticle, String rue, int codePostal, String ville) {
+	    public Retrait(int idArticle, String rue, String codePostal, String ville) {
 	        this.setIdArticle(idArticle);
 	        this.rue = rue;
 	        this.codePostal = codePostal;
@@ -30,11 +30,11 @@ package fr.eni.ENIEncheres.bo;
 	        this.rue = rue;
 	    }
 
-	    public int getCodePostal() {
+	    public String getCodePostal() {
 	        return codePostal;
 	    }
 
-	    public void setCodePostal(int codePostal) {
+	    public void setCodePostal(String codePostal) {
 	        this.codePostal = codePostal;
 	    }
 

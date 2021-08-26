@@ -19,23 +19,35 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
-		<c:choose>
-			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
-			</c:when>
-			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
-			</c:otherwise>
-		</c:choose>
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<div class="row">
+			<div class="col-9">
+			<c:choose>
+				<c:when test="${!isConnected }">
+					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+				</c:when>
+				<c:otherwise>
+					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+				</c:otherwise>
+			</c:choose>		
+			
+			</div>
+			<div class="col">
+				
+			</div>	
 		
-		<h1>ENI-Encheres</h1>
+		</div>
 	</header>
 
 	<!-- Corps  -->
 	<section class="container main-container">
 			<div class="container">
-				<h1 class="mb-5 text-center">Mon Profil</h1>
+					<div class="bloc-titre">
+						<h1>ENI Encheres</h1> 
+						<h2>Achetez, Vendez, Partagez...</h2>
+						<p class="rectangle"></p>
+					</div>	
+				<h3 class="row justify-content-center sous-titre">Profil de ${pseudo}</h3>
 				<div class="row justify-content-start bloc-text-input">
 					<div class="col-lg-6 col-sm-12 col-xs-12">
 						<!-- Bloc Pseudo  -->

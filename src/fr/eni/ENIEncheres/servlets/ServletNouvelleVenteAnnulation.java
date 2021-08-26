@@ -170,7 +170,7 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 		
 		//Mise à jour du retrait
 		String rue = request.getParameter("rue");	
-		int codePostal = Integer.valueOf(request.getParameter("code-postal"));		
+		String codePostal = request.getParameter("code-postal");		
 		String ville = request.getParameter("ville");
 		Retrait retrait = new Retrait(idArticle, rue, codePostal, ville);
 		RetraitManager manRetrait = new RetraitManager();

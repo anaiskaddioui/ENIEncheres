@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,17 +21,23 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
-		<c:choose>
-			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
-			</c:when>
-			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
-			</c:otherwise>
-		</c:choose>
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<div class="row">
+			<div class="col-9">
+			<c:choose>
+				<c:when test="${!isConnected }">
+					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+				</c:when>
+				<c:otherwise>
+					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+				</c:otherwise>
+			</c:choose>		
+			
+			</div>
+			<div class="col">	
+			</div>	
 		
-		<h1>ENI-Encheres</h1>
+		</div>
 	</header>
 
 	<!-- Corps  -->
@@ -97,8 +104,8 @@
 							<label for="prix">Mise à prix :</label>
 						</div>
 						<div class="col-sm-4 col-lg-6">
-							<input type="number" id="prix" name="prix" min="0" max="1000"
-								class="form-control" />
+							<input type="number" id="prixInitial" name="prixInitial" min="0" max="1000"
+								class="form-control" required="required"/>
 						</div>
 					</div>
 					<!-- Input Dates -->
@@ -162,7 +169,7 @@
 						</div>
 						<!-- Bouton Annuler -->
 						<div class="col text-center">
-							<button href="#" class="btn btn-primary btn-compte">
+							<button href="<%=request.getContextPath()%>/ServletAccueil" class="btn btn-primary btn-compte">
 								Annuler</button>
 						</div>
 					</div>

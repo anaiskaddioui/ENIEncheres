@@ -20,17 +20,39 @@
 <body>
 	<!-- Entete  -->
 	<header class="container-fluid header">
-<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
-		<c:choose>
-			<c:when test="${!isConnected }">
-				<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>
-			</c:when>
-			<c:otherwise>
-				<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.jpeg" alt="un objet" class="photo-logo" /></a>						
-			</c:otherwise>
-		</c:choose>
-		
-		<h1>ENI-Encheres</h1>
+	<!-- 		Lien qui redirige vers la page accueil connecté ou non connectée -->
+		<div class="row">
+			<div class="col-9">
+			<c:choose>
+				<c:when test="${!isConnected }">
+					<a href="${pageContext.request.contextPath }/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+				</c:when>
+				<c:otherwise>
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+				</c:otherwise>
+			</c:choose>		
+			
+			</div>
+							<!-- Liens -->
+				<div class="row justify-content-end">
+					<div class="col-2">
+						<a href="${pageContext.request.contextPath }/ServletNouvelleVente">Vendre un article</a>
+					</div>
+					<div class="col-1">
+						<a href="${pageContext.request.contextPath }/ServletConsultationCompteBouton">Mon Profil</a>
+					</div>
+					<div class="col-1">
+						<c:if test = "${ isConnected }"> <!-- Mini formulaire de déconnexion -->
+							<form method="post" action="${pageContext.request.contextPath }/ServletDeconnexion">
+								<div class="col-1">
+									<input type="hidden" name="deconnexion" value="deconnexion" />
+									<input type="submit" value="Déconnexion" />
+								</div>
+							</form>
+						</c:if>
+					</div>
+				</div>
+		</div>
 	</header>
 
 	<!-- Corps  -->
@@ -62,7 +84,12 @@
 
 		<!-- Titre Principal -->
 
-		<h1 class="row justify-content-center">Liste des enchères</h1>
+		<div class="bloc-titre">
+			<h1>ENI Encheres</h1> 
+			<h2>Achetez, Vendez, Partagez...</h2>
+			<p class="rectangle"></p>
+		</div>	
+		<h3 class="row justify-content-center">Liste des enchères</h3>
 
 		<form method="post" action="./ServletAccueilConnecte">
 			<div class="container">
@@ -202,7 +229,7 @@
 												<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
 											</div>
 											<div class="col-lg-6 col-sm-6">
-												<h2 class="titre-objet">${el.getNomArticle() }</h2>
+												<h2 class="titre-objet"><a href="<c:url value="/ServletDetailArticle?idArticle=${el.getIdArticle() }"/>">${el.getNomArticle() }</a></h2>
 												<p>Prix : ${el.getPrixInitial() } points</p>
 												<p>Fin de l'enchère : ${el.getDateFinEncheres() }</p>
 												<p>Vendeur : ${el.getPseudo() }</p>

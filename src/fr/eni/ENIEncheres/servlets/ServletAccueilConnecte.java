@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
@@ -52,9 +53,15 @@ public class ServletAccueilConnecte extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		Liste deroulante catégorie
-		String libelleCategorie = request.getParameter("categories");
+		String libelleCategorie = "";
+		if(request.getParameter("categorie") != null) {
+			libelleCategorie = request.getParameter("categorie");
+		}
 //		Text input Recherche
-		String recherche = request.getParameter("recherche");
+		String recherche = "";
+		if(request.getParameter("recherche") != null) {
+			recherche = request.getParameter("recherche");
+		}
 		
 //		Radio Achats/vente
 		String achatsVentes = request.getParameter("achats-ventes");
@@ -68,7 +75,16 @@ public class ServletAccueilConnecte extends HttpServlet {
 		String ventesEnCours = request.getParameter("ventes-en-cours");
 		String ventesNonDebutees = request.getParameter("ventes-non-debutees");		
 		String ventesTerminees = request.getParameter("ventes-terminees");		
-		
+
+//--------------------------		
+//TODO NE FONCTIONNE PAS	
+//-----------------------------		
+		//Recupere l'id de session
+		HttpSession session = request.getSession();
+
+		String idSessionString = String.valueOf(session.getAttribute("idUser"));	
+		int idSession = Integer.valueOf(idSessionString);
+//-------------------------------------		
 		
 //-________________________________________________________________________________________________________
 		
@@ -113,7 +129,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", 2, 1, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 1, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -121,7 +137,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 1, recherche);;// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 1, recherche);;// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -151,7 +167,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", 2, 1, recherche);;// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", idSession, 1, recherche);;// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -159,7 +175,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 1, recherche);;// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 1, recherche);;// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -197,7 +213,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", 2, 2, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 2, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -205,7 +221,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 2, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 2, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -235,7 +251,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", 2, 2, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", idSession, 2, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -243,7 +259,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 2, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 2, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -281,7 +297,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", 2, 3, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 3, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -289,7 +305,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 3, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 3, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -319,7 +335,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", 2, 3, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", idSession, 3, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -327,7 +343,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 3, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 3, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -365,7 +381,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", 2, 4, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 4, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -373,7 +389,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 4, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 4, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -403,7 +419,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", 2, 4, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("ND", idSession, 4, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -411,7 +427,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", 2, 4, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 4, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -458,7 +474,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -466,7 +482,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -492,7 +508,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
 									System.out.println("vous avez choisi ventes-en-cours");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}														
@@ -500,7 +516,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", 2, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -508,7 +524,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -550,7 +566,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -558,7 +574,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -584,7 +600,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
 									System.out.println("vous avez choisi ventes-en-cours");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}														
@@ -592,7 +608,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", 2, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -600,7 +616,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -642,7 +658,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -650,7 +666,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -676,7 +692,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
 									System.out.println("vous avez choisi ventes-en-cours");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}														
@@ -684,7 +700,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", 2, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -692,7 +708,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -730,7 +746,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -738,7 +754,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -764,7 +780,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
 									System.out.println("vous avez choisi ventes-en-cours");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", 2, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}														
@@ -772,7 +788,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", 2, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("ND", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -780,7 +796,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", 2, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -822,7 +838,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec mot cle : " + recherche);// A remplacer TODO
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("EC", 2, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("EC", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -830,7 +846,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec mot cle : " + recherche);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("TE", 2, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("TE", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -856,7 +872,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
 									System.out.println("vous avez choisi ventes-en-cours");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("EC", 2, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("EC", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}														
@@ -864,7 +880,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 									System.out.println("vous avez choisi ventes-non-debutees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("ND", 2, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("ND", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -872,7 +888,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 									System.out.println("vous avez choisi ventes-terminees");
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("TE", 2, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("TE", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -913,7 +929,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 							if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 								System.out.println("vous avez choisi vos-encheres-en-cours");
 								//TODO remplacer l'id en dur par l'id de session								
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", idSession);
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}									
@@ -921,7 +937,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 							if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 								System.out.println("vous avez choisi vos-encheres-remportees");
 								//TODO remplacer l'id en dur par l'id de session
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", 2);
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", idSession);
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}		
@@ -943,7 +959,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 							if(valeursCBoxVente[i].contentEquals("ventes-en-cours")) {
 								System.out.println("vous avez choisi ventes-en-cours");
 								//TODO remplacer l'id en dur par l'id de session
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", 2);// PARAM A remplacer TODO
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", idSession);// PARAM A remplacer TODO
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}														
@@ -951,7 +967,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 							if(valeursCBoxVente[i].contentEquals("ventes-non-debutees")) {
 								System.out.println("vous avez choisi ventes-non-debutees");
 								//TODO remplacer l'id en dur par l'id de session
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("ND", 2);// PARAM A remplacer TODO
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("ND", idSession);// PARAM A remplacer TODO
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}
@@ -959,7 +975,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 							if(valeursCBoxVente[i].contentEquals("ventes-terminees")) {
 								System.out.println("vous avez choisi ventes-terminees");
 								//TODO remplacer l'id en dur par l'id de session
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", 2);// PARAM A remplacer TODO
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", idSession);// PARAM A remplacer TODO
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}

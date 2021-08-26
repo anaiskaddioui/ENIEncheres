@@ -1,5 +1,6 @@
 package fr.eni.ENIEncheres.bll;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,12 +109,25 @@ public class ArticlesManager {
 		return this.articleDAO.selectParEtatEtUserIdEtCategEtMotCle(etat, userId, categorie, nomArticle);
 	}
 
+	public List<ArticleVendu> selectionnerAchatParEtatEtUserId(String etat, int userId) throws DALException {
+		return this.articleDAO.selectAchatParEtatEtUserId(etat, userId);
+	}
+	
+	public List<ArticleVendu> selectionnerAchatParEtatEtUserIdEtCategEtMotCle(String etat, int userId, int categorie,
+			String nomArticle) throws DALException {
+		return this.articleDAO.selectAchatParEtatEtUserIdEtCategEtMotCle(etat, userId, categorie, nomArticle);
+	}
+
 	public List<ArticleVendu> selectionnerParUserId(int userId) throws DALException {
 		return this.articleDAO.selectParUserId(userId);
 	}
 	
 	public List<ArticleVendu> selectionnerParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle) throws DALException {
 		return this.articleDAO.selectParEtatEtUserIdEtMotCle(etat,  userId, nomArticle);		
+	}	
+
+	public List<ArticleVendu> selectionnerAchatParEtatEtUserIdEtMotCle(String etat, int userId, String nomArticle) throws DALException {
+		return this.articleDAO.selectAchatParEtatEtUserIdEtMotCle(etat,  userId, nomArticle);		
 	}	
 	
 	public ArrayList<ArticleVendu> selectionnerParEtatEtCategorie(String etat, int categorie)throws DALException {
@@ -124,11 +138,15 @@ public class ArticlesManager {
 		return this.articleDAO.selectParEtatEtUserIdEtCategorie(etat, userId, categorie);
 	}
 
+	public List<ArticleVendu> selectionnerAchatParEtatEtUserIdEtCategorie(String etat, int userId, int categorie) throws DALException {
+		return this.articleDAO.selectAchatParEtatEtUserIdEtCategorie(etat, userId, categorie);
+	}
+
 	public List<ArticleVendu> selectionnerParEtatEtCategEtMotCle(String etat, int categorie, String nomArticle) throws DALException {
 		return this.articleDAO.selectParEtatEtCategEtMotCle(etat, categorie, nomArticle);
 	}	
 	
-	public void miseAJourDateFinEnchere(String date) throws DALException {
+	public void miseAJourDateFinEnchere(Date date) throws DALException {
 		this.articleDAO.updateDateFinEnchere(date);
 	}
 	
@@ -136,8 +154,12 @@ public class ArticlesManager {
 		return this.articleDAO.selectParEtatEtMotCle(etat, nomArticle);		
 	}
 	
-	public void miseAJourDateDebutEnchere(String date) throws DALException {
+	public void miseAJourDateDebutEnchere(Date date) throws DALException {
 		this.articleDAO.updateDateDebutEnchere(date);
+	}
+	
+	public List<ArticleVendu> selectionnerEncheresFinies(Date date) throws DALException {
+		return this.articleDAO.selectFinEnchere(date);
 	}
 	
   //______________________________________________________________________________________________

@@ -35,7 +35,7 @@ public class ServletDetailArticle extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//On récupère l'id de l'article sur lequel on a cliqué
-		int idArticle = 2;
+		int idArticle = 0;
 		System.out.println(request.getParameter("idArticle"));
 		if(request.getAttribute("idArticle") != null) {
 		idArticle = (int) request.getAttribute("idArticle");
@@ -99,6 +99,7 @@ public class ServletDetailArticle extends HttpServlet {
 		request.setAttribute("prix_vente", articleCourant.getPrixVente());
 		request.setAttribute("prix_initial", articleCourant.getPrixInitial());
 		request.setAttribute("date_fin_encheres", articleCourant.getDateFinEncheres());
+		request.setAttribute("etat_vente", articleCourant.getEtatVente());
 		
 		if(retrait != null) {
 			request.setAttribute("rue_retrait", retrait.getRue());

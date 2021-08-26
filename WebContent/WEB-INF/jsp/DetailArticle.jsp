@@ -26,10 +26,10 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+					<a href="${pageContext.request.contextPath }/"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>						
 				</c:otherwise>
 			</c:choose>		
 			
@@ -44,6 +44,16 @@
 	<!-- Corps  -->
 	<section class="container main-container">
 	<form method="post" action="${pageContext.request.contextPath }/ServletEncherir">
+	<div class="row justify-content-center">
+		<c:if test="${etat_vente == 'TE' }">
+			<c:if test="${idUserEnchere == sessionScope.idUser }">
+				<h1 class="text-center" style="color : green;">Vous avez remporté la vente</h1>
+			</c:if>
+			<c:if test="${idUserEnchere != sessionScope.idUser }">
+				<h1 class="text-center" style="color : green;">${pseudoEnchere} a remporté la vente</h1>
+			</c:if>
+		</c:if>
+	</div>
 		<h1 class="row justify-content-center">${nom_article }</h1>
 		<input type="hidden" name="idArticle" value="${idArticle }"/>
 		<div class="row">
@@ -120,6 +130,7 @@
 						</div>
 					</div>
 					<!-- input proposition -->
+					<c:if test="${etat_vente == 'EC' }">
 					<div class="row mt-2">
 					<p style="color: red;">${erreurCredit }</p>
 						<div class="col-6 col-sm-6 col-lg-3">
@@ -135,8 +146,9 @@
 								class="btn btn-primary btn-compte" />
 						</div>
 					</div>
+					</c:if>
 				<!-- input Modification et suppression -->
-				<c:if test="${idVendeur} == ${sessionScope.idUtilisateur}">
+				<c:if test="${idVendeur == sessionScope.idUser}">
 					<div class="row mt-2">
 				<p style="color: red;">${erreurSuppression }</p>
 						<!-- Bouton Modifier  -->

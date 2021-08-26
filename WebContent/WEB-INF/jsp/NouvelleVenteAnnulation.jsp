@@ -26,10 +26,10 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="<%=request.getContextPath()%>/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+					<a href="${pageContext.request.contextPath }/"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="<%=request.getContextPath()%>/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>						
 				</c:otherwise>
 			</c:choose>		
 			
@@ -219,15 +219,10 @@
 							<a href="<c:url value="/ServletDetailArticle?idArticle=${idArticle}"/>" class="btn btn-primary btn-compte">
 								Annuler</a>
 						</div>
-						<!-- Bouton Annuler Vente-->
-						<div class="col text-center">
-							<input type="submit" name="annuler-vente"
-								value="Annuler la vente" class="btn btn-primary btn-compte" />
-						</div>
-					</div>
-				</form>
-			</div>
 		</div>
+				</form>
+					</div>
+			</div>
 	</section>
 </body>
 </html>

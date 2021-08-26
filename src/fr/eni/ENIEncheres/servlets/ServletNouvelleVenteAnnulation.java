@@ -46,7 +46,7 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 			if(today.before(articleCourant.getDateDebutEncheres())) {
 				manArticle.supprimerArticle(idArticle);
 				RequestDispatcher rd;
-				rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+				rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
 				rd.forward(request, response);
 				//Si l'enchère a commencé, on ne peut pas supprimer et l'indiquer à l'utilisateur
 			} else if (today.equals(articleCourant.getDateDebutEncheres()) | today.after(articleCourant.getDateDebutEncheres())) {

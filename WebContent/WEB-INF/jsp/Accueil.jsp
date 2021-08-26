@@ -26,15 +26,14 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="${pageContext.request.contextPath }/ServletAccueil"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>
+					<a href="${pageContext.request.contextPath }/"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/logo.png" alt="un objet" class="photo-logo" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>						
 				</c:otherwise>
 			</c:choose>		
-			
 			</div>
-			<div class="col">
+			<div class="col pt-5">
 				<a href="${pageContext.request.contextPath }/ServletConnexion" class="lien-top">S'inscrire - Se connecter</a>			
 			</div>	
 		

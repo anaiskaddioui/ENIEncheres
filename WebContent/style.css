@@ -25,10 +25,12 @@
 }
 
 .photo-logo {
-	width: 90px !important;
-	max-width: 90px;
+	width: 10em !important;
+	max-width: 10em;
 	padding: 10px;
+	border-radius: 50%;
 }
+
 
 a {
 	text-decoration: none;

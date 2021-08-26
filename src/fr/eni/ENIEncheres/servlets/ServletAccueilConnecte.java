@@ -1,6 +1,10 @@
 package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
+import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
+import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 
 /**
@@ -28,6 +34,50 @@ public class ServletAccueilConnecte extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//------------------------------------------------------------------------------------
+				//1 - MISE A JOUR DU STATUT ENCHERE A TERMINE SI INF A  DATE DU JOUR 
+				//------------------------------------------------------------------------------------
+				
+				//Recupere la date du jour
+			   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); 
+			   //OU 
+			   //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+			   Date dateDuJour = java.sql.Date.valueOf(LocalDate.now(ZoneId.systemDefault()));
+			   System.out.println(dateDuJour); 
+			
+			   ArticlesManager articlesManagerFinEnchere = new ArticlesManager();
+			   
+			 //On sélectionne les articles qui vont se terminer aujourd'hui
+			   List<ArticleVendu> listeArticlesFinis = new ArrayList<ArticleVendu>();
+			   try {
+				listeArticlesFinis = articlesManagerFinEnchere.selectionnerEncheresFinies(dateDuJour);
+			} catch (DALException e2) {
+				e2.printStackTrace();
+			}
+			 //Pour chaque article fini, on crédite le vendeur
+			   if(listeArticlesFinis != null) {
+				   UtilisateursManager managerUtilisateur = new UtilisateursManager();
+			   for(ArticleVendu article : listeArticlesFinis) {
+				   try {
+					   Utilisateurs utilisateur = managerUtilisateur.selectUserById(article.getIdUtilisateur());
+					int nouveauCredit = utilisateur.getCredit() + article.getPrixVente();
+					managerUtilisateur.misAJourCredit(article.getIdUtilisateur(), nouveauCredit);
+				} catch (DALException e) {
+					e.printStackTrace();
+				}
+			   }
+			   }
+			   
+			   try {
+				//Met à jour statut de l'enchère EC lorsque la date du jour dépassee
+				articlesManagerFinEnchere.miseAJourDateDebutEnchere(dateDuJour);
+				
+				//Met à jour statut de l'enchère TE lorsque la date de fin enchère est terminee
+				articlesManagerFinEnchere.miseAJourDateFinEnchere(dateDuJour);
+				} catch (DALException e1) {
+					e1.printStackTrace();
+				}
+			   
 		//Procede a la requete de selection des articles en cours d'encheres
 		//Puis les affiche dans la JSP
 		ArticlesManager articlesManagerVentesEnCours = new ArticlesManager();
@@ -52,6 +102,9 @@ public class ServletAccueilConnecte extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		request.setCharacterEncoding("utf-8");
+
 //		Liste deroulante catégorie
 		String libelleCategorie = "";
 		if(request.getParameter("categories") != null) {
@@ -125,14 +178,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 1, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("EC", idSession, 1, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 1, recherche);;// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("TE", idSession, 1, recherche);;// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -204,14 +257,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 2, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("EC", idSession, 2, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 2, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("TE", idSession, 2, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -283,14 +336,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 3, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("EC", idSession, 3, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 3, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("TE", idSession, 3, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -362,14 +415,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("EC", idSession, 4, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("EC", idSession, 4, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie  + " et recherche par mot " + recherche);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategEtMotCle("TE", idSession, 4, recherche);
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategEtMotCle("TE", idSession, 4, recherche);
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -450,14 +503,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("EC", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 1);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("TE", idSession, 1);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -537,14 +590,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("EC", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 2);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("TE", idSession, 2);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -621,14 +674,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("EC", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 3);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("TE", idSession, 3);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -704,14 +757,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec avec categorie : " + libelleCategorie);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("EC", idSession, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("EC", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec categorie : " + libelleCategorie);
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtCategorie("TE", idSession, 4);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtCategorie("TE", idSession, 4);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -791,7 +844,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 								}
 								if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 									System.out.println("vous avez choisi vos-encheres-en-cours avec mot cle : " + recherche);// A remplacer TODO
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("EC", idSession, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtMotCle("EC", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
@@ -799,17 +852,17 @@ public class ServletAccueilConnecte extends HttpServlet {
 								if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 									System.out.println("vous avez choisi vos-encheres-remportees avec mot cle : " + recherche);
 									//TODO remplacer l'id en dur par l'id de session
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserIdEtMotCle("TE", idSession, recherche);// PARAM A remplacer TODO
+									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserIdEtMotCle("TE", idSession, recherche);// PARAM A remplacer TODO
 									for (ArticleVendu article : listeTampon) {
 										listeArticlesSelonCasesCochees.add(article);
 									}
 								}
 								else {
 									System.out.println("Sortie de : 2- Si saisie dans RECHERCHE / Achat");
-									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerArticlesParMotCle(recherche);// PARAM A remplacer TODO
-									for (ArticleVendu article : listeTampon) {
-										listeArticlesSelonCasesCochees.add(article);
-									}
+//									List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerArticlesParMotCle(recherche);// PARAM A remplacer TODO
+//									for (ArticleVendu article : listeTampon) {
+//										listeArticlesSelonCasesCochees.add(article);
+//									}
 								}
 							}
 						}
@@ -879,14 +932,14 @@ public class ServletAccueilConnecte extends HttpServlet {
 							}
 							if(valeursCBoxAchat[i].contentEquals("encheres-en-cours")) {
 								System.out.println("vous avez choisi vos-encheres-en-cours");
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("EC", idSession);
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserId("EC", idSession);
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}									
 							}
 							if(valeursCBoxAchat[i].contentEquals("encheres-remportees")) {
 								System.out.println("vous avez choisi vos-encheres-remportees");
-								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerParEtatEtUserId("TE", idSession);
+								List<ArticleVendu> listeTampon = articlesManagerCaseACocher.selectionnerAchatParEtatEtUserId("TE", idSession);
 								for (ArticleVendu article : listeTampon) {
 									listeArticlesSelonCasesCochees.add(article);
 								}		
@@ -948,7 +1001,7 @@ public class ServletAccueilConnecte extends HttpServlet {
 //				}
 						
 						System.out.println(listeArticlesSelonCasesCochees);
-						
+				}	
 			
 // 4 - On pousse les infos des champs formulaire à la JSP pour les afficher comme criteres
 			request.setAttribute("listeArticlesSelonCasesCochees", listeArticlesSelonCasesCochees);	
@@ -958,11 +1011,11 @@ public class ServletAccueilConnecte extends HttpServlet {
 			rd = request.getRequestDispatcher("/WEB-INF/jsp/AccueilConnecte.jsp");
 			rd.forward(request, response);
 						
-		} catch (DALException e) {
+				
+				} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-	}//Fin du doPost
-
+		}
 }

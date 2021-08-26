@@ -1,7 +1,9 @@
 package fr.eni.ENIEncheres.servlets;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import fr.eni.ENIEncheres.dal.DALException;
 /**
  * Servlet implementation class ServletAccueil
  */
-@WebServlet("/ServletAccueil")
+@WebServlet("/")
 public class ServletAccueil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,22 +32,21 @@ public class ServletAccueil extends HttpServlet {
 		//1 - MISE A JOUR DU STATUT ENCHERE A TERMINE SI INF A  DATE DU JOUR 
 		//------------------------------------------------------------------------------------
 		
-		//Recupere la date du jour et la convertit en STRING
+		//Recupere la date du jour
 	   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); 
 	   //OU 
 	   //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
-	   LocalDateTime now = LocalDateTime.now();  
-	   String dateDuJour = (String) dtf.format(now); 
+	   Date dateDuJour = java.sql.Date.valueOf(LocalDate.now(ZoneId.systemDefault()));
 	   System.out.println(dateDuJour); 
 	
 	   ArticlesManager articlesManagerFinEnchere = new ArticlesManager();
 	   
 	   
 	   try {
-		//Met à jour statut de l'enchère TE lorsque la date de fin enchère est terminee
-		articlesManagerFinEnchere.miseAJourDateFinEnchere(dateDuJour);
 		//Met à jour statut de l'enchère EC lorsque la date du jour dépassee
 		articlesManagerFinEnchere.miseAJourDateDebutEnchere(dateDuJour);		
+		//Met à jour statut de l'enchère TE lorsque la date de fin enchère est terminee
+		articlesManagerFinEnchere.miseAJourDateFinEnchere(dateDuJour);
 		} catch (DALException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -24,12 +24,12 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="${pageContext.request.contextPath }/"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>
+					<a href="${pageContext.request.contextPath }/"><img src="https://drive.google.com/thumbnail?id=1SzlCtIcpedH_9Ry8XQwGZShmojPhAvPc" alt="un objet" class="photo-logo img-fluid" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="https://drive.google.com/thumbnail?id=1SzlCtIcpedH_9Ry8XQwGZShmojPhAvPc" alt="un objet" class="photo-logo img-fluid" /></a>						
 				</c:otherwise>
-			</c:choose>		
+			</c:choose>			
 			
 			</div>
 			<div class="col">		
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 				<div class="row justify-content-start col-sm-12 col-xs-12">
-					<a href="#">Mot de passe oublié</a>
+					<!-- <a href="#">Mot de passe oublié</a>-->
 				</div>
 				<!-- Bouton creer un compte  -->
 				<div class="row justify-content-center col-sm-6 col-xs-4">

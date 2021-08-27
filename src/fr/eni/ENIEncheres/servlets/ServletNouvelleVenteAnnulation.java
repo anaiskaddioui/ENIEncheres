@@ -66,7 +66,11 @@ public class ServletNouvelleVenteAnnulation extends HttpServlet {
 				//En fonction de si l'enchère a commencé, on va mettre un attribut de requête qui va nous dire ce qu'on pourra modifier
 				if(today.equals(articleCourant.getDateDebutEncheres()) | today.after(articleCourant.getDateDebutEncheres())) {
 					request.setAttribute("venteCommencee", "true");
-				} 
+				}
+				//Si l'enchère est finie, on met un autre attribut pour bloquer les modifications
+				if(today.after(articleCourant.getDateFinEncheres())) {
+					request.setAttribute("venteFinie", "true");
+				}
 				//On va récupérer les données à indiquer dans le formulaire
 				
 				//On récupère le retrait associé à l'article

@@ -26,10 +26,10 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="${pageContext.request.contextPath }/"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>
+					<a href="${pageContext.request.contextPath }/"><img src="https://drive.google.com/thumbnail?id=1SzlCtIcpedH_9Ry8XQwGZShmojPhAvPc" alt="un objet" class="photo-logo img-fluid" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="https://drive.google.com/thumbnail?id=1SzlCtIcpedH_9Ry8XQwGZShmojPhAvPc" alt="un objet" class="photo-logo img-fluid" /></a>						
 				</c:otherwise>
 			</c:choose>		
 			
@@ -47,7 +47,7 @@
 		<div class="row">
 			<!-- Colonne avec image -->
 			<div class="col-xs-sm-12 col-lg-4 text-center">
-				<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
+				<img src="https://drive.google.com/thumbnail?id=1QPpB2Svw2r74TOlM0TBFi28N8umXBu1W" alt="un objet" class="photo-objet" />
 			</div>
 			<!-- Colonne avec Formulaire -->
 
@@ -60,8 +60,16 @@
 							<label for="article">Article : </label>
 						</div>
 						<div class="col-sm-8 col-lg-6">
-							<input type="text" name="article" class="form-control"
-								id="article" value="${nom_article }" />
+						<c:choose>
+							<c:when test="${!empty venteFinie }">
+								<input type="text" name="article" class="form-control"
+									id="article" value="${nom_article }" readonly="readonly" />
+							</c:when>
+							<c:otherwise>
+								<input type="text" name="article" class="form-control"
+									id="article" value="${nom_article }" />
+							</c:otherwise>
+						</c:choose>
 						</div>
 					</div>
 					<!-- Input Description -->
@@ -167,10 +175,21 @@
 						</div>
 						<div class="col-sm-12 col-md-6 col-lg-6 mt-2">
 							<div>
+							<c:choose>
+							<c:when test="${!empty venteFinie }">
+								<label for="date-fin">Fin de l'enchère :</label> <input
+									type="date" id="date-fin" name="date-fin"
+									class="form-control-sm" value="${date_fin_encheres }" readonly="readonly"/> <i
+									class="fa fa-calendar"></i>
+							</c:when>
+							<c:otherwise>
 								<label for="date-fin">Fin de l'enchère :</label> <input
 									type="date" id="date-fin" name="date-fin"
 									class="form-control-sm" value="${date_fin_encheres }"/> <i
 									class="fa fa-calendar"></i>
+							</c:otherwise>
+						</c:choose>
+								
 							</div>
 						</div>
 					</div>

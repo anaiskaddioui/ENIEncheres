@@ -26,10 +26,10 @@
 			<div class="col-9">
 			<c:choose>
 				<c:when test="${!isConnected }">
-					<a href="${pageContext.request.contextPath }/"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>
+					<a href="${pageContext.request.contextPath }/"><img src="https://drive.google.com/thumbnail?id=1SzlCtIcpedH_9Ry8XQwGZShmojPhAvPc" alt="un objet" class="photo-logo img-fluid" /></a>
 				</c:when>
 				<c:otherwise>
-					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="img/objet.jpeg" alt="un objet" class="photo-logo img-fluid" /></a>						
+					<a href="${pageContext.request.contextPath }/ServletAccueilConnecte"><img src="https://drive.google.com/thumbnail?id=1SzlCtIcpedH_9Ry8XQwGZShmojPhAvPc" alt="un objet" class="photo-logo img-fluid" /></a>						
 				</c:otherwise>
 			</c:choose>		
 			
@@ -46,12 +46,19 @@
 	<form method="post" action="${pageContext.request.contextPath }/ServletEncherir">
 	<div class="row justify-content-center">
 		<c:if test="${etat_vente == 'TE' }">
-			<c:if test="${idUserEnchere == sessionScope.idUser }">
-				<h1 class="text-center" style="color : green;">Vous avez remporté la vente</h1>
-			</c:if>
-			<c:if test="${idUserEnchere != sessionScope.idUser }">
-				<h1 class="text-center" style="color : green;">${pseudoEnchere} a remporté la vente</h1>
-			</c:if>
+		<c:choose>
+			<c:when test="${!empty idUserEnchere }">
+				<c:if test="${idUserEnchere == sessionScope.idUser }">
+					<h1 class="text-center" style="color : green;">Vous avez remporté la vente</h1>
+				</c:if>
+				<c:if test="${idUserEnchere != sessionScope.idUser }">
+					<h1 class="text-center" style="color : green;">${pseudoEnchere} a remporté la vente</h1>
+				</c:if>
+			</c:when>
+			<c:otherwise>
+				<h1 class="text-center" style="color : #E9967A;">Personne n'a enchéri sur votre vente</h1>
+			</c:otherwise>
+		</c:choose>
 		</c:if>
 	</div>
 		<h1 class="row justify-content-center">${nom_article }</h1>
@@ -59,7 +66,7 @@
 		<div class="row">
 			<!-- Colonne avec image -->
 			<div class="col-xs-sm-12 col-lg-4 text-center">
-				<img src="img/objet.jpeg" alt="un objet" class="photo-objet" />
+				<img src="https://drive.google.com/thumbnail?id=1QPpB2Svw2r74TOlM0TBFi28N8umXBu1W" alt="un objet" class="photo-objet" />
 			</div>
 			<!-- Colonne avec Formulaire -->
 			<div class="col">

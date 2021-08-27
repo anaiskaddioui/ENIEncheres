@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -15,7 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.ENIEncheres.bll.ArticlesManager;
+import fr.eni.ENIEncheres.bll.UtilisateursManager;
 import fr.eni.ENIEncheres.bo.ArticleVendu;
+import fr.eni.ENIEncheres.bo.Utilisateurs;
 import fr.eni.ENIEncheres.dal.DALException;
 
 /**
@@ -40,6 +43,26 @@ public class ServletAccueil extends HttpServlet {
 	   System.out.println(dateDuJour); 
 	
 	   ArticlesManager articlesManagerFinEnchere = new ArticlesManager();
+	   
+	   List<ArticleVendu> listeArticlesFinis = new ArrayList<ArticleVendu>();
+	   try {
+		listeArticlesFinis = articlesManagerFinEnchere.selectionnerEncheresFinies(dateDuJour);
+	} catch (DALException e2) {
+		e2.printStackTrace();
+	}
+	 //Pour chaque article fini, on crédite le vendeur
+	   if(listeArticlesFinis != null) {
+		   UtilisateursManager managerUtilisateur = new UtilisateursManager();
+	   for(ArticleVendu article : listeArticlesFinis) {
+		   try {
+			   Utilisateurs utilisateur = managerUtilisateur.selectUserById(article.getIdUtilisateur());
+			int nouveauCredit = utilisateur.getCredit() + article.getPrixVente();
+			managerUtilisateur.misAJourCredit(article.getIdUtilisateur(), nouveauCredit);
+		} catch (DALException e) {
+			e.printStackTrace();
+		}
+	   }
+	   }
 	   
 	   
 	   try {
